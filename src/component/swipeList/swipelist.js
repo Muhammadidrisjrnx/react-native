@@ -16,7 +16,7 @@ SubItem = (props) =>{
     return(
         ds_LeadListItem.map((item)=>{
             return(
-                <View style={styles.listItem_SubTitleContainer}>
+                <View key={props.item.agt_id} style={styles.listItem_SubTitleContainer}>
                     <Text style={styles.listItem_SubTitleCaption}>{item.desc}</Text>
                     <Text style={styles.listItem_SubTitleValue}>: {props.item[item.field]}</Text>
                 </View>
