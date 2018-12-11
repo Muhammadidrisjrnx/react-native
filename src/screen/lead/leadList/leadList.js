@@ -186,10 +186,11 @@ export default class LeadList extends Component{
                 onFilterChange={this._updateStatusFilter} 
                 filter={String(this.state.filter)}
                 onRefresh={this._refreshListData}
+                onPress={()=>{this.props.navigation.navigate('LeadDetail')}}
                 onPress_BOS={_=>{this.props.navigation.navigate("Schedule",{scheduleType:1});}}
                 onPress_AAJI={_=>{this.props.navigation.navigate("Schedule",{scheduleType:2});}}
-                onPress_Introduction={_=>{}}
-                onPress_Selection={_=>{}}
+                onPress_Introduction={_=>{this.props.navigation.navigate("Introduction");}}
+                onPress_Selection={_=>{this.props.navigation.navigate("Selection");}}
 
                 />
             // <MainList

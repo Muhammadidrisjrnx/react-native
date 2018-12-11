@@ -10,7 +10,7 @@ import {ds_News,ds_Lead} from '../../../helper/data.js'
 export default class NewsList extends Component{
     constructor(props){
         super(props);
-        //this._storeData();
+        // this._storeData();
     }
 
     // _storeData = async () => {

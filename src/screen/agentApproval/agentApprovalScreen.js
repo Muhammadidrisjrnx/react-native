@@ -5,21 +5,25 @@ import PropTypes from 'prop-types';
 
 import MainBody from '../../component/mainBody/mainBody.js';
 import Profile from '../../component/profile/profile.js';
-// import LeadList from './leadList/leadList.js';
-// import ScheduleRegistration from './scheduleRegistration/scheduleRegistration.js';
+import AgentApprovalList from './agentApprovalList/agentApprovalList.js';
+import AgentApprovalDetail from './agentApprovalDetail/agentApprovalDetail.js';
 import styles from './agentApprovalScreen.style.js';
+import { scale } from 'react-native-size-matters';
 
-// const LeadStackRouter = createStackNavigator(
-//     {
-//       LeadList:LeadList,
-//       Schedule:ScheduleRegistration,
-//     },
-//     {
-//       headerMode:'none',
+const NewAgentApprovalStackRouter = createStackNavigator(
+    {
+      List:AgentApprovalList,
+      Detail:AgentApprovalDetail,
+    },
+    {
+      headerMode:'none',
 
-//       cardStyle:{backgroundColor:'transparent'}
-//     }
-//   )
+      cardStyle:{
+          backgroundColor:'white',
+          marginHorizontal:scale(15)
+        }
+    }
+  )
 
 export default class AgentApprovalScreen extends Component{
     // addProps = {
@@ -35,7 +39,7 @@ export default class AgentApprovalScreen extends Component{
                 <View style={styles.agentApproval_titleContainer}>
                     <Text style={styles.agentApproval_titleText}>New Agent Approval</Text>
                 </View>
-                
+                <NewAgentApprovalStackRouter/>
             </MainBody>
         )
     }

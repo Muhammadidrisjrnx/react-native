@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
-import {View, Text,Platform} from 'react-native';
+import {View, YellowBox,Platform} from 'react-native';
 import {createDrawerNavigator,createStackNavigator} from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
+
 
 import HomeScreen from './src/screen/home/homeScreen.js';
 import LoginScreen from './src/screen/login/loginScreen.js';
@@ -79,6 +80,7 @@ export default class App extends Component {
   }
 
   render(){
+    YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
     return <MainRouter/>;
   }
 }

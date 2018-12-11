@@ -37,13 +37,13 @@ export const ds_menuData = [{
   {
     id:'7',
     route:'IncomeCalculator',
-    icon: 'salary',
+    icon: 'star',
     desc: 'Income Calculator'
   },
   {
     id:'8',
     route:'SundayPunch',
-    icon: 'media-play',
+    icon: 'star',
     desc: 'Sunday Punch'
   }];
 

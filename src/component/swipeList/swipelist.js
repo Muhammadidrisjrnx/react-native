@@ -26,8 +26,12 @@ SubItem = (props) =>{
 }
 
 ListItem = (props) =>{
+    _onPress = () =>{
+        props.onPress();
+    }
+
     return(
-        <TouchableHighlight style={{backgroundColor:'white'}} underlayColor={'#AAA'} onPress={()=>{}}>
+        <TouchableHighlight style={{backgroundColor:'white'}} underlayColor={'#AAA'} onPress={_onPress}>
             <View style={styles.listItem_ColumnDivider}>
                 {
                     props.item.agt_createdBy !=0 &&
@@ -52,14 +56,14 @@ ListHiddenItem = (props) =>{
             <Text>Left</Text>
             <View style={styles.hiddenButtonMainContainer}>
                 <View style={styles.hiddenButtonRowDivider}>
-                    <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt2},styles.hiddenButton]} onPress={ props.onPress_BOS }>
+                    <TouchableOpacity style={[styles.hiddenButton,{backgroundColor:defaultColor.Red_Alt2,width:scale(150)}]} onPress={ props.onPress_BOS }>
                         <Icon type={'font-awesome'} name={'calendar'} iconStyle={styles.hiddenButtonIcon}/>
                         <Text style={styles.hiddenButtonText}>BOS{"\n"}Schedule</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt4},styles.hiddenButton]} onPress={ props.onPress_AAJI }>
+                    {/* <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt4},styles.hiddenButton]} onPress={ props.onPress_AAJI }>
                         <Icon type={'font-awesome'} name={'calendar'} iconStyle={styles.hiddenButtonIcon}/>
                         <Text style={styles.hiddenButtonText}>AAJI{"\n"}Schedule</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
                 <View style={styles.hiddenButtonRowDivider}>
                     <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt3},styles.hiddenButton]} onPress={ props.onPress_Introduction }>
@@ -133,7 +137,7 @@ export default class SwipeList extends Component{
 
     _renderItem = ({item}) =>{
         return(
-            <ListItem item={item}/>
+            <ListItem item={item} onPress={this.props.onPress}/>
         )
     }
 
@@ -212,6 +216,7 @@ SwipeList.propTypes ={
     source:PropTypes.array,
     searchPanel:PropTypes.bool,
     filter:PropTypes.string,
+    onPress:PropTypes.func,
     onChangeText:PropTypes.func,
     onFilterChange:PropTypes.func,
     onPress_BOS:PropTypes.func,
@@ -224,6 +229,7 @@ SwipeList.defaultProps = {
     source:[],
     searchPanel:true,
     filter:'1',
+    onPress: _=>{},
     onChangeText: _ =>{},
     onFilterChange: _ =>{},
     onPress_BOS:_ =>{},
