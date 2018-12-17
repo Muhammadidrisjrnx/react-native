@@ -13,6 +13,7 @@ import {ds_LeadListData} from '../../../helper/data.js';
 export default class LeadList extends Component{
     static navigationOptions = {
         header:null
+        
     }
     
     constructor(props){
@@ -28,6 +29,7 @@ export default class LeadList extends Component{
         });
 
         this._searchFilterFunction = this._searchFilterFunction.bind(this);
+        this._onPress = this._onPress.bind(this);
     }
 
     _storeData = () => {
@@ -174,6 +176,9 @@ export default class LeadList extends Component{
         this.setState({ data: newData });
     }
 
+    _onPress = (item) =>{
+        ToastAndroid.show(item,ToastAndroid.SHORT);
+    }
     
 
     render(){ 
@@ -186,7 +191,8 @@ export default class LeadList extends Component{
                 onFilterChange={this._updateStatusFilter} 
                 filter={String(this.state.filter)}
                 onRefresh={this._refreshListData}
-                onPress={()=>{this.props.navigation.navigate('LeadDetail')}}
+                onPress={(item)=>{this.props.navigation.navigate('LeadDetail',{data:item})}}
+                //onPress={(item)=>{ToastAndroid.show(JSON.stringify(item), ToastAndroid.SHORT)}}
                 onPress_BOS={_=>{this.props.navigation.navigate("Schedule",{scheduleType:1});}}
                 onPress_AAJI={_=>{this.props.navigation.navigate("Schedule",{scheduleType:2});}}
                 onPress_Introduction={_=>{this.props.navigation.navigate("Introduction");}}

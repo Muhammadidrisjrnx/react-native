@@ -3,35 +3,40 @@ import {FlatList,View, Text, Image,TouchableOpacity,AsyncStorage,ToastAndroid} f
 import PropTypes from 'prop-types';
 
 import styles from './newsList.style.js';
-import {ds_News,ds_Lead} from '../../../helper/data.js'
-
-
+import {ds_News,ds_Lead} from '../../../helper/data.js';
+import Agent from '../../../class/agent.js';
 
 export default class NewsList extends Component{
+
     constructor(props){
         super(props);
-        // this._storeData();
+        
+        c_agent = new Agent;
+
+        c_agent.getLead().then((item)=>{ToastAndroid.show(JSON.stringify(item),ToastAndroid.SHORT)});
+        
+         //this._storeData();
     }
 
-    // _storeData = async () => {
-    //     try {
-    //         const value = await AsyncStorage.getItem('t_lead');
+    _storeData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('t_lead');
 
-    //         if (value !== null) 
-    //         {
+            if (value !== null) 
+            {
                 
-    //             var data = JSON.parse(value);
-    //             ToastAndroid.show(String(Object.keys(data).length),ToastAndroid.SHORT);
-    //         } else
-    //         {
-    //             await AsyncStorage.setItem('t_lead', JSON.stringify(ds_Lead));
-    //             ToastAndroid.show('Success!',ToastAndroid.SHORT);
-    //         }
+                var data = JSON.parse(value);
+                ToastAndroid.show(String(Object.keys(data).length),ToastAndroid.SHORT);
+            } else
+            {
+                await AsyncStorage.setItem('t_lead', JSON.stringify(ds_Lead));
+                ToastAndroid.show('Success!',ToastAndroid.SHORT);
+            }
             
-    //     } catch (error) {
-    //         ToastAndroid.show('Failed!',ToastAndroid.SHORT);
-    //     }
-    //   }
+        } catch (error) {
+            ToastAndroid.show('Failed!',ToastAndroid.SHORT);
+        }
+      }
 
     // NewsList_renderSeparator = () =>{
     //     return(

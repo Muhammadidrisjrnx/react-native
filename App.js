@@ -14,8 +14,6 @@ import IncomeCalculatorScreen from './src/screen/incomeCalculator/incomeCalculat
 import SundayPunchScreen from './src/screen/sundayPunch/sundayPunchScreen.js';
 import ScheduleScreen from './src/screen/schedule/scheduleScreen.js';
 
-
-
 import Header from './src/component/header/header.js';
 import Sidebar from './src/component/siderbar/sidebar.js';
 
@@ -35,7 +33,7 @@ const MainStackRouter = createStackNavigator(
   },
   {
     drawerLockMode:'locked-closed',
-    initialRouteName:'LeadManagement',
+    initialRouteName:'NewsScreen',
     navigationOptions : {
       header:(props)=>(
         <View

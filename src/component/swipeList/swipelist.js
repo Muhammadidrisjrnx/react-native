@@ -27,6 +27,7 @@ SubItem = (props) =>{
 
 ListItem = (props) =>{
     _onPress = () =>{
+        //ToastAndroid.show(JSON.stringify(props.item),ToastAndroid.SHORT);
         props.onPress();
     }
 
@@ -115,6 +116,7 @@ export default class SwipeList extends Component{
         this._renderHiddenItem = this._renderHiddenItem.bind(this);
         this._onRowDidOpen = this._onRowDidOpen.bind(this);
         this._closeRow = this._closeRow.bind(this);
+        this._onPress = this._onPress.bind(this);
     }    
 
     state={refreshing: false,};
@@ -131,13 +133,18 @@ export default class SwipeList extends Component{
     //     this.setState({modalVisible: visible});
     //     }
 
+    _onPress = (item) =>{
+        //ToastAndroid.show(JSON.stringify(item),ToastAndroid.SHORT);
+        this.props.onPress(item);
+    }
+
     _keyExtractor = (item, index) => {
         return String(item.agt_id);
     };
 
     _renderItem = ({item}) =>{
         return(
-            <ListItem item={item} onPress={this.props.onPress}/>
+            <ListItem item={item} onPress={() =>this._onPress(item)}/>
         )
     }
 
