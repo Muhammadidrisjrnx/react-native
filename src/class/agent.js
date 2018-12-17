@@ -25,7 +25,7 @@ const c_user = new User;
 //         console.error(error);
 //     }
 // }
-export default class User {
+class User {
     authenticated(){
         const reqInit = [{
                         method: 'POST',
