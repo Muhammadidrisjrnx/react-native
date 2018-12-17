@@ -2,8 +2,7 @@ import React,{Component} from 'react';
 import {ToastAndroid} from 'react-native';
 import Conn from './connection.js';
 
-const c_conn = new Conn;
-const c_user = new User;
+
 
 // async function authenticated () {
 //     try {_c
@@ -25,9 +24,9 @@ const c_user = new User;
 //         console.error(error);
 //     }
 // }
-class User {
+export class User {
     authenticated(){
-        const reqInit = [{
+        const reqInit = {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -37,10 +36,13 @@ class User {
                             "password":"admin",
                             "rememberMe": true
                         }
-                    )}];
+                    )};
         return c_conn.connectAPI('http://192.168.1.18:8080/api/authenticate',reqInit);
     }
 }
+
+const c_conn = new Conn;
+const c_user = new User;
 
 export default class Agent {
     getLead(){

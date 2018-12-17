@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View, YellowBox,Platform} from 'react-native';
+import {View, YellowBox,Platform, AsyncStorage,ToastAndroid} from 'react-native';
 import {createDrawerNavigator,createStackNavigator} from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
 
@@ -17,7 +17,7 @@ import ScheduleScreen from './src/screen/schedule/scheduleScreen.js';
 import Header from './src/component/header/header.js';
 import Sidebar from './src/component/siderbar/sidebar.js';
 
-import{ds_menuData} from './src/helper/data.js'
+import{ds_Lead,ds_menuData} from './src/helper/data.js'
 
 
 const MainStackRouter = createStackNavigator(
@@ -33,7 +33,7 @@ const MainStackRouter = createStackNavigator(
   },
   {
     drawerLockMode:'locked-closed',
-    initialRouteName:'NewsScreen',
+    initialRouteName:'News',
     navigationOptions : {
       header:(props)=>(
         <View
@@ -72,8 +72,35 @@ const MainRouter = createDrawerNavigator(
 )
 
 export default class App extends Component {
+  constructor(props){
+    super(props);
+
+    this._storeData = this._storeData.bind(this);
+  }
+
+  _storeData = async () => {
+    try {
+        const value = await AsyncStorage.getItem('t_lead');
+
+        //ToastAndroid.show(JSON.stringify(value),ToastAndroid.LONG);
+
+        if (value !== null) 
+        {
+            var data = JSON.parse(value);
+            //ToastAndroid.show('Already Exists!',ToastAndroid.SHORT);
+        } else
+        {
+            await AsyncStorage.setItem('t_lead', JSON.stringify(ds_Lead));
+            //ToastAndroid.show('Success!',ToastAndroid.SHORT);
+        }
+        
+    } catch (error) {
+        // uy,ToastAndroid.show(JSON.stringify(error),ToastAndroid.LONG);
+    }
+  }
 
   componentDidMount() {
+      this._storeData();
       SplashScreen.hide();
   }
 

@@ -15,28 +15,9 @@ export default class NewsList extends Component{
 
         c_agent.getLead().then((item)=>{ToastAndroid.show(JSON.stringify(item),ToastAndroid.SHORT)});
         
-         //this._storeData();
     }
 
-    _storeData = async () => {
-        try {
-            const value = await AsyncStorage.getItem('t_lead');
-
-            if (value !== null) 
-            {
-                
-                var data = JSON.parse(value);
-                ToastAndroid.show(String(Object.keys(data).length),ToastAndroid.SHORT);
-            } else
-            {
-                await AsyncStorage.setItem('t_lead', JSON.stringify(ds_Lead));
-                ToastAndroid.show('Success!',ToastAndroid.SHORT);
-            }
-            
-        } catch (error) {
-            ToastAndroid.show('Failed!',ToastAndroid.SHORT);
-        }
-      }
+    
 
     // NewsList_renderSeparator = () =>{
     //     return(
