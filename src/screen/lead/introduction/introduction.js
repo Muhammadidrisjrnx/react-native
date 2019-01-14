@@ -75,6 +75,7 @@ export default class Introduction extends Component{
             /> */}
             </View>
         );
+        
     }
 
     render(){

@@ -33,7 +33,7 @@ const MainStackRouter = createStackNavigator(
   },
   {
     drawerLockMode:'locked-closed',
-    initialRouteName:'News',
+    initialRouteName:'Dashboard',
     navigationOptions : {
       header:(props)=>(
         <View
