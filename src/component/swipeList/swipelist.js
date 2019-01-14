@@ -57,14 +57,14 @@ ListHiddenItem = (props) =>{
             <Text>Left</Text>
             <View style={styles.hiddenButtonMainContainer}>
                 <View style={styles.hiddenButtonRowDivider}>
-                    <TouchableOpacity style={[styles.hiddenButton,{backgroundColor:defaultColor.Red_Alt2,width:scale(150)}]} onPress={ props.onPress_BOS }>
+                    <TouchableOpacity style={[styles.hiddenButton,{backgroundColor:defaultColor.Red_Alt2}]} onPress={ props.onPress_BOS }>
                         <Icon type={'font-awesome'} name={'calendar'} iconStyle={styles.hiddenButtonIcon}/>
                         <Text style={styles.hiddenButtonText}>BOS{"\n"}Schedule</Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt4},styles.hiddenButton]} onPress={ props.onPress_AAJI }>
+                    <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt4},styles.hiddenButton]} onPress={ props.onPress_AAJI }>
                         <Icon type={'font-awesome'} name={'calendar'} iconStyle={styles.hiddenButtonIcon}/>
                         <Text style={styles.hiddenButtonText}>AAJI{"\n"}Schedule</Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.hiddenButtonRowDivider}>
                     <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt3},styles.hiddenButton]} onPress={ props.onPress_Introduction }>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text,Image, ToastAndroid, TouchableWithoutFeedback} from 'react-native';
+import {View, Text,Image, ToastAndroid, TouchableWithoutFeedback, ImageBackground} from 'react-native';
 import { scale,verticalScale } from 'react-native-size-matters';
 
 import {_getValueById} from '../../helper/helper.js';
@@ -53,7 +53,15 @@ class LeadDashboardScreen extends Component {
                 <View style ={styles.tabSubContainer}>
                     <View style={styles.lead_headerContainer}>
                         <Text style={styles.lead_headerCaption}>Total Leads</Text>
-                        <Text style ={styles.lead_headerNumber}>50</Text>
+                        {/* <ImageBackground style={{flex:1,width:scale(100),alignItems:'center',justifyContent:'center'}} source={require('../../../resource/image/badge_platinum.png')} resizeMode={'contain'}> */}
+                        <View style={{flexDirection:'row',alignItems:'center'}}>
+                            <Image source={require('../../../resource/image/badge_platinum.png')} style={{width:scale(100),height:scale(100),resizeMode:'contain'}}/>
+                            <View style={{alignItems:'center'}}>
+                                <Text style ={styles.lead_headerNumber}>50</Text>
+                                <Text style={{fontSize:scale(15)}}>Leads</Text>
+                            </View>
+                        </View>
+                        {/* </ImageBackground> */}
                     </View>
                     <View style={styles.lead_bodyContainer}>
                         <View style={styles.lead_bodyRowContainer}>
@@ -93,7 +101,7 @@ class LeadDashboardScreen extends Component {
                             </View>
                             <View style={styles.app_itemContainer}>
                                 <Text style ={styles.app_textNumber}>1</Text>
-                                <Text style ={styles.app_textCaption}>AAJI Problem</Text>
+                                <Text style ={styles.app_textCaption}>AAJI Pending</Text>
                             </View>
                         </View>
                         <View style={styles.app_rowContainer}>
