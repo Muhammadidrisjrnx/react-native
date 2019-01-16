@@ -22,6 +22,7 @@ export default ScaledSheet.create(
         padding:'10@s' 
     },
     tabSubContainer:{
+        flex:1,
         alignItems:'center',
         borderWidth:'3@s',
         borderColor:colors.Red,
@@ -32,7 +33,8 @@ export default ScaledSheet.create(
         paddingBottom:'15@s'
     },
     lead_headerCaption:{
-        fontSize:'20@s'
+        fontSize:'15@s',
+        paddingBottom:'10@vs'
     },
     lead_headerNumber:{
         fontSize:'40@s',
@@ -52,18 +54,18 @@ export default ScaledSheet.create(
         fontSize:'25@s'
     },
     lead_bodyCaption1:{
-        fontSize:'15@s'
+        fontSize:'12@s'
     },
     lead_bodyCaption2:{
-        fontSize:'13@s',
+        fontSize:'10@s',
     },
     app_container:{
         alignItems:'center',
         paddingBottom:'15@s'
     },
     app_titleText:{
-        fontSize:'18@s',
-        marginBottom:'15@vs'
+        fontSize:'15@s',
+        marginBottom:'10@vs'
     },
     app_rowContainer:{
         width:'100%',
@@ -72,11 +74,11 @@ export default ScaledSheet.create(
     },
     app_itemContainer:{
         flex:1,
-        alignItems:'center', 
+        //alignItems:'center', 
         justifyContent:'center'
     },
     app_textNumber:{
-        fontSize:'25@s',
+        fontSize:'15@s',
         fontWeight:'600'
     },
     app_textCaption:{

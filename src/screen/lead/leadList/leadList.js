@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text,Image, ToastAndroid, AsyncStorage, FlatList} from 'react-native';
+import {Icon, Fab, Button} from 'native-base';
 
 import {_getValueById} from '../../../helper/helper.js';
 import MainBody from '../../../component/mainBody/mainBody.js';
@@ -7,6 +8,7 @@ import Profile from '../../../component/profile/profile.js';
 import ThumbImage from '../../../component/thumbImage/thumbimage.js';
 import SwipeList from '../../../component/swipeList/swipelist.js';
 import MainList from './MainList.js';
+import {defaultColor} from './leadList.style.js';
 
 import {ds_LeadListData} from '../../../helper/data.js';
 
@@ -26,6 +28,7 @@ export default class LeadList extends Component{
             data: [],
             filter: '1',
             search: '',
+            active:'false'
         });
 
         this._searchFilterFunction = this._searchFilterFunction.bind(this);
@@ -185,6 +188,7 @@ export default class LeadList extends Component{
         // alert(_getValueById("asd"));
         //ToastAndroid.show(JSON.stringify(this.state.data), ToastAndroid.LONG);
         return (
+            <View style={{flex:1}}>
             <SwipeList 
                 source={this.state.data} 
                 onChangeText = {this._searchFilterFunction} 
@@ -199,6 +203,24 @@ export default class LeadList extends Component{
                 onPress_Selection={_=>{this.props.navigation.navigate("Selection");}}
 
                 />
+                <Fab 
+                    active={this.state.active}
+                    direction="up"
+                    position="bottomRight" 
+                    style={{backgroundColor:'white'}} 
+                    onPress={() => this.setState({ active: !this.state.active })}>
+                    <Icon name="add" style={{color:defaultColor.Red}}/>
+                    <Button style={{ backgroundColor: '#3B5998' }}>
+                        <Icon name="create" />
+                    </Button>
+                    <Button style={{ backgroundColor: '#34A34F' }}>
+                        <Icon name="contacts" />
+                    </Button>
+                    <Button disabled style={{ backgroundColor: '#DD5144' }}>
+                        <Icon name="link" />
+                    </Button>
+                </Fab>
+            </View>
             // <MainList
             //     data={this.state.data}
             //     initialNumToRender={5}

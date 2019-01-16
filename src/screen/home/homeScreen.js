@@ -55,7 +55,7 @@ class LeadDashboardScreen extends Component {
                         <Text style={styles.lead_headerCaption}>Total Leads</Text>
                         {/* <ImageBackground style={{flex:1,width:scale(100),alignItems:'center',justifyContent:'center'}} source={require('../../../resource/image/badge_platinum.png')} resizeMode={'contain'}> */}
                         <View style={{flexDirection:'row',alignItems:'center'}}>
-                            <Image source={require('../../../resource/image/badge_platinum.png')} style={{width:scale(100),height:scale(100),resizeMode:'contain'}}/>
+                            <Image source={require('../../../resource/image/grade_platinum.png')} style={{width:scale(60),height:scale(60),resizeMode:'contain'}}/>
                             <View style={{alignItems:'center'}}>
                                 <Text style ={styles.lead_headerNumber}>50</Text>
                                 <Text style={{fontSize:scale(15)}}>Leads</Text>
@@ -96,33 +96,53 @@ class LeadDashboardScreen extends Component {
                         <Text style={styles.app_titleText}>Application Process</Text>
                         <View style={styles.app_rowContainer}>
                             <View style={styles.app_itemContainer}>
+                                <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                                <Image source={require('../../../resource/image/grade_gold.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
+                                <View style={{justifyContent:'center',alignItems:'center'}}>
                                 <Text style ={styles.app_textNumber}>2</Text>
                                 <Text style ={styles.app_textCaption}>On Process</Text>
+                                </View>
+                                </View>
                             </View>
                             <View style={styles.app_itemContainer}>
+                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                            <Image source={require('../../../resource/image/grade_silver.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
+                            <View style={{justifyContent:'center',alignItems:'center'}}>
                                 <Text style ={styles.app_textNumber}>1</Text>
                                 <Text style ={styles.app_textCaption}>AAJI Pending</Text>
-                            </View>
+                            </View></View></View>
                         </View>
                         <View style={styles.app_rowContainer}>
                             <View style={styles.app_itemContainer}>
+                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                            <Image source={require('../../../resource/image/grade_gold.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
+                            <View style={{justifyContent:'center',alignItems:'center'}}>
                                 <Text style ={styles.app_textNumber}>2</Text>
                                 <Text style ={styles.app_textCaption}>Code Active</Text>
-                            </View>
+                                </View></View></View>
                             <View style={styles.app_itemContainer}>
+                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                            <Image source={require('../../../resource/image/grade_silver.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
+                            <View style={{justifyContent:'center',alignItems:'center'}}>
                                 <Text style ={styles.app_textNumber}>2</Text>
                                 <Text style ={styles.app_textCaption}>Closing Case</Text>
-                            </View>
+                                </View></View></View>
                         </View>
                         <View style={styles.app_rowContainer}>
                             <View style={styles.app_itemContainer}>
+                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                            <Image source={require('../../../resource/image/grade_silver.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
+                            <View style={{justifyContent:'center',alignItems:'center'}}>
                                 <Text style ={styles.app_textNumber}>2</Text>
                                 <Text style ={styles.app_textCaption}>Non Productive</Text>
-                            </View>
+                                </View></View></View>
                             <View style={styles.app_itemContainer}>
+                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                            <Image source={require('../../../resource/image/grade_silver.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
+                            <View style={{justifyContent:'center',alignItems:'center'}}>
                                 <Text style ={styles.app_textNumber}>1</Text>
                                 <Text style ={styles.app_textCaption}>Decline</Text>
-                            </View>
+                                </View></View></View>
                         </View>
                     </View>
                 </View>
