@@ -46,9 +46,11 @@ export const defaultColor = colors;
         alignItems:'center',
     },
     buttonContainer:{
-        marginVertical:'10@vs',
+        marginBottom:'10@vs',
+        padding:'10@s',
         flexDirection:'row',
-        height:'60@vs'
+        height:'60@vs',
+        backgroundColor:'white'
     },
     buttonOpac:{
         flex:1,
@@ -58,7 +60,7 @@ export const defaultColor = colors;
         borderWidth:'2@s',
         borderRadius:'10@s',
         borderColor:colors.Red,
-        marginHorizontal:'5@s',
+        // marginHorizontal:'5@s',
         backgroundColor:colors.White
     },
     buttonText:{

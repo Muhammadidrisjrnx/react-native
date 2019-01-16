@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import ThumbImage from '../../../component/thumbImage/thumbimage.js'
 
 import styles,{defaultColor} from './leadDetail.style.js';
+import { verticalScale } from 'react-native-size-matters';
 
 class PersonalInformationScreen extends Component {
     state = {
@@ -275,34 +276,34 @@ class PersonalInformationScreen extends Component {
             tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'user'} iconStyle={styles.buttonIcon}/>
         })
     },
-    Additional: {
-        screen: AdditionalInformationScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: "Informasi Tambahan",
-            tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'address-card'} iconStyle={styles.buttonIcon}/>
-        })
-    },
-    ExperienceAndBanking: {
-        screen: ExperienceAndBankingInformationScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: "Pengalaman Terakhir & Informasi Bank",
-            tabBarIcon:({tintColor}) => <Icon type={'octicon'} name={'clippy'} iconStyle={styles.buttonIcon}/>
-        })
-    },
-    Recruit: {
-        screen: RecruitInformationScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: "Perekrut & Leader",
-            tabBarIcon:({tintColor}) => <Icon type={'octicon'} name={'organization'} iconStyle={styles.buttonIcon}/>
-        })
-    },
-    Document: {
-        screen: DocumentInformationScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: "Dokumen",
-            tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'file'} iconStyle={styles.buttonIcon}/>
-        })
-    },
+    // Additional: {
+    //     screen: AdditionalInformationScreen,
+    //     navigationOptions: ({ navigation }) => ({
+    //         title: "Informasi Tambahan",
+    //         tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'address-card'} iconStyle={styles.buttonIcon}/>
+    //     })
+    // },
+    // ExperienceAndBanking: {
+    //     screen: ExperienceAndBankingInformationScreen,
+    //     navigationOptions: ({ navigation }) => ({
+    //         title: "Pengalaman Terakhir & Informasi Bank",
+    //         tabBarIcon:({tintColor}) => <Icon type={'octicon'} name={'clippy'} iconStyle={styles.buttonIcon}/>
+    //     })
+    // },
+    // Recruit: {
+    //     screen: RecruitInformationScreen,
+    //     navigationOptions: ({ navigation }) => ({
+    //         title: "Perekrut & Leader",
+    //         tabBarIcon:({tintColor}) => <Icon type={'octicon'} name={'organization'} iconStyle={styles.buttonIcon}/>
+    //     })
+    // },
+    // Document: {
+    //     screen: DocumentInformationScreen,
+    //     navigationOptions: ({ navigation }) => ({
+    //         title: "Dokumen",
+    //         tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'file'} iconStyle={styles.buttonIcon}/>
+    //     })
+    // },
     
   },{
       lazy:true,
@@ -329,10 +330,7 @@ export default class LeadDetail extends Component{
 
     constructor(props){
         super(props);
-
-        
     }
-
     
     onPressApprove = () =>{
 
@@ -350,17 +348,20 @@ export default class LeadDetail extends Component{
             <View style={{flex:1}}>
                 <TabNavigator screenProps={{data:data, state:this.state}}/>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.buttonOpac}>
-                        <Text style={styles.buttonText}>
-                            Approve
+                    <TouchableOpacity style={[styles.buttonOpac,{backgroundColor:defaultColor.Red,flex:1}]}>
+                        <Text style={[styles.buttonText,{color:defaultColor.White}]}>
+                            Save
                         </Text>
-                        <Icon type={'font-awesome'} name={'angle-right'} iconStyle={styles.buttonIcon}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonOpac}>
+                    <TouchableOpacity style={[styles.buttonOpac,{flex:2,marginHorizontal:verticalScale(15)}]}>
                         <Text style={styles.buttonText}>
-                            Reject
+                            Submit
                         </Text>
-                        <Icon type={'font-awesome'} name={'angle-right'} iconStyle={styles.buttonIcon}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.buttonOpac,{backgroundColor:defaultColor.Red,flex:1}]}>
+                        <Text style={[styles.buttonText,{color:defaultColor.White}]}>
+                            Cancel
+                        </Text>
                     </TouchableOpacity>
                 </View>
                 {/* <DateTimePicker
