@@ -13,12 +13,11 @@ import BusinessOpportunityScreen from './src/screen/businessOpportunity/business
 import IncomeCalculatorScreen from './src/screen/incomeCalculator/incomeCalculatorScreen.js';
 import SundayPunchScreen from './src/screen/sundayPunch/sundayPunchScreen.js';
 import ScheduleScreen from './src/screen/schedule/scheduleScreen.js';
-
 import Header from './src/component/header/header.js';
 import Sidebar from './src/component/siderbar/sidebar.js';
 
 import{ds_Lead,ds_menuData} from './src/helper/data.js'
-
+import introduce_page from './src/screen/introduction/introduce';
 
 const MainStackRouter = createStackNavigator(
   {
@@ -29,7 +28,8 @@ const MainStackRouter = createStackNavigator(
     AgentApproval:AgentApprovalScreen,
     BusinessOpportunity:BusinessOpportunityScreen,
     IncomeCalculator:IncomeCalculatorScreen,
-    SundayPunch:SundayPunchScreen
+    SundayPunch:SundayPunchScreen,
+    Introduction: introduce_page
   },
   {
     drawerLockMode:'locked-closed',

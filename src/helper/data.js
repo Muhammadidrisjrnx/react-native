@@ -45,7 +45,12 @@ export const ds_menuData = [{
     route:'SundayPunch',
     icon: 'star',
     desc: 'Golden Nugget'
-  }];
+  },{
+    id:'9',
+    route:'Introduction',
+    desc : 'Introduction'
+  }
+];
 
 
   export const ds_LeadListItem = [
