@@ -1,0 +1,95 @@
+export const fields = {
+    personalProduction: 'Personal Production',
+    directAgen: 'Direct Agen',
+    directAgenProduction: 'Direct Agen Production',
+    directAbmProduction: 'Direct ABM Production',
+    directBmProduction: 'Direct BM Production',
+    directAbdProduction: 'Direct ABD Production',
+    directBdProduction: 'Direct BD Production',
+    promotionToAbm: 'Promotion to ABM',
+    promotionToBm: 'Promotion to BM',
+    promotionToAbd: 'Promotion to ABD',
+    promotionToBd: 'Promotion to BD',
+    commission: 'Commission',
+    bonus: 'Bonus',
+    renewal2ndYear: 'Renewal (2nd year)',
+    orDirectTeam: 'OR Direct Team',
+    orGroupTeamBm: 'OR Group Team (BM)',
+    orGroupTeamAbd: 'OR Group Team (ABD)',
+    bdGeneration: 'BD Generation'
+}
+export const fieldsConfig = {
+    year1: [
+        fields.personalProduction,
+        fields.directAgen,
+        fields.directAgenProduction,
+        fields.promotionToAbm,
+        fields.commission,
+        fields.bonus,
+    ],
+
+    year2: [
+        fields.personalProduction,
+        fields.directAgen,
+        fields.directAgenProduction,
+        fields.directAbmProduction,
+        fields.promotionToAbm,
+        fields.promotionToBm,
+        fields.commission,
+        fields.bonus,
+        fields.renewal2ndYear,
+        fields.orDirectTeam
+    ],
+
+    year3: [
+        fields.personalProduction,
+        fields.directAgen,
+        fields.directAgenProduction,
+        fields.directAbmProduction,
+        fields.directBmProduction,
+        fields.promotionToAbm,
+        fields.promotionToBm,
+        fields.promotionToAbd,
+        fields.commission,
+        fields.bonus,
+        fields.renewal2ndYear,
+        fields.orDirectTeam,
+        fields.orGroupTeamBm,
+    ],
+
+    year4: [
+        fields.personalProduction,
+        fields.directAgen,
+        fields.directAgenProduction,
+        fields.directAbmProduction,
+        fields.directBmProduction,
+        fields.directAbdProduction,
+        fields.promotionToAbm,
+        fields.promotionToBm,
+        fields.promotionToAbd,
+        fields.promotionToBd,
+        fields.commission,
+        fields.bonus,
+        fields.renewal2ndYear,
+        fields.orDirectTeam,
+        fields.orGroupTeamBm,
+        fields.orGroupTeamAbd
+    ],
+
+    year5: [
+        fields.personalProduction,
+        fields.directAgen,
+        fields.directAgenProduction,
+        fields.directAbmProduction,
+        fields.directBmProduction,
+        fields.directAbdProduction,
+        fields.directBdProduction,
+        fields.commission,
+        fields.bonus,
+        fields.renewal2ndYear,
+        fields.orDirectTeam,
+        fields.orGroupTeamBm,
+        fields.orGroupTeamAbd,
+        fields.bdGeneration
+    ]
+}

@@ -14,17 +14,12 @@ import { IncomeCalculatorPerYearScreen } from './perYear/incomeCalculatorPerYear
 
 
 export default class IncomeCalculatorScreen extends Component{
-    // addProps = {
-    //     data: this.props.data,
-    //     onPress: this.props.onPress,
-    //     navigation:this.props.navigation,
-    //     }
 
     render() {
             const years = {};
             for (let i = 1; i <= 5; i++) {
                 years["Year" + i] = {
-                    screen: IncomeCalculatorPerYearScreen,
+                    screen: () => <IncomeCalculatorPerYearScreen year={i}/>,
                     navigationOptions: ({
                         navigation
                     }) => ({
