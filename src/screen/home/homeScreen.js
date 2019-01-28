@@ -8,6 +8,7 @@ import Profile from '../../component/profile/profile.js';
 import {createMaterialTopTabNavigator  } from 'react-navigation';
 import {Icon} from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
+import firebase from 'react-native-firebase';
 
 import { PieChart } from 'react-native-svg-charts'
 import { Circle, G, Line } from 'react-native-svg'
@@ -193,6 +194,15 @@ class AgentDashboardScreen extends Component {
             })
         }
 
+        const notification = new firebase.notifications.Notification()
+            .setNotificationId('notificationId')
+            .setTitle('My notification title')
+            .setBody('My notification body')
+            .setData({
+                key1: 'value1',
+                key2: 'value2',
+            });
+
         return (
             <View style={{ flex: 1 }}>
               <Text style={styles.itemDetail}>Agent</Text>
@@ -206,6 +216,11 @@ class AgentDashboardScreen extends Component {
                 >
                     <Labels/>
                 </PieChart>
+                <TouchableWithoutFeedback onPress={_=>{}}>
+                    <Text>
+                        Notif
+                    </Text>
+                </TouchableWithoutFeedback>
             </View>
           );
     }
