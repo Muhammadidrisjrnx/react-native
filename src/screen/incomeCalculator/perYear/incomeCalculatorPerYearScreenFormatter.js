@@ -1,4 +1,5 @@
 export const fields = {
+    lastYearPersonalProduction: 'Last year Personal Production',
     personalProduction: 'Personal Production',
     directAgen: 'Direct Agen',
     directAgenProduction: 'Direct Agen Production',
@@ -29,6 +30,7 @@ export const fieldsConfig = {
     ],
 
     year2: [
+        fields.lastYearPersonalProduction,
         fields.personalProduction,
         fields.directAgen,
         fields.directAgenProduction,
@@ -42,6 +44,7 @@ export const fieldsConfig = {
     ],
 
     year3: [
+        fields.lastYearPersonalProduction,
         fields.personalProduction,
         fields.directAgen,
         fields.directAgenProduction,
@@ -58,6 +61,7 @@ export const fieldsConfig = {
     ],
 
     year4: [
+        fields.lastYearPersonalProduction,
         fields.personalProduction,
         fields.directAgen,
         fields.directAgenProduction,
@@ -77,6 +81,7 @@ export const fieldsConfig = {
     ],
 
     year5: [
+        fields.lastYearPersonalProduction,
         fields.personalProduction,
         fields.directAgen,
         fields.directAgenProduction,

@@ -9,7 +9,7 @@ import { commissionRate } from './rate/commission';
 import { bonusProductionRate } from './rate/bonusProduction';
 import { promotionRate } from './rate/promotion';
 import { bonusPersistencyRate } from './rate/bonusPersistency';
-import { bmRate } from './rate/overriding';
+import { bmRate, abdRate, bdRate } from './rate/overriding';
 
 export class IncomeCalculatorPerYearScreen extends Component {
 
@@ -17,6 +17,7 @@ export class IncomeCalculatorPerYearScreen extends Component {
         super(props);
 
         this.state = {
+            lastYearPersonalProduction: '',
             personalProduction: '',
             directAgen: '',
             directAgenProduction: '',
@@ -52,6 +53,7 @@ export class IncomeCalculatorPerYearScreen extends Component {
     }
 
     calculate() {
+        const lastYearPersonalProduction = this.getNumberValue(this.state.lastYearPersonalProduction);
         const personalProduction = this.getNumberValue(this.state.personalProduction);
         const directAgen = this.getNumberValue(this.state.directAgen);
         const directAgenProduction = this.getNumberValue(this.state.directAgenProduction);
@@ -59,19 +61,6 @@ export class IncomeCalculatorPerYearScreen extends Component {
         const directBmProduction = this.getNumberValue(this.state.directBmProduction);
         const directAbdProduction = this.getNumberValue(this.state.directAbdProduction);
         const directBdProduction = this.getNumberValue(this.state.directBdProduction);
-        const totalProduction = this.getNumberValue(this.state.totalProduction);
-        const promotionToAbm = this.getNumberValue(this.state.promotionToAbm);
-        const promotionToBm = this.getNumberValue(this.state.promotionToBm);
-        const promotionToAbd = this.getNumberValue(this.state.promotionToAbd);
-        const promotionToBd = this.getNumberValue(this.state.promotionToBd);
-        const total = this.getNumberValue(this.state.total);
-        const commission = this.getNumberValue(this.state.commission);
-        const bonus = this.getNumberValue(this.state.bonus);
-        const renewal = this.getNumberValue(this.state.renewal);
-        const orDirectTeam = this.getNumberValue(this.state.orDirectTeam);
-        const orGroupTeamBm = this.getNumberValue(this.state.orGroupTeamBm);
-        const orGroupTeamAbd = this.getNumberValue(this.state.orGroupTeamAbd);
-        const bdGeneration = this.getNumberValue(this.state.bdGeneration);
 
         const agenProd = (directAgenProduction * directAgen);
         const promoRate = promotionRate.filter(x => x.year == this.props.year - 1)[0] || {};
@@ -88,23 +77,54 @@ export class IncomeCalculatorPerYearScreen extends Component {
             x.minProduction <= personalProduction && x.maxProduction >= personalProduction)[0] || {}).rate || 0;
         const bonusProd = bonusProdRate * personalProduction;
         const bonusPersisRate = (bonusPersistencyRate[0].rate);
-        const bonusLastYearProd = bonusPersisRate * 0;
+        const bonusLastYearProd = bonusPersisRate * (lastYearPersonalProduction || 0);
         const totalBonusProd = bonusProd + bonusLastYearProd;
 
-        const renew = commissionRate[1].rate * personalProduction;
+        const renew = commissionRate[1].rate * (lastYearPersonalProduction || 0);
 
-        const orDirectTeamResult = totalProd * bmRate[0].rate;
+        let orDirectTeamResult;
+        if (this.props.year == 2) {
+            orDirectTeamResult = totalProd * bmRate[0].rate;
+        }
+        if (this.props.year == 3) {
+            orDirectTeamResult = abdRate[0].rate * ((directAgenProduction * directAgen) + (directAbmProduction * (promotionRate.filter(x => x.year == this.props.year - 1)[0].abm)) + personalProduction);
+        } else if (this.props.year >= 4) {
+            orDirectTeamResult = bdRate[0].rate * ((directAgenProduction * directAgen) + (directAbmProduction * (promotionRate.filter(x => x.year == this.props.year - 1)[0].abm)) + personalProduction);
+        }
+        orDirectTeamResult = orDirectTeamResult || 0;
 
-        const orGroupBmTeamResult = 0;
+        let orGroupBmTeamResult = (directBmProduction * ((promotionRate.filter(x => x.year == this.props.year - 1)[0] || {}).bm)) * abdRate[1].rate;
+        if (this.props.year >= 4) {
+            orGroupBmTeamResult = (directBmProduction * ((promotionRate.filter(x => x.year == this.props.year - 2)[0] || {}).bm)) * bdRate[1].rate;
+        }
+        orGroupBmTeamResult = orGroupBmTeamResult || 0;
 
+        let orGroupAbdTeamResult = (directAbdProduction * (promotionRate.filter(x => x.year == this.props.year - 1)[0] || {}).abd) * bdRate[2].rate;
+        orGroupAbdTeamResult = orGroupAbdTeamResult || 0;
 
-        const tot = comm + totalBonusProd + renew + orDirectTeamResult + orGroupBmTeamResult;
+        let bdGenerationResult = (directBdProduction * (promotionRate.filter(x => x.year == this.props.year - 1)[0] || {}).bd) * bdRate[3].rate;
+        bdGenerationResult = bdGenerationResult || 0;
+
+        console.log(comm);
+        console.log(totalBonusProd);
+        console.log(renew);
+        console.log(orDirectTeamResult);
+        console.log(orGroupBmTeamResult);
+        console.log(orGroupAbdTeamResult);
+        console.log(bdGenerationResult);
+
+        const tot = comm + totalBonusProd + renew + orDirectTeamResult + orGroupBmTeamResult + orGroupAbdTeamResult + bdGenerationResult;
 
         this.setState({
             totalProduction: "Rp. " + this.onChangeText(totalProd + ''),
             commission: 'Rp. ' + this.onChangeText(comm + ''),
             bonus: 'Rp. ' + this.onChangeText(totalBonusProd + ''),
-            total: 'Rp. ' + this.onChangeText(tot + '')
+            total: 'Rp. ' + this.onChangeText(tot + ''),
+            renewal: "Rp. " + this.onChangeText(renew + ""),
+            orDirectTeam: "Rp. " + this.onChangeText(orDirectTeamResult + ""),
+            orGroupTeamBm: "Rp. " + this.onChangeText(orGroupBmTeamResult + ""),
+            orGroupTeamAbd: "Rp. " + this.onChangeText(orGroupAbdTeamResult + ""),
+            bdGeneration: "Rp. " + this.onChangeText(bdGenerationResult + ""),
         })
     }
 
@@ -118,6 +138,13 @@ export class IncomeCalculatorPerYearScreen extends Component {
             <ScrollView>
                 <Text style={[style.titleText, commonStyle.redColor, commonStyle.leftMargin, commonStyle.topMargin]}>Level Criteria</Text>
 
+                {
+                    fieldsConfig["year" + this.props.year].includes(fields.lastYearPersonalProduction) &&
+                    <View>
+                    <FormLabel>{fields.lastYearPersonalProduction}</FormLabel>
+                    <FormInput onChangeText={(value) => { this.setState({ lastYearPersonalProduction: this.onChangeText(value) }); }} keyboardType="numeric" value={this.state.lastYearPersonalProduction}/>
+                    </View>
+                }
                 {
                     fieldsConfig["year" + this.props.year].includes(fields.personalProduction) &&
                     <View>

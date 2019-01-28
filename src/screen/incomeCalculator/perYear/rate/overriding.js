@@ -11,7 +11,7 @@ export const abdRate = [
     },
     {
         level: 'indirect',
-        rate: 0.6
+        rate: 0.06
     }
 ];
 export const bdRate = [
@@ -25,10 +25,10 @@ export const bdRate = [
     },
     {
         level: 'indirectAbd',
-        rate: 0.9
+        rate: 0.09
     },
     {
         level: 'bdGeneration',
-        rate: 0.6
+        rate: 0.06
     }
 ];
