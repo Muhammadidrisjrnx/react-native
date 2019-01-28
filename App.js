@@ -105,18 +105,28 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-      this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
-          // Process your token as required
-      });
-
-      this.messageListener = firebase.messaging().onMessage((message) => {
-        // Process your message as required
+    this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+        // Process your token as required
     });
-  }
+
+    this.messageListener = firebase.messaging().onMessage((message) => {
+      // Process your message as required
+    });
+
+    this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification) => {
+      // Process your notification as required
+      // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+    });
+    this.notificationListener = firebase.notifications().onNotification((notification) => {
+        // Process your notification as required
+    });
+    }
 
   componentWillUnmount() {
-      this.onTokenRefreshListener();
-      this.messageListener();
+    this.onTokenRefreshListener();
+    this.messageListener();
+    this.notificationDisplayedListener();
+    this.notificationListener();
   }
 
   _storeData = async () => {
