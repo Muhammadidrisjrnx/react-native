@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
-import {View, YellowBox,Platform, AsyncStorage,ToastAndroid} from 'react-native';
+import {View, YellowBox,Platform, AsyncStorage,ToastAndroid, } from 'react-native';
 import {createDrawerNavigator,createStackNavigator} from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
+import firebase from 'react-native-firebase';
 
 
 import HomeScreen from './src/screen/home/homeScreen.js';
@@ -76,6 +77,56 @@ export default class App extends Component {
     super(props);
 
     this._storeData = this._storeData.bind(this);
+
+    firebase.messaging().getToken()
+    .then(fcmToken => {
+      if (fcmToken) {
+        // user has a device token
+      } else {
+        // user doesn't have a device token yet
+      } 
+    });
+
+    firebase.messaging().hasPermission()
+    .then(enabled => {
+      if (enabled) {
+        // user has permissions
+      } else {
+        // user doesn't have permission
+        firebase.messaging().requestPermission()
+        .then(() => {
+          // User has authorised  
+        })
+        .catch(error => {
+          // User has rejected permissions  
+        });
+      } 
+    });
+  }
+
+  componentDidMount() {
+    this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+        // Process your token as required
+    });
+
+    this.messageListener = firebase.messaging().onMessage((message) => {
+      // Process your message as required
+    });
+
+    this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification) => {
+      // Process your notification as required
+      // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+    });
+    this.notificationListener = firebase.notifications().onNotification((notification) => {
+        // Process your notification as required
+    });
+    }
+
+  componentWillUnmount() {
+    this.onTokenRefreshListener();
+    this.messageListener();
+    this.notificationDisplayedListener();
+    this.notificationListener();
   }
 
   _storeData = async () => {

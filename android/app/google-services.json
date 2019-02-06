@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "561073257315",
+    "firebase_url": "https://generali-irecruit.firebaseio.com",
+    "project_id": "generali-irecruit",
+    "storage_bucket": "generali-irecruit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561073257315:android:97939b06e5baa7bd",
+        "android_client_info": {
+          "package_name": "com.irecruit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "561073257315-obp1j62s7eou1uqhm5qi3gh8e8u1io6b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJo68t2X6TlI3-rMablOMljTyr7pKWVac"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

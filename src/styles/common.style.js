@@ -59,6 +59,9 @@ import {colors} from '../helper/style/defaultStyle.js';
         marginHorizontal:'5@s',
         backgroundColor:colors.White
     },
+    redColor: {
+        color: colors.Red
+    },
     buttonText:{
         color:colors.Red,
         fontSize:'15@vs',
@@ -68,4 +71,14 @@ import {colors} from '../helper/style/defaultStyle.js';
         color:colors.Red,
         fontSize:'20@vs'
     },
+    topMargin: {
+        marginTop: '15@s'
+    },
+    leftMargin: {
+        marginLeft: '15@s'
+    },
+    rightMargin: {
+        marginRight: '15@s'
+    },
+    dashedViewStyle: { height:1, marginTop: 10, marginBottom: 10 }
 })
