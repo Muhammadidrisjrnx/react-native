@@ -15,9 +15,9 @@ import SundayPunchScreen from './src/screen/sundayPunch/sundayPunchScreen.js';
 import ScheduleScreen from './src/screen/schedule/scheduleScreen.js';
 import Header from './src/component/header/header.js';
 import Sidebar from './src/component/siderbar/sidebar.js';
-
 import{ds_Lead,ds_menuData} from './src/helper/data.js'
 import introduce_page from './src/screen/introduction/introduce';
+import Introduction from './src/screen/lead/introduction/introduction';
 
 const MainStackRouter = createStackNavigator(
   {

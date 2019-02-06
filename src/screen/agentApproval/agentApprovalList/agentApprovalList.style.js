@@ -15,8 +15,7 @@ export default ScaledSheet.create(
             backgroundColor:colors.White,
             alignItems:'center',
             justifyContent:'space-between',
-            paddingLeft:'10@s',
-            
+            paddingLeft:'10@s',  
         },
         flatlist:{
             backgroundColor: colors.White,
