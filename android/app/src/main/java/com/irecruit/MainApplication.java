@@ -37,12 +37,8 @@ public class MainApplication extends Application implements ReactApplication {
             new SvgPackage(),
             new SplashScreenReactPackage(),
             new RNFirebasePackage(),
-            new RNFirebasePackage(),
             new RNFirebaseMessagingPackage(),
-            new RNFirebaseNotificationsPackage(),
-            new SvgPackage(),
-            new VectorIconsPackage(),
-            new SplashScreenReactPackage()
+            new RNFirebaseNotificationsPackage()
       );
     }
 
