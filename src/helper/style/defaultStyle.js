@@ -10,7 +10,9 @@ export const colors = {
     Green:'#4CB050',
     Yellow:'#FF9900',
     Black:'#000000',
-    Grey: '#AAAAAA'
+    Grey: '#AAAAAA',
+    Grey_Dark: '#777777',
+    Grey_Light: '#DDDDDD'
 };
 
 const {  width:_screenWidth,height:_screenHeight } = Dimensions.get('window');

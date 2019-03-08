@@ -17,8 +17,6 @@ import ScheduleScreen from './src/screen/schedule/scheduleScreen.js';
 import Header from './src/component/header/header.js';
 import Sidebar from './src/component/siderbar/sidebar.js';
 import{ds_Lead,ds_menuData} from './src/helper/data.js'
-import introduce_page from './src/screen/introduction/introduce';
-import Introduction from './src/screen/lead/introduction/introduction';
 
 const MainStackRouter = createStackNavigator(
   {
@@ -30,11 +28,10 @@ const MainStackRouter = createStackNavigator(
     BusinessOpportunity:BusinessOpportunityScreen,
     IncomeCalculator:IncomeCalculatorScreen,
     SundayPunch:SundayPunchScreen,
-    Introduction: introduce_page
   },
   {
     drawerLockMode:'locked-closed',
-    initialRouteName:'Dashboard',
+    initialRouteName:'BusinessOpportunity',
     navigationOptions : {
       header:(props)=>(
         <View
@@ -67,9 +64,9 @@ const MainRouter = createDrawerNavigator(
     }
   },
   { 
-    initialRouteName: 'Home',
+    initialRouteName: 'Login',
     contentComponent: props => <Sidebar {... props}/>,
-    }
+  }
 )
 
 export default class App extends Component {

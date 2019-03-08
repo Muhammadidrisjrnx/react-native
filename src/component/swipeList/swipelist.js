@@ -14,14 +14,31 @@ import {ds_LeadListItem, ds_StatusFilter} from '../../helper/data.js'
 
 SubItem = (props) =>{
     return(
-        ds_LeadListItem.map((item)=>{
-            return(
-                <View key={props.item.agt_id} style={styles.listItem_SubTitleContainer}>
-                    <Text style={styles.listItem_SubTitleCaption}>{item.desc}</Text>
-                    <Text style={styles.listItem_SubTitleValue}>: {props.item[item.field]}</Text>
-                </View>
-            );
-        })
+        <View>
+            {/* CONTACT NUMBER */}
+            <View key={props.item.agt_id} style={styles.listItem_SubTitleContainer}>
+                <Text style={styles.listItem_SubTitleCaption}>{ds_LeadListItem[0].desc}</Text>
+                <Text style={styles.listItem_SubTitleValue}>: {props.item[ds_LeadListItem[0].field]}</Text>
+            </View>
+            
+            {/* Status */}
+            <View key={props.item.agt_id} style={styles.listItem_SubTitleContainer}>
+                <Text style={styles.listItem_SubTitleCaption}>{ds_LeadListItem[3].desc}</Text>
+                <Text style={styles.listItem_SubTitleValue}>: {props.item[ds_LeadListItem[3].field]}</Text>
+            </View>
+
+            {/* LEVEL */}
+            <View key={props.item.agt_id} style={styles.listItem_SubTitleContainer}>
+                <Text style={styles.listItem_SubTitleCaption}>{ds_LeadListItem[4].desc}</Text>
+                <Text style={styles.listItem_SubTitleValue}>: {props.item[ds_LeadListItem[4].field]}</Text>
+            </View>
+
+            {/* EMAIL */}
+            <View key={props.item.agt_id} style={styles.listItem_SubTitleContainer}>
+                <Text style={styles.listItem_SubTitleCaption}>{ds_LeadListItem[5].desc}</Text>
+                <Text style={styles.listItem_SubTitleValue}>: {props.item[ds_LeadListItem[5].field]}</Text>
+            </View>
+        </View>
     )
 }
 
@@ -46,6 +63,7 @@ ListItem = (props) =>{
                     <Text style={styles.listItem_Title}>{props.item.agt_name}</Text>
                     <SubItem item={props.item} />
                 </View>
+                <Icon type={'font-awesome'} name={'chevron-left'} iconStyle={styles.swipeIcon}/>
             </View>
         </TouchableHighlight>
     )
@@ -57,23 +75,23 @@ ListHiddenItem = (props) =>{
             <Text>Left</Text>
             <View style={styles.hiddenButtonMainContainer}>
                 <View style={styles.hiddenButtonRowDivider}>
-                    <TouchableOpacity style={[styles.hiddenButton,{backgroundColor:defaultColor.Red_Alt2}]} onPress={ props.onPress_BOS }>
-                        <Icon type={'font-awesome'} name={'calendar'} iconStyle={styles.hiddenButtonIcon}/>
-                        <Text style={styles.hiddenButtonText}>BOS{"\n"}Schedule</Text>
+                    <TouchableOpacity style={[styles.hiddenButton,{backgroundColor:defaultColor.Red_Alt2}]} onPress={ props.onPress_Call }>
+                        <Icon type={'font-awesome'} name={'phone'} iconStyle={styles.hiddenButtonIcon}/>
+                        <Text style={styles.hiddenButtonText}>Phone</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt4},styles.hiddenButton]} onPress={ props.onPress_AAJI }>
-                        <Icon type={'font-awesome'} name={'calendar'} iconStyle={styles.hiddenButtonIcon}/>
-                        <Text style={styles.hiddenButtonText}>AAJI{"\n"}Schedule</Text>
+                    <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt4},styles.hiddenButton]} onPress={ props.onPress_Email }>
+                        <Icon type={'font-awesome'} name={'envelope'} iconStyle={styles.hiddenButtonIcon}/>
+                        <Text style={styles.hiddenButtonText}>Email</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.hiddenButtonRowDivider}>
                     <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt3},styles.hiddenButton]} onPress={ props.onPress_Introduction }>
-                        <Icon type={'font-awesome'} name={'calendar'} iconStyle={styles.hiddenButtonIcon}/>
-                        <Text style={styles.hiddenButtonText}>Intoduction</Text>
+                        <Icon type={'font-awesome'} name={'info-circle'} iconStyle={styles.hiddenButtonIcon}/>
+                        <Text style={styles.hiddenButtonText}>Introduction</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt1},styles.hiddenButton]} onPress={ props.onPress_Selection }>
-                        <Icon type={'font-awesome'} name={'list-ul'} iconStyle={styles.hiddenButtonIcon}/>
-                        <Text style={styles.hiddenButtonText}>Selection</Text>
+                    <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt1},styles.hiddenButton]} onPress={ props.onPress_Schedule }>
+                        <Icon type={'font-awesome'} name={'calendar'} iconStyle={styles.hiddenButtonIcon}/>
+                        <Text style={styles.hiddenButtonText}>Schedule</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -151,10 +169,10 @@ export default class SwipeList extends Component{
     _renderHiddenItem =(data, rowMap) =>{
         return(
             <ListHiddenItem 
-                onPress_BOS ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_BOS(data.item.agt_id)}}
-                onPress_AAJI ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_AAJI(data.item.agt_id)}}
+                onPress_Call ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Call(data.item.agt_mobile_number)}}
+                onPress_Email ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Email(data.item.agt_email)}}
                 onPress_Introduction ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Introduction(data.item.agt_id)}}
-                onPress_Selection ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Selection(data.item.agt_id)}}
+                onPress_Schedule ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Schedule(data.item.agt_id)}}
                 onPress={ _ => this._closeRow(rowMap, data.item.id)}
             />
         )
@@ -226,10 +244,10 @@ SwipeList.propTypes ={
     onPress:PropTypes.func,
     onChangeText:PropTypes.func,
     onFilterChange:PropTypes.func,
-    onPress_BOS:PropTypes.func,
-    onPress_AAJI:PropTypes.func,
+    onPress_Call:PropTypes.func,
+    onPress_Email:PropTypes.func,
     onPress_Introduction:PropTypes.func,
-    onPress_Selection:PropTypes.func,
+    onPress_Schedule:PropTypes.func,
 }
 
 SwipeList.defaultProps = {
@@ -239,8 +257,8 @@ SwipeList.defaultProps = {
     onPress: _=>{},
     onChangeText: _ =>{},
     onFilterChange: _ =>{},
-    onPress_BOS:_ =>{},
-    onPress_AAJI:_ =>{},
+    onPress_Call:_ =>{},
+    onPress_Email:_ =>{},
     onPress_Introduction:_ =>{},
-    onPress_Selection:_ =>{},
+    onPress_Schedule:_ =>{},
 }

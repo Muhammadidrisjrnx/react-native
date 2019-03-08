@@ -9,9 +9,8 @@ import LeadList from './leadList/leadList.js';
 import LeadDetail from './leadDetail/leadDetail.js';
 import ScheduleRegistration from './scheduleRegistration/scheduleRegistration.js';
 import Selection from './selection/selection.js';
-import Introduction from './introduction/introduction.js';
 import styles from './leadScreen.style.js';
-
+import Introduction from './introduction/introduction.js';
 import {ds_Lead} from '../../helper/data.js';
 
 const LeadStackRouter = createStackNavigator(
@@ -24,7 +23,6 @@ const LeadStackRouter = createStackNavigator(
     },
     {
       headerMode:'none',
-
       cardStyle:styles.lead_navigatorCard 
     }
   )
@@ -68,7 +66,7 @@ export default class LeadScreen extends Component{
                 <View style={styles.lead_titleContainer}>
                     <Text style={styles.lead_titleText}>Lead Management</Text>
                 </View>
-                <LeadStackRouter />
+                <LeadStackRouter/>
                 <View>
                 
                 </View>

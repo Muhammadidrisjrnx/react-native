@@ -13,7 +13,7 @@ export default class Sidebar extends Component{
 
     _renderListItem = ({item})=>{
         return(
-        <View>
+        <View style={style.listItem}>
             <Button transparent onPress={()=>this.props.navigation.navigate(item.route)} >
                 <Icon active name={item.icon} style={style.listIcon}/>
                 <Text style={style.listText}>{item.desc}</Text>
@@ -45,12 +45,13 @@ export default class Sidebar extends Component{
                         />
                     </View>
                 </ScrollView>
-                <View style={style.containerFooter}>
+{/*             <View style={style.containerFooter}>
                     <Button transparent onPress={()=>this.props.navigation.navigate('Login')} >
                         <Icon active name="log-out" style={style.listIcon}/>
                         <Text style={style.listText}>Logout</Text>
                     </Button>
                 </View>
+                */}
             </View> 
         )
     }

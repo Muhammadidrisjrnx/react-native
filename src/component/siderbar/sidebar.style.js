@@ -6,7 +6,7 @@ export default StyleSheet.create({
     containerMain:{
         flex:1,
         flexDirection:'row',
-        backgroundColor:colors.Red,
+        backgroundColor:colors.White,
 
     },
     containerHeader:{
@@ -34,30 +34,40 @@ export default StyleSheet.create({
         marginLeft:15
     },
     avatarMainText:{
-        color:colors.White,
+        color:colors.Grey_Dark,
+        fontWeight:'800',
         fontSize:18
     },
     avatarSubText:{
-        color:colors.White,
+        color:colors.Grey,
     },
     containerFooter:{
         position:'absolute',
         alignSelf:'flex-end',
         flexDirection:'row',
-        backgroundColor:colors.Red,
+        backgroundColor:colors.White,
         height:50,
         width:'100%'
     },
     headerImage:{
         height:20
     },
+    listItem:{
+        paddingTop:10,
+        paddingBottom:10,
+        marginLeft:20,
+        marginRight:20,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.Grey_Light
+    },
     listIcon:{
         width:25,
-        color:colors.White,
-        fontSize:30
+        color:colors.Red,
+        fontSize:30,
+        marginLeft:0
     },
     listText:{
-        color:colors.White,
+        color:colors.Grey,
         fontSize:17
     }
 })

@@ -8,18 +8,19 @@ import Profile from '../../component/profile/profile.js';
 // import LeadList from './leadList/leadList.js';
 // import ScheduleRegistration from './scheduleRegistration/scheduleRegistration.js';
 import styles from './businessOpportunityScreen.style.js';
+import BusinessOpportunityList from './businessOpportunityList/businessOpportunityList';
+import BusinessOpportunityDetail from './businessOpportunityDetail/businessOpportunityDetail';
+import LeadDetail from './../lead/leadDetail/leadDetail';
 
-// const LeadStackRouter = createStackNavigator(
-//     {
-//       LeadList:LeadList,
-//       Schedule:ScheduleRegistration,
-//     },
-//     {
-//       headerMode:'none',
-
-//       cardStyle:{backgroundColor:'transparent'}
-//     }
-//   )
+const BusinessOpportunityRouter = createStackNavigator({
+    List:BusinessOpportunityList,
+    Detail:BusinessOpportunityDetail,
+    LeadDetail:LeadDetail
+},
+{  
+    headerMode:'none',
+    cardStyle:styles.businessOpportunity_navigationCard
+})
 
 export default class BusinessOpportunityScreen extends Component{
     // addProps = {
@@ -35,6 +36,8 @@ export default class BusinessOpportunityScreen extends Component{
                 <View style={styles.businessOpportunity_titleContainer}>
                     <Text style={styles.businessOpportunity_titleText}>Business Opportunity</Text>
                 </View>
+                
+                <BusinessOpportunityRouter/>
                 
                 
             </MainBody>

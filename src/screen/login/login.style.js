@@ -19,7 +19,7 @@ export default ScaledSheet.create({
     },
     imageTitle:{
         width:null,
-        height:'25@s',
+        height:20,
         resizeMode:'contain',
     },
     loginContainer:{

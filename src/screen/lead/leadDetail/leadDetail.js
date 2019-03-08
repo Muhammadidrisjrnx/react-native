@@ -132,19 +132,19 @@ class PersonalInformationScreen extends Component {
                     </View>
                     <TouchableOpacity ref={this.joinDateButtonRef} style={{flex:1}}  onPress={this.onTimePickerFocus}>
                     <FormLabel>Join Date </FormLabel>
-                    <FormInput ref={this.joinDateRef} editable={false} value={data.agt_join_date}/>
+                    <FormInput ref={this.joinDateRef} value={data.agt_join_date}/>
                     </TouchableOpacity>
                 </View>
                 <FormLabel>Agent Status</FormLabel>
-                <FormInput value={String(data.agt_stat_id)} />
+                <FormInput value={data.agt_stat_id} />
                 <View style={{flexDirection:'row'}}>
                 <View style={{flex:1}}>
                     <FormLabel>Tempat Lahir</FormLabel>
-                    <FormInput value={"Jakarta"}/>
+                    <FormInput/>
                 </View>
                 <TouchableOpacity ref={this.dobButtonRef} style={{flex:1}}  onPress={this.onTimePickerFocus}>
                     <FormLabel>Tanggal Lahir</FormLabel>
-                    <FormInput ref={this.dobRef} editable={false} value={dob}/>
+                    <FormInput ref={this.dobRef} value={data.dob}/>
                 </TouchableOpacity>
                 </View>
                 <Dropdown
@@ -178,7 +178,7 @@ class PersonalInformationScreen extends Component {
                     containerStyle={{marginHorizontal:17}}
                     baseColor={defaultColor.Black}/>
                 <FormLabel>No. KTP</FormLabel>
-                <FormInput value={String(data.agt_id_card_no)} />
+                <FormInput value={data.agt_id_card_no} />
                 <Dropdown
                     ref={this.educationRef}
                     label='Pendidikan Terakhir'

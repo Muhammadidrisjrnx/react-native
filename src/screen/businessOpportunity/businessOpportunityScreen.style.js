@@ -13,5 +13,9 @@ export default ScaledSheet.create({
         fontWeight:'bold',
         color:colors.White
     },
+    businessOpportunity_navigationCard:{
+        paddingHorizontal:'15@s',
+        backgroundColor:'transparent',
+    },
     businessOpportunity_body:{},
 })

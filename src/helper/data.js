@@ -47,8 +47,9 @@ export const ds_menuData = [{
     desc: 'Golden Nugget'
   },{
     id:'9',
-    route:'Introduction',
-    desc : 'Introduction'
+    route:'Login',
+    icon: 'log-out',
+    desc : 'Logout'
   }
 ];
 
@@ -579,6 +580,39 @@ export const ds_Schedule = [
       newsTitle:'New 3',
       newsImage:require('../../resource/image/news.jpg'),
       newsDesc:'Generali Fantastic Deal digelar special buat kamu yang pingin bisa liburan ke Italia pake gaya! Caranya mudah, setiap beli polis iPlan, iPrime atau iPlan Syariah mulai bulan Juli sampai September 2018 dengan premi dasar minimal Rp 1.500.000,- per bulan atau Rp 15.000.000,- per tahun, kamu akan mendapat cashback yang bisa digunakan untuk berbagai kegiata seru! Semakin tinggi nilai premi dasar yang kamu ambil, semakin banyak cashback yang kamu terima loh! Untuk mengetahui lebih lanjut, langsung kontak agen Generali terdekat'
+    },
+  ]
+
+  export const ds_BusinessOpportunity = [
+    {
+      businessOpportunityId:1,
+      businessOpportunityTitle:'Karyawan',
+      businessOpportunityImage:require('../../resource/image/news.jpg'),
+      businessDesc:'Generali Fantastic Deal digelar special buat kamu yang pingin bisa liburan ke Italia pake gaya! Caranya mudah, setiap beli polis iPlan, iPrime atau iPlan Syariah mulai bulan Juli sampai September 2018 dengan premi dasar minimal Rp 1.500.000,- per bulan atau Rp 15.000.000,- per tahun, kamu akan mendapat cashback yang bisa digunakan untuk berbagai kegiata seru! Semakin tinggi nilai premi dasar yang kamu ambil, semakin banyak cashback yang kamu terima loh! Untuk mengetahui lebih lanjut, langsung kontak agen Generali terdekat'
+    },
+    {
+      businessOpportunityId:2,
+      businessOpportunityTitle:'Ibu Rumah Tangga',
+      businessOpportunityImage:require('../../resource/image/news.jpg'),
+      businessDesc:'Generali Fantastic Deal digelar special buat kamu yang pingin bisa liburan ke Italia pake gaya! Caranya mudah, setiap beli polis iPlan, iPrime atau iPlan Syariah mulai bulan Juli sampai September 2018 dengan premi dasar minimal Rp 1.500.000,- per bulan atau Rp 15.000.000,- per tahun, kamu akan mendapat cashback yang bisa digunakan untuk berbagai kegiata seru! Semakin tinggi nilai premi dasar yang kamu ambil, semakin banyak cashback yang kamu terima loh! Untuk mengetahui lebih lanjut, langsung kontak agen Generali terdekat'
+    },
+    {
+      businessOpportunityId:3,
+      businessOpportunityTitle:'Wirausahawan',
+      businessOpportunityImage:require('../../resource/image/news.jpg'),
+      businessDesc:'Generali Fantastic Deal digelar special buat kamu yang pingin bisa liburan ke Italia pake gaya! Caranya mudah, setiap beli polis iPlan, iPrime atau iPlan Syariah mulai bulan Juli sampai September 2018 dengan premi dasar minimal Rp 1.500.000,- per bulan atau Rp 15.000.000,- per tahun, kamu akan mendapat cashback yang bisa digunakan untuk berbagai kegiata seru! Semakin tinggi nilai premi dasar yang kamu ambil, semakin banyak cashback yang kamu terima loh! Untuk mengetahui lebih lanjut, langsung kontak agen Generali terdekat'
+    },
+    {
+      businessOpportunityId:4,
+      businessOpportunityTitle:'Professional',
+      businessOpportunityImage:require('../../resource/image/news.jpg'),
+      businessDesc:'Generali Fantastic Deal digelar special buat kamu yang pingin bisa liburan ke Italia pake gaya! Caranya mudah, setiap beli polis iPlan, iPrime atau iPlan Syariah mulai bulan Juli sampai September 2018 dengan premi dasar minimal Rp 1.500.000,- per bulan atau Rp 15.000.000,- per tahun, kamu akan mendapat cashback yang bisa digunakan untuk berbagai kegiata seru! Semakin tinggi nilai premi dasar yang kamu ambil, semakin banyak cashback yang kamu terima loh! Untuk mengetahui lebih lanjut, langsung kontak agen Generali terdekat'
+    },
+    {
+      businessOpportunityId:5,
+      businessOpportunityTitle:'Millenial',
+      businessOpportunityImage:require('../../resource/image/news.jpg'),
+      businessDesc:'Generali Fantastic Deal digelar special buat kamu yang pingin bisa liburan ke Italia pake gaya! Caranya mudah, setiap beli polis iPlan, iPrime atau iPlan Syariah mulai bulan Juli sampai September 2018 dengan premi dasar minimal Rp 1.500.000,- per bulan atau Rp 15.000.000,- per tahun, kamu akan mendapat cashback yang bisa digunakan untuk berbagai kegiata seru! Semakin tinggi nilai premi dasar yang kamu ambil, semakin banyak cashback yang kamu terima loh! Untuk mengetahui lebih lanjut, langsung kontak agen Generali terdekat'
     },
   ]
 

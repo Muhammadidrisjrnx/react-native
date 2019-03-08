@@ -8,7 +8,7 @@ import MainBody from '../../component/mainBody/mainBody.js'
 Header = () => {
     return (
     <View style={styles.header}>
-        <Image style={styles.imageTitle} source={require('../../../resource/image/title.png')}/>
+        <Image style={styles.imageTitle} source={require('../../../resource/image/title_white.png')}/>
     </View>
     )
 }

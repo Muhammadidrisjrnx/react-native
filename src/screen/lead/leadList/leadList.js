@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text,Image, ToastAndroid, AsyncStorage, FlatList} from 'react-native';
+import {Linking, View, Text,Image, ToastAndroid, AsyncStorage, FlatList} from 'react-native';
 import {Icon, Fab, Button} from 'native-base';
+import {StackActions,NavigationActions} from 'react-navigation';
 
 import {_getValueById} from '../../../helper/helper.js';
 import MainBody from '../../../component/mainBody/mainBody.js';
 import Profile from '../../../component/profile/profile.js';
 import ThumbImage from '../../../component/thumbImage/thumbimage.js';
 import SwipeList from '../../../component/swipeList/swipelist.js';
-import MainList from './MainList.js';
 import {defaultColor} from './leadList.style.js';
 
 import {ds_LeadListData} from '../../../helper/data.js';
@@ -15,7 +15,6 @@ import {ds_LeadListData} from '../../../helper/data.js';
 export default class LeadList extends Component{
     static navigationOptions = {
         header:null
-        
     }
     
     constructor(props){
@@ -197,28 +196,19 @@ export default class LeadList extends Component{
                 onRefresh={this._refreshListData}
                 onPress={(item)=>{this.props.navigation.navigate('LeadDetail',{data:item})}}
                 //onPress={(item)=>{ToastAndroid.show(JSON.stringify(item), ToastAndroid.SHORT)}}
-                onPress_BOS={_=>{this.props.navigation.navigate("Schedule",{scheduleType:1});}}
-                onPress_AAJI={_=>{this.props.navigation.navigate("Schedule",{scheduleType:2});}}
-                onPress_Introduction={_=>{this.props.navigation.navigate("Introduction");}}
-                onPress_Selection={_=>{this.props.navigation.navigate("Selection");}}
-
+                //onPress={(item)=>{this.print(item)}}
+                onPress_Call={ (number) => {this.call(number)}}
+                onPress_Email={(email)=>{this.mailTo(email)}}
+                onPress_Introduction={_=>{this.navigateToIntroduction()}}
+                onPress_Schedule={_=>{{this.props.navigation.navigate("Schedule",{scheduleType:1});}}}
                 />
                 <Fab 
-                    active={this.state.active}
+                    active={true}
                     direction="up"
                     position="bottomRight" 
                     style={{backgroundColor:'white'}} 
-                    onPress={() => this.setState({ active: !this.state.active })}>
+                    onPress={() => {this.props.navigation.navigate('LeadDetail')}}>
                     <Icon name="add" style={{color:defaultColor.Red}}/>
-                    <Button style={{ backgroundColor: '#3B5998' }}>
-                        <Icon name="create" />
-                    </Button>
-                    <Button style={{ backgroundColor: '#34A34F' }}>
-                        <Icon name="contacts" />
-                    </Button>
-                    <Button disabled style={{ backgroundColor: '#DD5144' }}>
-                        <Icon name="link" />
-                    </Button>
                 </Fab>
             </View>
             // <MainList
@@ -228,5 +218,36 @@ export default class LeadList extends Component{
             //     //removeClippedSubviews={true}
             // />
         );
+    }
+
+    navigateToIntroduction(){
+        resetAction = StackActions.reset({
+            index: 0,
+            key: null,
+            actions: [NavigationActions.navigate({ routeName: 'Introduction' })]
+          });
+          this.props.navigation.dispatch(resetAction);
+    }
+
+    print(item){
+        console.warn(JSON.stringify(item))
+    }
+
+    call(number){
+        this.intentUrl(`tel:${number}`)        
+    }
+
+    mailTo(email){
+        this.intentUrl(`mailto:${email}`)
+    }
+
+    intentUrl(url){
+        Linking.canOpenURL(url).then(supported => {
+        if (!supported) {
+            console.log('Can\'t handle url: ' + url);
+        } else {
+            return Linking.openURL(url);
+        }
+        }).catch(err => console.error('An error occurred', err));
     }
 }

@@ -12,7 +12,7 @@ export default class Header extends Component{
     render(){
         return(
             <View style={style.container}>
-                <ImageBackground style={style.image} source={require('../../../resource/image/title.png')} resizeMode={'contain'}>
+                <ImageBackground style={style.image} source={require('../../../resource/image/title_white.png')} resizeMode={'contain'}>
                 <View style={style.containerButton}>
                     <Button style={style.button} onPress={() => {
                                 this.props.navigation.openDrawer()

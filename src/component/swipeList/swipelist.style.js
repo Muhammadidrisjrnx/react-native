@@ -93,6 +93,9 @@ export default ScaledSheet.create({
         ,textAlign:'center'
         ,fontSize:'10@s'
     },
+    swipeIcon:{
+        color:colors.Grey_Light
+    }
 
     
 })
