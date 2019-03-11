@@ -4,7 +4,6 @@ import {createDrawerNavigator,createStackNavigator} from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
 import firebase from 'react-native-firebase';
 
-
 import HomeScreen from './src/screen/home/homeScreen.js';
 import LoginScreen from './src/screen/login/loginScreen.js';
 import LeadScreen from './src/screen/lead/leadScreen.js';
@@ -13,7 +12,6 @@ import AgentApprovalScreen from './src/screen/agentApproval/agentApprovalScreen.
 import BusinessOpportunityScreen from './src/screen/businessOpportunity/businessOpportunityScreen.js';
 import IncomeCalculatorScreen from './src/screen/incomeCalculator/incomeCalculatorScreen.js';
 import GoldenNuggetScreen from './src/screen/goldenNugget/goldenNugget.js';
-import GoldenNuggetAddScreen from './src/screen/goldenNugget/goldenNuggetAdd/goldenNuggetAddScreen.js';
 import ScheduleScreen from './src/screen/schedule/scheduleScreen.js';
 import Header from './src/component/header/header.js';
 import Sidebar from './src/component/siderbar/sidebar.js';
@@ -32,7 +30,7 @@ const MainStackRouter = createStackNavigator(
   },
   {
     drawerLockMode:'locked-closed',
-    initialRouteName:'GoldenNugget',
+    initialRouteName:'BusinessOpportunity',
     navigationOptions : {
       header:(props)=>(
         <View
@@ -65,7 +63,7 @@ const MainRouter = createDrawerNavigator(
     }
   },
   { 
-    initialRouteName: 'Home',
+    initialRouteName: 'Login',
     contentComponent: props => <Sidebar {... props}/>,
   }
 )

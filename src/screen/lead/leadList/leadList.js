@@ -31,7 +31,6 @@ export default class LeadList extends Component{
         });
 
         this._searchFilterFunction = this._searchFilterFunction.bind(this);
-        this._onPress = this._onPress.bind(this);
     }
 
     _storeData = () => {
@@ -155,7 +154,7 @@ export default class LeadList extends Component{
             var nameFilter =true;
             var statusFilter =true;
 
-            ToastAndroid.show(this.props.filter,ToastAndroid.SHORT);
+            //ToastAndroid.show(this.props.filter,ToastAndroid.SHORT);
 
             if(name==''){
                 nameFilter= true;
@@ -176,10 +175,6 @@ export default class LeadList extends Component{
         });    
 
         this.setState({ data: newData });
-    }
-
-    _onPress = (item) =>{
-        ToastAndroid.show(item,ToastAndroid.SHORT);
     }
     
 

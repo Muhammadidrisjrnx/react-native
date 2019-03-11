@@ -5,6 +5,9 @@ import {colors} from '../../../../helper/style/defaultStyle.js';
 export const defaultColor = colors;
 
  export default ScaledSheet.create({
+    flatlist:{
+        backgroundColor:'transparent'
+    },
      selection_accordionHeader:{
         height:'180@vs',
         padding:'10@s',

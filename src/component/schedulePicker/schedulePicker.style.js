@@ -48,6 +48,7 @@ export default ScaledSheet.create(
         detail_mainContainer:{
             flex:1,
             backgroundColor:colors.White,
+            borderRadius:5
         },
         detail_headerBackButton:{
             flexDirection:'row',
@@ -55,7 +56,7 @@ export default ScaledSheet.create(
             height:'50@vs',
             alignItems:'center',
             borderBottomColor:colors.Grey,
-            borderBottomWidth:'2@vs'
+            borderBottomWidth:'2@vs',
         },
         detail_headerIcon:{
             color:colors.Grey,
@@ -120,5 +121,42 @@ export default ScaledSheet.create(
             fontSize:'10@s',
             color:colors.White
         },
+        modalBackdrop:{
+            height:'100%',
+            width:'100%',
+            backgroundColor:'rgba(0,0,0,0.66)',
+            display:'flex',
+            justifyContent:'center',
+            alignItems:'center'
+        },
+        modalContainer:{
+            backgroundColor:colors.White,
+            padding:40,
+            borderRadius:10
+        },
+        modalIcon:{
+            color:colors.Red,
+            fontSize:'40@s',
+            margin:20
+        },
+        modalTitle:{
+            fontSize:'20@s'
+        },
+        modalButton:{
+            borderColor:colors.Red,
+            borderWidth:1,
+            borderRadius:10,
+            flexDirection:'row',
+            padding:5,
+            flexGrow:1,
+            justifyContent:'center',
+            alignItems:'center',
+            margin:10
+        },
+        modalButtonText:{
+            color:colors.Red,
+            fontSize:16,
+            margin:5
+        }
     }
 )

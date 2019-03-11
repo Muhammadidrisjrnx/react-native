@@ -10,18 +10,23 @@ export default ScaledSheet.create({
     borderRadius:10,
     padding:10,
     margin:20,
-    marginTop:10
+    marginTop:10,
+    flexDirection:'column'
   },
-    flatlist:{
+  header:{
+    borderBottomColor:colors.Grey,
+    borderBottomWidth:1,
+    padding:10
+  },
+  flatlist:{
     backgroundColor:'transparent'
   },
-    titleContainer:{
+  titleContainer:{
     flexDirection:'row',
     justifyContent:'flex-start',
-    paddingLeft:20,
     alignItems:'center'
   },
   title:{
-      color:colors.White
+      color:colors.Grey
   },  
 })

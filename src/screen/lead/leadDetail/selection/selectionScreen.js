@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, ToastAndroid, ScrollView} from 'react-native';
+import {FlatList,View, Text, TouchableOpacity, ToastAndroid, ScrollView} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import {Rating,FormLabel,FormInput,FormValidationMessage} from 'react-native-elements'
@@ -53,22 +53,40 @@ export default class SelectionScreen extends Component {
         );
     }
 
+   _renderListItem = ({item}) =>{
+        return(
+            <View style={styles.selection_accordionHeader}>
+                <Text style={styles.selection_accordionHeaderTitle}>{item.title}</Text>
+                <Rating
+                    type="star"
+                    startingValue={3}
+                    ratingCount={5}
+                    imageSize={scale(30)}
+                    style={{ paddingVertical: scale(10) , alignSelf:'center'}}
+                    />
+                <FormLabel labelStyle={{marginLeft:scale(5)}}>Remarks</FormLabel>
+                <FormInput containerStyle={{width:'100%',marginLeft:0}}/>
+            </View>
+        )
+    }
+
+    NewsList_keyExtractor = (item, index) => {
+        return String(item.title);
+    };
+
     _updateSections = activeSections => {
         this.setState({ activeSections });
-      };
+    };
 
     render(){
         return(
             <View>
-                <ScrollView>
-                    <Accordion
-                        sections={SECTIONS}
-                        activeSections={this.state.activeSections}
-                        renderHeader={this._renderHeader}
-                        renderContent={this._renderContent} 
-                        onChange={this._updateSections}
-                        />
-                </ScrollView>
+                <FlatList  
+                    data={SECTIONS}
+                    renderItem={this._renderListItem}
+                    contentContainerStyle={styles.flatlist}
+                    keyExtractor={this._keyExtractor}
+                    showsVerticalScrollIndicator={false}/>
             </View>
         )
     }
@@ -76,63 +94,57 @@ export default class SelectionScreen extends Component {
 
 const SECTIONS = [
     {
-      title: 'Achievement Drive',
-      content: [
-          'Pertanyaan 1',
-          'Pertanyaan 2',
-          'Pertanyaan 3',
-          'Pertanyaan 4',
-          'Pertanyaan 5',
-      ]
+      title: 'Kemauan yang Tinggi',
     },
     {
-      title: 'Thread Of Discontent',
-      content: [
-        'Pertanyaan 1',
-        'Pertanyaan 2',
-        'Pertanyaan 3',
-        'Pertanyaan 4',
-        'Pertanyaan 5',
-    ]
+      title: 'Energik dan sehat',
     },
     {
-      title: 'Money Motivated',
-      content: [
-        'Pertanyaan 1',
-        'Pertanyaan 2',
-        'Pertanyaan 3',
-        'Pertanyaan 4',
-        'Pertanyaan 5',
-    ]
+      title: 'Tanggung Jawab',
     },
     {
-      title: 'Integrity',
-      content: [
-        'Pertanyaan 1',
-        'Pertanyaan 2',
-        'Pertanyaan 3',
-        'Pertanyaan 4',
-        'Pertanyaan 5',
-    ]
+      title: 'Kesabaran',
     },
     {
-      title: 'Energy Level',
-      content: [
-        'Pertanyaan 1',
-        'Pertanyaan 2',
-        'Pertanyaan 3',
-        'Pertanyaan 4',
-        'Pertanyaan 5',
-    ]
+      title: 'Kemampuan bekerja dalam ketidakjelasan',
     },
     {
-      title: 'Learning Ability',
-      content: [
-        'Pertanyaan 1',
-        'Pertanyaan 2',
-        'Pertanyaan 3',
-        'Pertanyaan 4',
-        'Pertanyaan 5',
-    ]
+      title: 'Menerima masukan/pendapatan orang lain',
+    },
+    {
+        title: 'Inisiatif/Agresivitas'
+    },
+    {
+        title: 'Kegigihan dalam mendapatkan keinginan'
+    },
+    {
+        title: 'Kemandirian'
+    },
+    {
+        title: 'Kedisiplinan'
+    },
+    {
+        title: 'Percaya diri'
+    },
+    {
+        title: 'Bekerja dalam tekanan'
+    },
+    {
+        title: 'Kemampuan menilai orang'
+    },
+    {
+        title: 'Kemampuan mengatasi orang'
+    },
+    {
+        title: 'Kemampuan mengatasi masalah'
+    },
+    {
+        title: 'Kemampuan komunikasi'
+    },
+    {
+        title: 'Menghargai uang'
+    },
+    {
+        title: 'Kreativitas'
     }
   ];

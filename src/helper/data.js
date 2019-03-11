@@ -95,6 +95,12 @@ export const ds_schedulePersonList = [{
 },{
   id:14,
   name:'Groot'
+},{
+  id:15,
+  name:'Yuyun'
+},{
+  id:16,
+  name:'Zera'
 }
 ]
 
@@ -518,44 +524,80 @@ export const ds_StatusFilter = [
   },
   {
     id:2,
-    desc:'New Approach',
+    desc:'New',
     value:'2'
   },
+
   {
     id:3,
-    desc:'Invite BOS',
+    desc:'Approach',
     value:'3'
   },
   {
     id:4,
-    desc:'Accept BOS',
+    desc:'Invite BOS',
     value:'4'
   },
   {
     id:5,
-    desc:'Attend BOS',
+    desc:'Accept BOS',
     value:'5'
   },
   {
     id:6,
-    desc:'Approval BOS',
+    desc:'Attend BOS',
     value:'6'
   },
   {
     id:7,
-    desc:'Submitted',
+    desc:'Approval Request',
     value:'7'
   },
   {
     id:8,
-    desc:'Pending',
+    desc:'Submitted',
     value:'8'
   },
   {
     id:9,
-    desc:'AAJI Clear',
+    desc:'Pending',
     value:'9'
   },
+  {
+    id:10,
+    desc:'AAJI Clear',
+    value:'10'
+  },
+  {
+    id:11,
+    desc:'AAJI Not Clear',
+    value:'11'
+  },
+  {
+    id:12,
+    desc:'AAJI In Process',
+    value:'12'
+  },
+  {
+    id:13,
+    desc:'AAJI Active',
+    value:'13'
+  },
+  {
+    id:13,
+    desc:'Training Registered',
+    value:'13'
+  },
+  {
+    id:14,
+    desc:'Training Attended',
+    value:'14'
+  },
+  {
+    id:15,
+    desc:'Closing Case',
+    value:'15'
+  }
 ]
 
 export const ds_Schedule = [

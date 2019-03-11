@@ -14,11 +14,15 @@ export default class Sidebar extends Component{
     _renderListItem = ({item})=>{
         return(
         <View style={style.listItem}>
-            <Button transparent onPress={()=>this.props.navigation.navigate(item.route)} >
+            <Button transparent onPress={() => this.navigate(item)} >
                 <Icon active name={item.icon} style={style.listIcon}/>
                 <Text style={style.listText}>{item.desc}</Text>
             </Button>
         </View>)
+    }
+
+    navigate = (item) => {
+        this.props.navigation.navigate(item.route)
     }
 
     _keyExtractor = (item, index) => item.id;

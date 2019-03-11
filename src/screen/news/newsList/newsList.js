@@ -47,8 +47,7 @@ export default class NewsList extends Component{
     render(){
         return(
             //<View style={styles.flatlistContainer}>
-                <FlatList
-                    
+                <FlatList  
                     data={ds_News}
                     renderItem={this.NewsList_renderListItem}
                     ItemSeparatorComponent={this.NewsList_renderSeparator}

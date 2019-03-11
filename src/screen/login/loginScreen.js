@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import {View,Text,Image} from 'react-native';
 import {Form, Input, Item, Icon, Button} from 'native-base';
+import { NavigationActions, StackActions } from 'react-navigation'
 
 import styles,{color} from './login.style.js';
 import MainBody from '../../component/mainBody/mainBody.js'
@@ -44,7 +45,12 @@ export default class LoginScreen extends Component{
     }
 
     _ButtonOnPress = () => {
-        this.props.navigation.navigate("Home");
+        resetAction = StackActions.reset({
+            index: 0,
+            key: null,
+            actions: [NavigationActions.navigate({ routeName: 'BusinessOpportunity'})]
+        })
+        this.props.navigation.dispatch(resetAction)
     }
 
     render()
