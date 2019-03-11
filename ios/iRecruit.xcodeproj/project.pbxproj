@@ -59,6 +59,10 @@
 		0962407029C94B2098C66CF9 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 815851AF0DAD4D7AA007DD9E /* libRNSVG.a */; };
 		E5C996FB1D23457687F6C19E /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AFA8423A7034E50AD18402B /* libRNSVG-tvOS.a */; };
 		AA6ABF0A8B52421AB04A60F6 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FEE1A7E334C4164A94EDF51 /* libRNFirebase.a */; };
+		BAFAC4F038CF46DBB7CACA9C /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 901245BBBB8F4EFEB842FFA9 /* AntDesign.ttf */; };
+		ECD55E22C30B48B68819CF59 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5775D54850654609A8B5812C /* FontAwesome5_Brands.ttf */; };
+		72764189B5DE4AF1A527EC51 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C65755FAB55347C484C5F9E5 /* FontAwesome5_Regular.ttf */; };
+		6901126907E046A5AD850A8A /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FFEA6D8A18C42A391681FDB /* FontAwesome5_Solid.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -390,6 +394,10 @@
 		3AFA8423A7034E50AD18402B /* libRNSVG-tvOS.a */ = {isa = PBXFileReference; name = "libRNSVG-tvOS.a"; path = "libRNSVG-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		BBFDF8F2ECE74F4BBEDBBB96 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; name = "RNFirebase.xcodeproj"; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		8FEE1A7E334C4164A94EDF51 /* libRNFirebase.a */ = {isa = PBXFileReference; name = "libRNFirebase.a"; path = "libRNFirebase.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		901245BBBB8F4EFEB842FFA9 /* AntDesign.ttf */ = {isa = PBXFileReference; name = "AntDesign.ttf"; path = "../node_modules/native-base/Fonts/AntDesign.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5775D54850654609A8B5812C /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Brands.ttf"; path = "../node_modules/native-base/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C65755FAB55347C484C5F9E5 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Regular.ttf"; path = "../node_modules/native-base/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0FFEA6D8A18C42A391681FDB /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; name = "FontAwesome5_Solid.ttf"; path = "../node_modules/native-base/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -681,6 +689,10 @@
 				4934B5E90D7D4A57A53B03FA /* FontAwesome5_Brands.ttf */,
 				6C0F02141627438E92712BF0 /* FontAwesome5_Regular.ttf */,
 				43C862D944E84066BC0463BD /* FontAwesome5_Solid.ttf */,
+				901245BBBB8F4EFEB842FFA9 /* AntDesign.ttf */,
+				5775D54850654609A8B5812C /* FontAwesome5_Brands.ttf */,
+				C65755FAB55347C484C5F9E5 /* FontAwesome5_Regular.ttf */,
+				0FFEA6D8A18C42A391681FDB /* FontAwesome5_Solid.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1149,6 +1161,10 @@
 				3B7D3E6BD03E47F3968381F9 /* FontAwesome5_Brands.ttf in Resources */,
 				0B3C9C198AE74974A06596AD /* FontAwesome5_Regular.ttf in Resources */,
 				4F781B0AEF4C4DF4A44D593B /* FontAwesome5_Solid.ttf in Resources */,
+				BAFAC4F038CF46DBB7CACA9C /* AntDesign.ttf in Resources */,
+				ECD55E22C30B48B68819CF59 /* FontAwesome5_Brands.ttf in Resources */,
+				72764189B5DE4AF1A527EC51 /* FontAwesome5_Regular.ttf in Resources */,
+				6901126907E046A5AD850A8A /* FontAwesome5_Solid.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1282,11 +1298,6 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iRecruit.app/iRecruit";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1314,11 +1325,6 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iRecruit.app/iRecruit";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1404,11 +1410,6 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1445,11 +1446,6 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1485,11 +1481,6 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1525,11 +1516,6 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

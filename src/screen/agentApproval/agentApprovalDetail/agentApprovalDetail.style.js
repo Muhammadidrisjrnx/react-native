@@ -58,5 +58,11 @@ export default ScaledSheet.create(
             color:colors.Red,
             fontSize:'20@vs'
         },
+        star:{
+            color:colors.Yellow,
+            fontSize:'20@vs',
+            marginLeft:5,
+            alignSelf:'flex-end'
+        }
     }
 )

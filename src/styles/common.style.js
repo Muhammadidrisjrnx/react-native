@@ -80,5 +80,10 @@ import {colors} from '../helper/style/defaultStyle.js';
     rightMargin: {
         marginRight: '15@s'
     },
-    dashedViewStyle: { height:1, marginTop: 10, marginBottom: 10 }
+    dashedViewStyle: { height:1, marginTop: 10, marginBottom: 10 },
+    card:{
+        margin:20,
+        borderRadius:'5@s',
+        backgroundColor: colors.White
+    },
 })

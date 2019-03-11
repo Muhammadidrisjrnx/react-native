@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text,Image, ToastAndroid, TouchableWithoutFeedback, ImageBackground} from 'react-native';
+import {View, Text,Image, ToastAndroid, TouchableWithoutFeedback, ImageBackground, ScrollView} from 'react-native';
 import { scale,verticalScale } from 'react-native-size-matters';
 
 import {_getValueById} from '../../helper/helper.js';
@@ -17,250 +17,6 @@ import {ds_LeadListData} from '../../helper/data.js'
 import { Tab } from 'native-base';
 
 import styles,{defaultColor} from './homeScreen.style.js'
-
-class LeadDashboardScreen extends Component {
-    handleViewRef = ref => this.view = ref;
-
-    bounce = () => this.view.bounce(800).then(endState => console.log(endState.finished ? 'bounce finished' : 'bounce cancelled'));
-
-    render() {
-        const data = [
-            {
-                key: 1,
-                value: 50,
-                svg: { fill: defaultColor.Red_Alt1 },
-                arc: { outerRadius: '100%'  }
-            },
-            {
-                key: 2,
-                value: 50,
-                svg: { fill: defaultColor.Red_Alt2 }
-            },
-            {
-                key: 3,
-                value: 40,
-                svg: { fill: defaultColor.Red_Alt3 }
-            },
-            {
-                key: 4,
-                value: 95,
-                svg: { fill: defaultColor.Red_Alt4 }
-            },
-        ]
-
-        return (
-            <View style={styles.tabMainContainer}>
-                {/* <Text style={styles.itemDetail}>Lead</Text> */}
-                <View style ={styles.tabSubContainer}>
-                    <View style={styles.lead_headerContainer}>
-                        <Text style={styles.lead_headerCaption}>Total Leads</Text>
-                        {/* <ImageBackground style={{flex:1,width:scale(100),alignItems:'center',justifyContent:'center'}} source={require('../../../resource/image/badge_platinum.png')} resizeMode={'contain'}> */}
-                        <View style={{flexDirection:'row',alignItems:'center'}}>
-                            <Image source={require('../../../resource/image/grade_platinum.png')} style={{width:scale(60),height:scale(60),resizeMode:'contain'}}/>
-                            <View style={{alignItems:'center'}}>
-                                <Text style ={styles.lead_headerNumber}>50</Text>
-                                <Text style={{fontSize:scale(15)}}>Leads</Text>
-                            </View>
-                        </View>
-                        {/* </ImageBackground> */}
-                    </View>
-                    <View style={styles.lead_bodyContainer}>
-                        <View style={styles.lead_bodyRowContainer}>
-                            <Text style ={styles.lead_bodyNumber}>25</Text>
-                            <Text style ={styles.lead_bodyCaption1}> Attend BOS</Text>
-                        </View>
-                        <View style={{alignItems:'center',flex:1}}>
-                            <Text style ={styles.lead_bodyNumber}>10</Text>
-                            <Text style ={styles.lead_bodyCaption2}> Submit</Text>
-                            <Text style ={styles.lead_bodyCaption2}>Application</Text>
-                        </View>
-                    </View>
-                    
-                    {/* <View style={{width:'100%',flexDirection:'row', alignItems:'center'}}>
-                        <View style={{alignItems:'flex-end',flex:1}}>
-                            <Text style ={{fontSize:scale(20)}}>10</Text>
-                            <Text style={{fontSize:scale(10)}}>Leads</Text>
-                        </View>
-                        <View style={{flex:2}}>
-                            <Text style ={{fontSize:scale(20)}}> Submit Application</Text>
-                        </View>
-                    </View> */}
-                   
-                {/* <PieChart
-                style={{ height: verticalScale(300) }}
-                outerRadius={'80%'}
-                innerRadius={'20%'}
-                data={data}/> */}
-                </View>
-                <View style ={styles.tabSubContainer}>
-                    <View style={styles.app_container}>
-                        <Text style={styles.app_titleText}>Application Process</Text>
-                        <View style={styles.app_rowContainer}>
-                            <View style={styles.app_itemContainer}>
-                                <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                                <Image source={require('../../../resource/image/grade_gold.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
-                                <View style={{justifyContent:'center',alignItems:'center'}}>
-                                <Text style ={styles.app_textNumber}>2</Text>
-                                <Text style ={styles.app_textCaption}>On Process</Text>
-                                </View>
-                                </View>
-                            </View>
-                            <View style={styles.app_itemContainer}>
-                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                            <Image source={require('../../../resource/image/grade_silver.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
-                            <View style={{justifyContent:'center',alignItems:'center'}}>
-                                <Text style ={styles.app_textNumber}>1</Text>
-                                <Text style ={styles.app_textCaption}>AAJI Pending</Text>
-                            </View></View></View>
-                        </View>
-                        <View style={styles.app_rowContainer}>
-                            <View style={styles.app_itemContainer}>
-                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                            <Image source={require('../../../resource/image/grade_gold.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
-                            <View style={{justifyContent:'center',alignItems:'center'}}>
-                                <Text style ={styles.app_textNumber}>2</Text>
-                                <Text style ={styles.app_textCaption}>Code Active</Text>
-                                </View></View></View>
-                            <View style={styles.app_itemContainer}>
-                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                            <Image source={require('../../../resource/image/grade_silver.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
-                            <View style={{justifyContent:'center',alignItems:'center'}}>
-                                <Text style ={styles.app_textNumber}>2</Text>
-                                <Text style ={styles.app_textCaption}>Closing Case</Text>
-                                </View></View></View>
-                        </View>
-                        <View style={styles.app_rowContainer}>
-                            <View style={styles.app_itemContainer}>
-                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                            <Image source={require('../../../resource/image/grade_silver.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
-                            <View style={{justifyContent:'center',alignItems:'center'}}>
-                                <Text style ={styles.app_textNumber}>2</Text>
-                                <Text style ={styles.app_textCaption}>Non Productive</Text>
-                                </View></View></View>
-                            <View style={styles.app_itemContainer}>
-                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                            <Image source={require('../../../resource/image/grade_silver.png')} style={{width:scale(35),height:scale(35),resizeMode:'contain'}}/>
-                            <View style={{justifyContent:'center',alignItems:'center'}}>
-                                <Text style ={styles.app_textNumber}>1</Text>
-                                <Text style ={styles.app_textCaption}>Decline</Text>
-                                </View></View></View>
-                        </View>
-                    </View>
-                </View>
-            </View>
-          );
-    }
-}
-
-class AgentDashboardScreen extends Component {
-    render() {
-        const data = [ 50, 10, 40, 95, -4, -24, 85, 91 ]
-
-        const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7)
-
-        const pieData = data
-            .filter(value => value > 0)
-            .map((value, index) => ({
-                value,
-                svg: { 
-                    fill: randomColor() ,
-                    onPress: () => ToastAndroid.show(String(index),ToastAndroid.SHORT)
-                },
-                key: `pie-${index}`,
-            }))
-
-        const Labels = ({ slices }) => {
-            return slices.map((slice, index) => {
-                const { labelCentroid, pieCentroid, data } = slice;
-                return (
-                    <G key={ index }>
-                        <Line
-                            x1={ labelCentroid[ 0 ] }
-                            y1={ labelCentroid[ 1 ] }
-                            x2={ pieCentroid[ 0 ] }
-                            y2={ pieCentroid[ 1 ] }
-            
-                            stroke={ data.svg.fill }
-                        />
-                        <Circle
-                            cx={ labelCentroid[ 0 ] }
-                            cy={ labelCentroid[ 1 ] }
-                            r={ 15 }
-                            fill={ data.svg.fill }
-                            onPress={()=>ToastAndroid.show(String(index),ToastAndroid.SHORT)}
-                        />
-                    </G>
-                )
-            })
-        }
-
-        const notification = new firebase.notifications.Notification()
-            .setNotificationId('notificationId')
-            .setTitle('My notification title')
-            .setBody('My notification body')
-            .setData({
-                key1: 'value1',
-                key2: 'value2',
-            });
-
-        return (
-            <View style={{ flex: 1 }}>
-              <Text style={styles.itemDetail}>Agent</Text>
-              <PieChart
-                    style={ { height: scale(300) } }
-                    data={ pieData }
-                    innerRadius={ '20%' }
-                    outerRadius={ '70%' }
-                    labelRadius={ '90%' }
-                    animate = {true}
-                >
-                    <Labels/>
-                </PieChart>
-                <TouchableWithoutFeedback onPress={_=>{}}>
-                    <Text>
-                        Notif
-                    </Text>
-                </TouchableWithoutFeedback>
-            </View>
-          );
-    }
-}
-
-const TabNavigator = createMaterialTopTabNavigator(
-    {
-        Lead: {
-            screen: LeadDashboardScreen,
-            navigationOptions: ({ navigation }) => ({
-                title: "Lead",
-                tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'user'} iconStyle={styles.buttonIcon}/>
-            })
-        },
-        Agent: {
-            screen: AgentDashboardScreen,
-            navigationOptions: ({ navigation }) => ({
-                title: "Agent",
-                tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'user'} iconStyle={styles.buttonIcon}/>
-            })
-        }
-    },{
-        lazy:true,
-        swipeEnabled:true,
-        animationEnabled:true,
-        style:{backgroundColor:'white'},
-        navigationOptions:{
-        gesturesEnabled:true
-        },
-        tabBarOptions:{
-            showIcon:true,
-            showLabel:false,
-            style:{
-                backgroundColor:'white'
-            },
-            indicatorStyle:{
-                backgroundColor:defaultColor.Red
-            }
-        },  
-});
 
 export default class HomeScreen extends Component{
     constructor(props){
@@ -316,16 +72,97 @@ export default class HomeScreen extends Component{
         // alert(_getValueById("asd"));
         //ToastAndroid.show(this.state.filter,ToastAndroid.SHORT);
                 
+        const data = [
+            {
+                key: 1,
+                value: 100,
+                svg: { fill: defaultColor.Red_Alt2 },
+            },
+            {
+                key: 2,
+                value: 50,
+                svg: { fill: defaultColor.Red_Alt4 }
+            },
+        ]
+
 
         return (
             <MainBody source={require('../../../resource/image/bg.jpg')}>
                 <Profile imageOnly={false} source={require('../../../resource/image/profile.jpg')} name="Fandi Fadillah" group="Agency BEST"/>
-                {/* <ThumbImage isImage={false} initialLetter={'W'} />
-                <ThumbImage source={require('../../../resource/image/profile.jpg')} /> */}
-                {/* <SwipeList source={this.state.data} onChangeText = {this._searchFilterFunction} onFilterChange={this._updateStatusFilter} filter={String(this.state.filter)}/> */}
-                <View style={{flex:1,marginHorizontal:scale(15)}}>
-                    <TabNavigator/>
-                </View>
+
+                <ScrollView>
+                    <View style={styles.mainContainer}>
+                        <View style={styles.card}>
+                            
+                            <View style={styles.chartContainer}>
+                                <View style={styles.pieChartContainer}>
+                                    <PieChart style={styles.pieChart}
+                                        outerRadius={'60%'}
+                                        innerRadius={'30%'}
+                                        data={data}/>
+                                    <View style={styles.iconChartContainer}>
+                                        <Icon type={'font-awesome'} name={'user-o'} size={40} iconStyle={styles.icon}/>
+                                    </View>
+                                </View>
+                                <View style={styles.chartInfo}>
+                                    <Text style={styles.textBold}>150</Text>
+                                    <Text style={styles.text}>Total Leads</Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.listInfoItem}>
+                                <Icon type={'font-awesome'} name={'calendar-o'} size={40} iconStyle={styles.icon}/>
+                                <View style={styles.listInfoItemContent}>
+                                    <Text style={styles.textBold}>100</Text>
+                                    <Text style={styles.text}>Attend BOS</Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.listInfoItem}>
+                                <Icon type={'font-awesome'} name={'check-circle-o'} size={40} iconStyle={styles.icon}/>
+                                <View style={styles.listInfoItemContent}>
+                                    <Text style={styles.textBold}>50</Text>
+                                    <Text style={styles.text}>Submitted Applications</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={styles.card}>
+                            <View style={styles.infoHorizontalTop}>
+                                <View style={styles.infoItem}>
+                                    <Text style={styles.infoText}>On Process</Text>
+                                    <Text style={styles.infoTextBold}>2 Leads</Text>
+                                </View>
+                                <View style={styles.verticalDivider}></View>
+                                <View style={styles.infoItem}>
+                                    <Text style={styles.infoText}>AAJI Pending</Text>
+                                    <Text style={styles.infoTextBold}>2 Leads</Text>
+                                </View>
+                                <View style={styles.verticalDivider}></View>
+                                <View style={styles.infoItem}>
+                                    <Text style={styles.infoText}>Code Active</Text>
+                                    <Text style={styles.infoTextBold}>2 Leads</Text>
+                                </View>
+                            </View>
+                            <View style={styles.infoHorizontalBottom}>
+                                <View style={styles.infoItem}>
+                                    <Text style={styles.infoText}>Closing Case</Text>
+                                    <Text style={styles.infoTextBold}>2 Leads</Text>
+                                </View>
+                                <View style={styles.verticalDivider}></View>
+                                <View style={styles.infoItem}>
+                                    <Text style={styles.infoText}>Non-Productive</Text>
+                                    <Text style={styles.infoTextBold}>2 Leads</Text>
+                                </View>
+                                <View style={styles.verticalDivider}></View>
+                                <View style={styles.infoItem}>
+                                    <Text style={styles.infoText}>Decline</Text>
+                                    <Text style={styles.infoTextBold}>2 Leads</Text>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
             </MainBody>
         );
     }

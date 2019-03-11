@@ -42,7 +42,7 @@ export const ds_menuData = [{
   },
   {
     id:'8',
-    route:'SundayPunch',
+    route:'GoldenNugget',
     icon: 'star',
     desc: 'Golden Nugget'
   },{
@@ -52,6 +52,51 @@ export const ds_menuData = [{
     desc : 'Logout'
   }
 ];
+
+export const ds_schedulePersonList = [{
+  id:1,
+  name:'Andrea'
+},{
+  id:2,
+  name:'Silva'
+},{
+  id:3,
+  name:'Roberto'
+},{
+  id:4,
+  name:'Damian'
+},{
+  id:5,
+  name:'Dilan'
+},{
+  id:6,
+  name:'Maretno'
+},{
+  id:7,
+  name:'Joseph'
+},{
+  id:8,
+  name:'Sephia'
+},{
+  id:9,
+  name:'Robertus'
+},{
+  id:10,
+  name: 'De Niro'
+},{
+  id:11,
+  name: 'Frank'
+},{
+  id:12,
+  name:'Abagnale'
+},{
+  id:13,
+  name:'Castle'
+},{
+  id:14,
+  name:'Groot'
+}
+]
 
 
   export const ds_LeadListItem = [

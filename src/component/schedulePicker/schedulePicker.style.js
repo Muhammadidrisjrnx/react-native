@@ -100,5 +100,25 @@ export default ScaledSheet.create(
             fontSize:'15@s',
             color:colors.Red
         },
+        schedule_buttonTypeContainer:{
+            //flex:1,
+            flexDirection:'row',
+            height:'70@vs',
+            marginTop:'10@vs',
+            marginHorizontal:'15@s'
+        },
+        schedule_buttonType:{
+            flex:1,
+            alignItems:'center',
+        },
+        schedule_buttonTypeIcon:{
+            fontSize:'30@s',
+            color:colors.White,
+            marginBottom:'3@vs'
+        },  
+        schedule_buttonText:{
+            fontSize:'10@s',
+            color:colors.White
+        },
     }
 )

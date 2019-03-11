@@ -8,7 +8,6 @@ import Profile from '../../component/profile/profile.js';
 import LeadList from './leadList/leadList.js';
 import LeadDetail from './leadDetail/leadDetail.js';
 import ScheduleRegistration from './scheduleRegistration/scheduleRegistration.js';
-import Selection from './selection/selection.js';
 import styles from './leadScreen.style.js';
 import Introduction from './introduction/introduction.js';
 import {ds_Lead} from '../../helper/data.js';
@@ -18,7 +17,6 @@ const LeadStackRouter = createStackNavigator(
       LeadList:LeadList,
       LeadDetail:LeadDetail,
       Schedule:ScheduleRegistration,
-      Selection:Selection,
       Introduction:Introduction
     },
     {
@@ -51,7 +49,6 @@ export default class LeadScreen extends Component{
             } else
             {
                 await AsyncStorage.setItem('t_lead', JSON.stringify(ds_Lead));
-                ToastAndroid.show('Success!',ToastAndroid.SHORT);
             }
             
         } catch (error) {

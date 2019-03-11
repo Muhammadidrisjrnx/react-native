@@ -9,7 +9,6 @@ import SchedulePicker from '../../../component/schedulePicker/schedulePicker.js'
 
 import {ds_Schedule} from '../../../helper/data.js'
 
-
 export default class ScheduleRegistration extends Component{
     constructor(props){
         super(props);

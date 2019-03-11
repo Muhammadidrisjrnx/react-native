@@ -12,11 +12,12 @@ import NewsScreen from './src/screen/news/newsScreen.js'
 import AgentApprovalScreen from './src/screen/agentApproval/agentApprovalScreen.js';
 import BusinessOpportunityScreen from './src/screen/businessOpportunity/businessOpportunityScreen.js';
 import IncomeCalculatorScreen from './src/screen/incomeCalculator/incomeCalculatorScreen.js';
-import SundayPunchScreen from './src/screen/sundayPunch/sundayPunchScreen.js';
+import GoldenNuggetScreen from './src/screen/goldenNugget/goldenNugget.js';
+import GoldenNuggetAddScreen from './src/screen/goldenNugget/goldenNuggetAdd/goldenNuggetAddScreen.js';
 import ScheduleScreen from './src/screen/schedule/scheduleScreen.js';
 import Header from './src/component/header/header.js';
 import Sidebar from './src/component/siderbar/sidebar.js';
-import{ds_Lead,ds_menuData} from './src/helper/data.js'
+import{ds_Lead,ds_menuData} from './src/helper/data.js';
 
 const MainStackRouter = createStackNavigator(
   {
@@ -27,11 +28,11 @@ const MainStackRouter = createStackNavigator(
     AgentApproval:AgentApprovalScreen,
     BusinessOpportunity:BusinessOpportunityScreen,
     IncomeCalculator:IncomeCalculatorScreen,
-    SundayPunch:SundayPunchScreen,
+    GoldenNugget:GoldenNuggetScreen,
   },
   {
     drawerLockMode:'locked-closed',
-    initialRouteName:'BusinessOpportunity',
+    initialRouteName:'GoldenNugget',
     navigationOptions : {
       header:(props)=>(
         <View
@@ -64,7 +65,7 @@ const MainRouter = createDrawerNavigator(
     }
   },
   { 
-    initialRouteName: 'Login',
+    initialRouteName: 'Home',
     contentComponent: props => <Sidebar {... props}/>,
   }
 )

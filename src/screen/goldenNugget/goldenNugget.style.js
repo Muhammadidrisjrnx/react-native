@@ -5,15 +5,18 @@ import {colors} from '../../helper/style/defaultStyle.js'
 export const defaultColor = colors;
 
 export default ScaledSheet.create({
-    sundayPunch_titleContainer:{
+    goldenNugget_titleContainer:{
         height:'50@vs',
         paddingLeft:'15@s',
         justifyContent:'center',
     },
-    sundayPunch_titleText:{
+    goldenNugget_titleText:{
         fontSize:'20@s',
         fontWeight:'bold',
         color:colors.White
     },
-    sundayPunch_body:{},
+    child:{
+        backgroundColor:'transparent'
+    },
+
 })

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {ToastAndroid, View, Text, TouchableOpacity} from 'react-native';
+import {ToastAndroid,Image, View, Text, TouchableOpacity} from 'react-native';
 import {createMaterialTopTabNavigator  } from 'react-navigation';
 import Moment from 'moment';
 import {Icon} from 'react-native-elements';
@@ -27,10 +27,6 @@ class PersonalInformationScreen extends Component {
                     <Text style={styles.itemDetail}>Cabang</Text>
                     <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_brc_id}</Text>
                 </View>
-                {/* <View style={styles.itemContainer}>
-                    <Text style={styles.itemDetail}>Nama Lengkap</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>: Jabatan</Text>
-                </View> */}
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Kode</Text>
                     <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_code}</Text>
@@ -55,16 +51,7 @@ class PersonalInformationScreen extends Component {
                     <Text style={styles.itemDetail}>Jenis Kelamin</Text>
                     <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_sex=='F'?'Perempuan':'Pria'}</Text>
                 </View>
-            </View>
-        );
-    }
-  }
-  
-  class AdditionalInformationScreen extends Component {
-    render() {
-        const data = this.props.screenProps.data;
-        return (
-            <View style={styles.tabContainer}>
+                <View style={styles.tabContainer}>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Status Perkawinan</Text>
                     <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_marital_status}</Text>
@@ -84,6 +71,47 @@ class PersonalInformationScreen extends Component {
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Email</Text>
                     <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_email}</Text>
+                </View>
+            </View>
+            </View>
+        );
+    }
+  }
+  
+  class SelectionInformationScreen extends Component {
+    render() {
+        const data = this.props.screenProps.data;
+        return (
+            <View style={styles.tabContainer}>
+                <View style={styles.itemContainer}>
+                    <Text style={styles.itemDetail}>Achievement Drive</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>5</Text>
+                    <Icon iconStyle={[styles.itemDetail,styles.star]} type="font-awesome" name={'star'}></Icon>
+                </View>
+                <View style={styles.itemContainer}>
+                    <Text style={styles.itemDetail}>Thread of Discontent</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>3</Text>
+                    <Icon iconStyle={[styles.itemDetail,styles.star]} type="font-awesome" name={'star'}></Icon>
+                </View>
+                <View style={styles.itemContainer}>
+                    <Text style={styles.itemDetail}>Money Motivated</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>3</Text>
+                    <Icon iconStyle={[styles.itemDetail,styles.star]} type="font-awesome" name={'star'}></Icon>
+                </View>
+                <View style={styles.itemContainer}>
+                    <Text style={styles.itemDetail}>Integrity</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>4</Text>
+                    <Icon iconStyle={[styles.itemDetail,styles.star]} type="font-awesome" name={'star'}></Icon>
+                </View>
+                <View style={styles.itemContainer}>
+                    <Text style={styles.itemDetail}>Energy Level</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>5</Text>
+                    <Icon iconStyle={[styles.itemDetail,styles.star]} type="font-awesome" name={'star'}></Icon>
+                </View>
+                <View style={styles.itemContainer}>
+                    <Text style={styles.itemDetail}>Learning Ability</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>5</Text>
+                    <Icon iconStyle={[styles.itemDetail,styles.star]} type="font-awesome" name={'star'}></Icon>
                 </View>
             </View>
         );
@@ -165,8 +193,15 @@ class PersonalInformationScreen extends Component {
   class DocumentInformationScreen extends Component {
     render() {
       return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={styles.itemDetail}>Settings!</Text>
+        <View style={styles.tabContainer}>
+            <View style={styles.itemTitleContainer}>
+                <Text style={styles.itemTitle}>KTP</Text>
+                <Image source={require('../../../../resource/image/profile.jpg')} />
+            </View>
+            <View style={styles.itemTitleContainer}>
+                <Text style={styles.itemTitle}>Foto 3x4</Text>
+                <Image source={require('../../../../resource/image/profile.jpg')} />
+            </View>
         </View>
       );
     }
@@ -178,13 +213,6 @@ class PersonalInformationScreen extends Component {
         navigationOptions: ({ navigation }) => ({
             title: "Identitas Calon Agent",
             tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'user'} iconStyle={styles.buttonIcon}/>
-        })
-    },
-    Additional: {
-        screen: AdditionalInformationScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: "Informasi Tambahan",
-            tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'address-card'} iconStyle={styles.buttonIcon}/>
         })
     },
     ExperienceAndBanking: {
@@ -206,6 +234,13 @@ class PersonalInformationScreen extends Component {
         navigationOptions: ({ navigation }) => ({
             title: "Dokumen",
             tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'file'} iconStyle={styles.buttonIcon}/>
+        })
+    },
+    Selection: {
+        screen: SelectionInformationScreen,
+        navigationOptions: ({ navigation }) => ({
+            title: "Selection",
+            tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'star'} iconStyle={styles.buttonIcon}/>
         })
     },
     

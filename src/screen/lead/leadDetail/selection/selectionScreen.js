@@ -5,9 +5,9 @@ import Accordion from 'react-native-collapsible/Accordion';
 import {Rating,FormLabel,FormInput,FormValidationMessage} from 'react-native-elements'
 import {scale,verticalScale} from 'react-native-size-matters';
 
-import styles,{defaultColor} from './selection.style.js';
+import styles,{defaultColor} from './selectionScreen.style.js';
 
-export default class Selection extends Component {
+export default class SelectionScreen extends Component {
     state = {
         activeSections: [],
     }
@@ -29,7 +29,7 @@ export default class Selection extends Component {
             <Rating
                 type="star"
                 startingValue={3}
-                ratingCount={10}
+                ratingCount={5}
                 imageSize={scale(30)}
                 style={{ paddingVertical: scale(10) , alignSelf:'center'}}
                 />
@@ -54,7 +54,6 @@ export default class Selection extends Component {
     }
 
     _updateSections = activeSections => {
-        ToastAndroid.show(JSON.stringify(activeSections),ToastAndroid.SHORT);
         this.setState({ activeSections });
       };
 

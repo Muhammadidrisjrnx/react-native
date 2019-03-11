@@ -4,13 +4,14 @@ import {SearchBar,Icon} from 'react-native-elements';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {scale,verticalScale,moderateScale} from 'react-native-size-matters';
 import { Dropdown } from 'react-native-material-dropdown';
+
 import PropTypes from 'prop-types';
 
 import ThumbImage from '../../component/thumbImage/thumbimage.js';
 import ModalSelector from '../modalSelector/modalSelector.js';
 
 import styles,{defaultColor} from './swipelist.style.js';
-import {ds_LeadListItem, ds_StatusFilter} from '../../helper/data.js'
+import {ds_LeadListItem, ds_StatusFilter} from '../../helper/data.js';
 
 SubItem = (props) =>{
     return(

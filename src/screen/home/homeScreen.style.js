@@ -1,88 +1,99 @@
 import {ScaledSheet} from 'react-native-size-matters';
 
 import {colors, screenWidth} from '../../helper/style/defaultStyle.js';
+import { relativeTimeRounding } from 'moment';
 
 export const defaultColor = colors;
 
 export default ScaledSheet.create(
 {
-    buttonIcon:{
+    mainContainer:{
+        padding:20
+    },
+    card:{
+        marginBottom:20,
+        borderRadius:'5@s',
+        backgroundColor: colors.White
+    },
+    chartContainer:{
+        display:'flex',
+        justifyContent:'center',
+        flexDirection:'row'
+    },
+    pieChartContainer:{
+        left:'-20%'
+    },
+    pieChart:{
+        height:200,
+        width:200,
+    },
+    iconChartContainer:{
+        position: 'absolute',
+        left:'42%',
+        top:'40%',
+        zIndex:5
+    },
+    icon:{
         color:colors.Red,
-        fontSize:'20@vs'
+        fontWeight: '800',
     },
-    itemDetail:{
-        color: colors.Red,
-        alignSelf:'center',
-        fontSize:'20@s',
-        fontWeight:'bold',
-        marginTop:'15@vs'
+    chartInfo:{
+        display:'flex',
+        flexDirection:'column',
+        justifyContent:'center',
+        position:'absolute',
+        left:'60%',
+        top:'35%'
     },
-    tabMainContainer:{
+    textBold:{
+        color:colors.Black,
+        fontWeight:'600',
+        fontSize:24
+    },
+    text:{
+        fontSize:16
+    },
+    listInfoItem:{
+        flexDirection:'row',
+        padding:20,
+        borderTopWidth:1,
+        borderTopColor:colors.Grey
+    },
+    listInfoItemContent:{
+        flexDirection:'column',
+        marginLeft:20
+    },
+    infoItem:{
         flex:1,
-        padding:'10@s' 
+        alignSelf:'stretch'
     },
-    tabSubContainer:{
+    infoHorizontalTop:{
         flex:1,
-        alignItems:'center',
-        borderWidth:'3@s',
-        borderColor:colors.Red,
-        marginBottom:'10@vs'
+        flexDirection:'row',
+        justifyContent:'space-evenly',
+        margin:20
     },
-    lead_headerContainer:{
-        alignItems:'center',
-        paddingBottom:'15@s'
-    },
-    lead_headerCaption:{
-        fontSize:'15@s',
-        paddingBottom:'10@vs'
-    },
-    lead_headerNumber:{
-        fontSize:'40@s',
-        fontWeight:'bold',
-        includeFontPadding:false
-    },
-    lead_bodyContainer:{
-        width:'100%',
-        //height:'100@vs',
-        flexDirection:'row'
-    },
-    lead_bodyRowContainer:{
-        alignItems:'center',
-        flex:1
-    },
-    lead_bodyNumber:{
-        fontSize:'25@s'
-    },
-    lead_bodyCaption1:{
-        fontSize:'12@s'
-    },
-    lead_bodyCaption2:{
-        fontSize:'10@s',
-    },
-    app_container:{
-        alignItems:'center',
-        paddingBottom:'15@s'
-    },
-    app_titleText:{
-        fontSize:'15@s',
-        marginBottom:'10@vs'
-    },
-    app_rowContainer:{
-        width:'100%',
-        height:'60@vs',
-        flexDirection:'row'
-    },
-    app_itemContainer:{
+    infoHorizontalBottom:{
         flex:1,
-        //alignItems:'center', 
-        justifyContent:'center'
+        flexDirection:'row',
+        justifyContent:'space-evenly',
+        marginBottom:20,
+        marginLeft:20,
+        marginRight:20,
     },
-    app_textNumber:{
-        fontSize:'15@s',
-        fontWeight:'600'
+    infoText:{
+        fontSize:14,
+        textAlign:'center'
     },
-    app_textCaption:{
-        fontSize:'13@s'
+    infoTextBold:{
+        color:colors.Red,
+        fontWeight:'600',
+        fontSize:20,
+        textAlign:'center'
+    },
+    verticalDivider:{
+        alignSelf:'stretch',
+        borderRightWidth:1,
+        borderRightColor:colors.Red
     }
-
 })
