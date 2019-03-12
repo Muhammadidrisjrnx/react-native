@@ -8,29 +8,7 @@ import PropTypes from 'prop-types';
 
 import {Calendar} from 'react-native-calendars';
 import styles,{defaultColor} from './scheduleTab.style.js';
-
-const BRANCH = [
-    {
-      value:'1',
-      label:'Jakarta',
-      desc:''
-    },
-    {
-      value:'2',
-      label:'Medan',
-      desc:''
-    },
-    {
-      value:'3',
-      label:'Balikpapan',
-      desc:''
-    },
-    {
-      value:'4',
-      label:'Bandung',
-      desc:''
-    }
-];
+import { Tab } from 'native-base';
 
 export default class ScheduleTab extends Component{
     constructor(props) {
@@ -45,7 +23,12 @@ export default class ScheduleTab extends Component{
 
         this.branchRef = this.updateRef.bind(this, 'branch');
 
-        this.markedDates = ['2019-03-03', '2019-03-24','2019-04-04']
+        this.markedDates = {}
+        this.markedDates.myAppointment = ['2019-03-03', '2019-03-24','2019-04-04']
+        this.markedDates.bosSchedule = ['2019-03-01', '2019-03-20','2019-03-04']
+        this.markedDates.aajiSchedule = ['2019-03-02', '2019-03-29','2019-03-14']
+
+        this.createRenderMarkedDatesList()
 
       }
    
@@ -63,19 +46,33 @@ export default class ScheduleTab extends Component{
         this[name] = ref;
       }
 
+    createRenderMarkedDatesList(){
+      this.currentMarkedDatesList = {}
+      this.markedDatesList = [{},{},{}]
+
+      for (var i = 0; i < this.markedDates.myAppointment.length; i++) {
+        this.markedDatesList[0][this.markedDates.myAppointment[i]] = {selected:true,selectedColor:'red'}
+      }
+
+      for (var i = 0; i < this.markedDates.bosSchedule.length; i++) {
+        this.markedDatesList[1][this.markedDates.bosSchedule[i]] = {selected:true,selectedColor:'blue'}
+      }
+
+      for (var i = 0; i < this.markedDates.aajiSchedule.length; i++) {
+        this.markedDatesList[2][this.markedDates.aajiSchedule[i]] = {selected:true,selectedColor:'green'}
+      }
+
+      this.currentMarkedDatesList = this.markedDatesList[0]
+    }
+    
     render(){
         let {branch} = this.state;
         let selectedButton ={borderBottomWidth:verticalScale(2),borderBottomColor:'white'};
-
-        let markedDatesList = {}
-
-        for (var i = 0; i < this.markedDates.length; i++) {
-            markedDatesList[this.markedDates[i]]={selected:true,selectedColor:'red'}
-        }
         
         return(
             <View>
                 <View style={styles.schedule_buttonTypeContainer}>
+
                     <TouchableOpacity style={[styles.schedule_buttonType,this.state.typeSelected==0 && selectedButton]} onPress={() => this.onButtonPress(0)}>
                         <Icon type={'font-awesome'} name={'calendar'} iconStyle={styles.schedule_buttonTypeIcon}/>
                         <Text style={styles.schedule_buttonText}>My Appointment</Text>
@@ -109,7 +106,7 @@ export default class ScheduleTab extends Component{
                         onDayPress={this.onDayPress}
                         style={styles.calendar}
                         hideExtraDays
-                        markedDates={markedDatesList}
+                        markedDates={this.currentMarkedDatesList}
                         />        
                 </ScrollView>               
             </View>
@@ -120,15 +117,39 @@ export default class ScheduleTab extends Component{
         this.setState({
           typeSelected: buttonIndex
         });
+        this.currentMarkedDatesList = this.markedDatesList[buttonIndex]
       }
 
     onDayPress = (day) => {
         this.setState({
           daySelected: day.dateString
         });
-
-        if(this.markedDates.indexOf(day.dateString)>-1){
+        
+        if(this.currentMarkedDatesList.hasOwnProperty(day.dateString)){
             this.props.navigation.navigate('ScheduleDetail')
         }
       }
 }
+
+const BRANCH = [
+  {
+    value:'1',
+    label:'Jakarta',
+    desc:''
+  },
+  {
+    value:'2',
+    label:'Medan',
+    desc:''
+  },
+  {
+    value:'3',
+    label:'Balikpapan',
+    desc:''
+  },
+  {
+    value:'4',
+    label:'Bandung',
+    desc:''
+  }
+];

@@ -63,6 +63,18 @@ export default ScaledSheet.create(
             fontSize:'20@vs',
             marginLeft:5,
             alignSelf:'flex-end'
+        },
+        qualified:{
+            color:colors.Green,
+            fontSize:'20@vs',
+            marginLeft:5,
+            alignSelf:'flex-end'
+        },
+        unqualified:{
+            color:colors.Red,
+            fontSize:'20@vs',
+            marginLeft:5,
+            alignSelf:'flex-end'
         }
     }
 )
