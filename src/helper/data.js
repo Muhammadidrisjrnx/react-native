@@ -109,42 +109,42 @@ export const ds_schedulePersonList = [{
     {
       id:1,
       desc:'Contact Number',
-      field:'agt_mobile_number'
+      field:'agtMobileNumber'
     },
     {
       id:2,
       desc:'Entry Date',
-      field:'agt_createdDate'
+      field:'agtCreateDate'
     },
     {
       id:3,
       desc:'Last Update',
-      field:'agt_updateDate'
+      field:'agtUpdateDate'
     },
     {
       id:4,
       desc:'Status',
-      field:'agt_stat_id'
+      field:'status'
     },
     {
       id:5,
       desc:'Level',
-      field:'agt_lvl_id'
+      field:'level'
     },
     {
       id:6,
       desc:'Email',
-      field:'agt_email'
+      field:'agtEmail'
     },
     {
       id:7,
-      desc:'Profiling',
-      field:'agt_ex_insurance_company'
+      desc:'Ex Insurance Company',
+      field:'agtExInsuranceCompany'
     },
     {
       id:8,
-      desc:'Meeting',
-      field:'agt_dob'
+      desc:'Date of Birth',
+      field:'agtDob'
     },
   ]
 

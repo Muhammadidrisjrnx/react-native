@@ -30,7 +30,7 @@ const MainStackRouter = createStackNavigator(
   },
   {
     drawerLockMode:'locked-closed',
-    initialRouteName:'AgentApproval',
+    initialRouteName:'LeadManagement',
     navigationOptions : {
       header:(props)=>(
         <View
@@ -63,7 +63,7 @@ const MainRouter = createDrawerNavigator(
     }
   },
   { 
-    initialRouteName: 'Home',
+    initialRouteName: 'Login',
     contentComponent: props => <Sidebar {... props}/>,
   }
 )

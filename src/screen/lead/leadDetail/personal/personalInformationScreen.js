@@ -9,6 +9,7 @@ import Moment from 'moment';
 
 
 
+
 export default class PersonalInformationScreen extends Component {
 
     constructor(props){
@@ -37,7 +38,8 @@ export default class PersonalInformationScreen extends Component {
         this._handleJoinDatePicked = (date) => {
           this._hideJoinDatePicker();
           strDate = Moment(date).format('DD MM YYYY')
-          this.state.joinDate=strDate
+        
+          this.changeState('joinDate',strDate)          
         }
 
         this._showBirthDatePicker = () => this.setState({ isBirthDatePickerVisible: true });
@@ -47,13 +49,26 @@ export default class PersonalInformationScreen extends Component {
         this._handleBirthDatePicked = (date) => {
           this._hideBirthDatePicker();       
           strDate = Moment(date).format('DD MM YYYY')
-          this.state.dob=strDate
+          this.changeState('dob',strDate)          
         }
 
         this._handleTextInputChange = (event, name) =>{
-          this.setState({[name]:event.nativeEvent.text})
+          this.changeState(name,event.nativeEvent.text)
         }
 
+        this.changeState= (name,value)=>{
+          this.setState({[name]:value})
+          data = this.state
+          delete data.isBirthDatePickerVisible
+          delete data.isJoinDatePickerVisible
+          delete data.occupation
+          delete data.dependent
+          delete data.status
+          delete data.religion
+          delete data.education
+          delete data.level
+          this.props.screenProps.textInputHandler('personal',this.state)
+        }
     }
 
     render() {
@@ -165,7 +180,7 @@ export default class PersonalInformationScreen extends Component {
                 <FormLabel>Pekerjaan</FormLabel>
                 <FormInput value={this.state.occupation} onChange={(e) => this._handleTextInputChange(e,'ocuppation')}/>
                 <FormLabel>Jumlah Tanggungan</FormLabel>
-                <FormInput value={this.state.dependent} onChange={(e) => this._handleTextInputChange(e,'depeendent')}/>
+                <FormInput value={this.state.dependent} onChange={(e) => this._handleTextInputChange(e,'dependent')}/>
                 <FormLabel>No. HP</FormLabel>
                 <FormInput value={this.state.phone} onChange={(e) => this._handleTextInputChange(e,'phone')}/>
                 <FormLabel>Email</FormLabel>

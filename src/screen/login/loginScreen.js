@@ -5,6 +5,9 @@ import { NavigationActions, StackActions } from 'react-navigation'
 
 import styles,{color} from './login.style.js';
 import MainBody from '../../component/mainBody/mainBody.js'
+import {updateToken,authToken ,agentLogin} from '../../services/authService.js'
+import {getNews} from '../../services/contentService'
+import { HEADER } from '../../class/global.js';
 
 Header = () => {
     return (
@@ -38,7 +41,12 @@ Login = (props) => {
 export default class LoginScreen extends Component{
     constructor(props){
         super(props);
+        
+        authToken().then((res) => {
+            global.token= res.id_token
+        });
     }
+
 
     static navigationOptions = {
         header:null
@@ -51,6 +59,14 @@ export default class LoginScreen extends Component{
             actions: [NavigationActions.navigate({ routeName: 'BusinessOpportunity'})]
         })
         this.props.navigation.dispatch(resetAction)
+        /*
+        getNews().then((res) => {
+            console.warn(JSON.stringify(res))
+        });*/ 
+
+        /*agentLogin().then((res) => {
+            console.warn(JSON.stringify(res))
+        });*/
     }
 
     render()

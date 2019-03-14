@@ -4,7 +4,7 @@ import {Icon} from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 import styles from './newsDetail.style.js';
-import {ds_News} from '../../../helper/data.js'
+import {ds_News} from '../../../helper/data.js';
 
 export default class NewsDetail extends Component{
     constructor(props){
@@ -18,6 +18,7 @@ export default class NewsDetail extends Component{
     render(){
         const { navigation } = this.props;
         const itemId = navigation.getParam('selectedId', '1');
+        const item = navigation.getParam('data');
 
         return(
             <View style={styles.detail_mainContainer}>
@@ -26,9 +27,9 @@ export default class NewsDetail extends Component{
                     <Text style={styles.detail_headerText}>Back</Text>
                 </TouchableOpacity>
                 <ScrollView style={styles.detail_schollView}>
-                    <Image source={ds_News[itemId-1].newsImage} style={styles.detail_Image}/>
-                    <Text style={styles.detail_title}>{ds_News[itemId-1].newsTitle}</Text>
-                    <Text style={styles.detail_content}>{ds_News[itemId-1].newsDesc}</Text>
+                    <Image source={'../../../../resource/image/bg.jpg'} style={styles.detail_Image}/>
+                    <Text style={styles.detail_title}>{item.conTitle}</Text>
+                    <Text style={styles.detail_content}>{item.conDesc}</Text>
                 </ScrollView>
             </View>
         )

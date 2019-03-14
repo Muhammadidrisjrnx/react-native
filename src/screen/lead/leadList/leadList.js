@@ -11,7 +11,7 @@ import SwipeList from '../../../component/swipeList/swipelist.js';
 import {defaultColor} from './leadList.style.js';
 
 import {ds_LeadListData} from '../../../helper/data.js';
-
+import { getAgents } from '../../../services/agentService.js';
 export default class LeadList extends Component{
     static navigationOptions = {
         header:null
@@ -20,7 +20,7 @@ export default class LeadList extends Component{
     constructor(props){
         super(props);
 
-        this._storeData();
+        //this._storeData();
 
         //ToastAndroid.show(JSON.stringify(ds_data), ToastAndroid.LONG);
         this.state=({
@@ -31,6 +31,13 @@ export default class LeadList extends Component{
         });
 
         this._searchFilterFunction = this._searchFilterFunction.bind(this);
+
+        getAgents(global.token).then((res) => {
+            console.warn(JSON.stringify(res))
+            this.setState({
+               data:res
+            })
+        }); 
     }
 
     _storeData = () => {
@@ -179,8 +186,6 @@ export default class LeadList extends Component{
     
 
     render(){ 
-        // alert(_getValueById("asd"));
-        //ToastAndroid.show(JSON.stringify(this.state.data), ToastAndroid.LONG);
         return (
             <View style={{flex:1}}>
             <SwipeList 
@@ -189,9 +194,7 @@ export default class LeadList extends Component{
                 onFilterChange={this._updateStatusFilter} 
                 filter={String(this.state.filter)}
                 onRefresh={this._refreshListData}
-                onPress={(item)=>{this.props.navigation.navigate('LeadDetail',{data:item})}}
-                //onPress={(item)=>{ToastAndroid.show(JSON.stringify(item), ToastAndroid.SHORT)}}
-                //onPress={(item)=>{this.print(item)}}
+                onPress={(item)=>{this.props.navigation.navigate('LeadDetail',{data:item,type:'detail'})}}
                 onPress_Call={ (number) => {this.call(number)}}
                 onPress_Email={(email)=>{this.mailTo(email)}}
                 onPress_Introduction={_=>{this.navigateToIntroduction()}}
@@ -206,12 +209,6 @@ export default class LeadList extends Component{
                     <Icon name="add" style={{color:defaultColor.Red}}/>
                 </Fab>
             </View>
-            // <MainList
-            //     data={this.state.data}
-            //     initialNumToRender={5}
-            //     onRefresh={this._refreshListData}
-            //     //removeClippedSubviews={true}
-            // />
         );
     }
 

@@ -17,7 +17,7 @@ SubItem = (props) =>{
     return(
         <View>
             {/* CONTACT NUMBER */}
-            <View key={props.item.agt_id} style={styles.listItem_SubTitleContainer}>
+            <View key={props.id} style={styles.listItem_SubTitleContainer}>
                 <Text style={styles.listItem_SubTitleCaption}>{ds_LeadListItem[0].desc}</Text>
                 <Text style={styles.listItem_SubTitleValue}>: {props.item[ds_LeadListItem[0].field]}</Text>
             </View>
@@ -25,7 +25,7 @@ SubItem = (props) =>{
             {/* Status */}
             <View key={props.item.agt_id} style={styles.listItem_SubTitleContainer}>
                 <Text style={styles.listItem_SubTitleCaption}>{ds_LeadListItem[3].desc}</Text>
-                <Text style={styles.listItem_SubTitleValue}>: {props.item[ds_LeadListItem[3].field]}</Text>
+                <Text style={styles.listItem_SubTitleValue}>: {props.item[ds_LeadListItem[3].field].statName}</Text>
             </View>
 
             {/* LEVEL */}
@@ -52,16 +52,17 @@ ListItem = (props) =>{
     return(
         <TouchableHighlight style={{backgroundColor:'white'}} underlayColor={'#AAA'} onPress={_onPress}>
             <View style={styles.listItem_ColumnDivider}>
-                {
+                {/*
                     props.item.agt_createdBy !=0 &&
-                    <ThumbImage source={props.item.LeadImage} />
+                    <ThumbImage source={props.item.LeadImage} /> */
                 }
-                {
+                {/* 
                     props.item.agt_createdBy ==1 &&
-                    <ThumbImage isImage={false} initialLetter={props.item.agt_name.substring(0,1)} />
+                   <ThumbImage isImage={false} initialLetter={props.item.agt_name.substring(0,1)} /> */
                 }
+                <ThumbImage isImage={false} initialLetter={props.item.agtName.substring(0,1)} />
                 <View style={styles.listItem_TextContainer}>
-                    <Text style={styles.listItem_Title}>{props.item.agt_name}</Text>
+                    <Text style={styles.listItem_Title}>{props.item.agtName}</Text>
                     <SubItem item={props.item} />
                 </View>
                 <Icon type={'font-awesome'} name={'chevron-left'} iconStyle={styles.swipeIcon}/>
@@ -170,10 +171,10 @@ export default class SwipeList extends Component{
     _renderHiddenItem =(data, rowMap) =>{
         return(
             <ListHiddenItem 
-                onPress_Call ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Call(data.item.agt_mobile_number)}}
-                onPress_Email ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Email(data.item.agt_email)}}
-                onPress_Introduction ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Introduction(data.item.agt_id)}}
-                onPress_Schedule ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Schedule(data.item.agt_id)}}
+                onPress_Call ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Call(data.item.agtMobileNumber)}}
+                onPress_Email ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Email(data.item.agtEmail)}}
+                onPress_Introduction ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Introduction(data.item.id)}}
+                onPress_Schedule ={ _ => {this._closeRow(rowMap, data.item.id); this.props.onPress_Schedule(data.item.id)}}
                 onPress={ _ => this._closeRow(rowMap, data.item.id)}
             />
         )
@@ -213,6 +214,7 @@ export default class SwipeList extends Component{
     }
 
     render(){
+        //<SearchPanel selected = {this.props.filter} onChangeText={this.props.onChangeText} onSelectedFilter={this.props.onFilterChange}/>
         return(
             <View style={styles.mainContainer}>
                 <SearchPanel selected = {this.props.filter} onChangeText={this.props.onChangeText} onSelectedFilter={this.props.onFilterChange}/>
@@ -232,6 +234,7 @@ export default class SwipeList extends Component{
                     swipeRowStyle={styles.flatlist}
                     refreshing={this.state.refreshing}
                     onRefresh={this._onRefresh}
+                    style={{marginBottom:70}}
                 />
             </View>
         )

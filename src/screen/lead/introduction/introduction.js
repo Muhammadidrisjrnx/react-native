@@ -2,8 +2,6 @@ import React,{Component} from 'react';
 import {FlatList, View, Text, TouchableOpacity, AsyncStorage, ToastAndroid, StyleSheet, Animated,ScrollView,Alert,Image,Slider} from 'react-native';
 import {Icon} from 'react-native-elements';
 import PropTypes from 'prop-types';
-import MainBody from '../../../component/mainBody/mainBody.js';
-import Profile from '../../../component/profile/profile.js';
 import styles from './introduction.style.js';
 import Panel from './Panel';
 import { FormLabel,FormInput } from 'react-native-elements';
@@ -180,12 +178,12 @@ export default class Introduction extends Component{
         }
         return 0;
     }
-    // var result = pmt(0.08,12,-2708945684,0,1);
-    var result = pmt((this.state.interest_rate_new_house/100),this.state.realize_new_house,-future_round,0,1);
-    var result_round = Math.round(result);
-    var format = numberWithCommas(result_round);
+    var monthly_saving = -pmt((this.state.interest_rate_new_house/100),this.state.realize_new_house,0,future_round,0);
+    var monthly = monthly_saving/12;
+    var monthly_round = Math.round(monthly);
+    var format = numberWithCommas(monthly_round);
     this.setState({calculated_monthly_saving_new_house:format})
-    }
+  }
   calculate_new_car=()=>{
     var inflation_rate = (1+(this.state.inflation_rate_new_car/100))
     var factor_inflation =Math.pow(inflation_rate,this.state.realize_new_car)
@@ -214,9 +212,10 @@ export default class Introduction extends Component{
   }
  
   // var result = pmt(0.08,12,-2708945684,0,1);
-  var result = pmt((this.state.interest_rate_new_car/100),this.state.realize_new_car,-future_round,0,1);
-  var result_round = Math.round(result);
-  var format = numberWithCommas(result_round);
+  var monthly_saving = -pmt((this.state.interest_rate_new_car/100),this.state.realize_new_car,0,future_round,0);
+  var monthly = monthly_saving/12;
+  var monthly_round = Math.round(monthly);
+  var format = numberWithCommas(monthly_round);
   this.setState({calculated_monthly_saving_new_car:format})
 }
   calculate_education=()=>{
@@ -246,9 +245,10 @@ export default class Introduction extends Component{
       return 0;
   }
   // var result = pmt(0.08,12,-2708945684,0,1);
-  var result = pmt((this.state.interest_rate_education/100),this.state.realize_education,-future_round,0,1);
-  var result_round = Math.round(result);
-  var format = numberWithCommas(result_round);
+  var monthly_saving = -pmt((this.state.interest_rate_education/100),this.state.realize_education,0,future_round,0);
+  var monthly = monthly_saving/12;
+  var monthly_round = Math.round(monthly);
+  var format = numberWithCommas(monthly_round);
   this.setState({calculated_monthly_saving_education:format})
 }
   calculate_holiday=()=>{
@@ -278,9 +278,10 @@ export default class Introduction extends Component{
       return 0;
   }
   // var result = pmt(0.08,12,-2708945684,0,1);
-  var result = pmt((this.state.interest_rate_holiday/100),this.state.realize_holiday,-future_round,0,1);
-  var result_round = Math.round(result);
-  var format = numberWithCommas(result_round);
+  var monthly_saving = -pmt((this.state.interest_rate_holiday/100),this.state.realize_holiday,0,future_round,0);
+  var monthly = monthly_saving/12;
+  var monthly_round = Math.round(monthly);
+  var format = numberWithCommas(monthly_round);
   this.setState({calculated_monthly_saving_holiday:format})
 }
   calculate_others=()=>{
@@ -310,9 +311,10 @@ export default class Introduction extends Component{
       return 0;
   }
   // var result = pmt(0.08,12,-2708945684,0,1);
-  var result = pmt((this.state.interest_rate_others/100),this.state.realize_others,-future_round,0,1);
-  var result_round = Math.round(result);
-  var format = numberWithCommas(result_round);
+  var monthly_saving = -pmt((this.state.interest_rate_others/100),this.state.realize_others,0,future_round,0);
+  var monthly = monthly_saving/12;
+  var monthly_round = Math.round(monthly);
+  var format = numberWithCommas(monthly_round);
   this.setState({calculated_monthly_saving_others:format})
 }
   calculate_get_marriage=()=>{
@@ -342,9 +344,10 @@ export default class Introduction extends Component{
       return 0;
   }
   // var result = pmt(0.08,12,-2708945684,0,1);
-  var result = pmt((this.state.interest_rate_get_marriage/100),this.state.realize_get_marriage,-future_round,0,1);
-  var result_round = Math.round(result);
-  var format = numberWithCommas(result_round);
+  var monthly_saving = -pmt((this.state.interest_rate_get_marriage/100),this.state.realize_get_marriage,0,future_round,0);
+  var monthly = monthly_saving/12;
+  var monthly_round = Math.round(monthly);
+  var format = numberWithCommas(monthly_round);
   this.setState({calculated_monthly_saving_get_marriage:format})
 }
   send_simulation_new_house=()=>{
@@ -379,6 +382,7 @@ export default class Introduction extends Component{
 
   render() {
     return (
+      
       <ScrollView>
       <View style={styles.shape_square}>
       <Text style={{marginTop:10,flexDirection:'row',alignSelf:'center'}}>What are the Top Three dreams for your loved ones?</Text>
@@ -1094,15 +1098,3 @@ export default class Introduction extends Component{
 );
   }
 }
-
-
-
-
-// <View style={{flexDirection:'column',alignSelf:'center'}}>
-//       <View style={{position:'absolute',marginTop:150}}>
-//       <Image
-//       source={require('./hands.png')}
-//       style={{flex:1,width:50,height:50,resizeMode:'contain'}}
-//       ></Image>
-//       </View>
-//       </View>

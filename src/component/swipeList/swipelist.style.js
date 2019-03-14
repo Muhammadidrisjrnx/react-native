@@ -29,7 +29,7 @@ export default ScaledSheet.create({
     },
     flatlist:{
         backgroundColor:colors.White,
-        flex:1
+        flex:1,
     },
     listItem_ColumnDivider:{
         flex:1,

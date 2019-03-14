@@ -18,6 +18,9 @@ import ExperienceAndBankingInformationScreen from './experience/experienceAndBan
 import RecruitInformationScreen from './recruit/recruitInformationScreen.js';
 import DocumentInformationScreen from './document/documentInformationScreen.js';
 import SelectionScreen from './selection/selectionScreen.js';
+import { postAgent, newAgent } from '../../../services/agentService.js';
+import newInformationScreen from './new/newInformationScreen.js';
+import { newValidator } from '../../../class/validator.js';
 
 
 export default class LeadDetail extends Component{
@@ -26,70 +29,64 @@ export default class LeadDetail extends Component{
         super(props);
         
         this.data = this.props.navigation.getParam('data',[]);
+        this.type = this.props.navigation.getParam('type','new');
         
         this.state = {
           //experience screen
+          id:this.data.id,
           experience:{
-            exInsurance: this.data.agt_ex_insurance_company,
-            exExitDate: Moment(this.data.agt_ex_insurance_exit_date).format('DD MMM YYYY'),
-            exExpiredDate: Moment(this.data.agt_ex_aaji_expired).format('DD MMM YYYY'),
-            licenseAgentNo: this.convertNumberToString(this.data.agt_aaji_no),
-            bank: this.convertNumberToString(this.agt_bnk_id),
-            bankAccountNo: this.convertNumberToString(this.agt_bnk_acc_no),
-            bankAccountName: this.convertNumberToString(this.agt_bnk_acc_name),
-            taxId: this.convertNumberToString(this.agt_tax_id),
+            exInsurance: this.data.agtExInsuranceCompany,
+            exExitDate: Moment(this.data.agtExInsuranceExitDate).format('DD MMM YYYY'),
+            exExpiredDate: Moment(this.data.agtExAajiExpired).format('DD MMM YYYY'),
+            licenseAgentNo: this.convertNumberToString(this.data.agtAajiNo),
+            bank: this.convertNumberToString(this.data.bank),
+            bankAccountNo: this.convertNumberToString(this.agtBankAccountNo),
+            bankAccountName: this.convertNumberToString(this.agtBankAccName),
+            taxId: this.convertNumberToString(this.agtTaxId),
           },
 
           //personal screen
           personal : {
-            name:this.data.agt_name,
-            level:this.data.agt_lvl_id,
-            branch:this.data.agt_brc_id,
-            code: this.data.agt_code,
-            status: this.convertNumberToString(this.data.agt_stat_id),
-            pob: 'Paradise City',
-            address: this.data.agt_addr1,
-            address2: this.data.agt_addr2,
-            district: this.data.agt_district,
-            city: this.data.agt_city,
-            idCardNo: this.convertNumberToString(this.data.agt_id_card_no),
-            sex:this.data.agt_sex,
-            education:this.data.edu_id,
-            religion:this.data.agt_reli_id,
-            dob:Moment(this.data.agt_dob).format('DD MM YYYY'),
+            name:this.data.agtName,
+            level:this.convertNumberToString(this.data.level),
+            branch:this.convertNumberToString(this.data.branch),
+            code: this.data.agtCode,
+            status: this.convertNumberToString(this.data.status),
+            pob: this.data.agtPob,
+            address: this.data.agtAddr1,
+            address2: this.data.agtAddr2,
+            district: this.data.agtDistrict,
+            city: this.data.agtCity,
+            idCardNo: this.convertNumberToString(this.data.agtIdCardNo),
+            sex:this.data.agtSex,
+            education:this.convertNumberToString(this.education),
+            religion:this.convertNumberToString(this.religion),
+            dob:Moment(this.data.agtDob).format('DD MM YYYY'),
             joinDate:Moment(this.data.joinDate).format('DD MM YYYY'),
 
-            maritalStatus: this.convertNumberToString(this.data.agt_marital_status),
-            occupation:this.convertNumberToString(this.data.agt_ocu_id),
-            dependent:this.convertNumberToString(this.data.agt_dependent_total),
-            phone:this.convertNumberToString(this.data.agt_mobile_number),
-            email:this.data.agt_email
+            maritalStatus: this.data.agtMaritalStatus,
+            occupation:this.convertNumberToString(this.data.occupation),
+            dependent:this.convertNumberToString(this.data.agtDependentTotal),
+            phone:this.convertNumberToString(this.data.agtMobileNumber),
+            email:this.data.agtEmail
           },
 
           //recruit screen
           recruit:{
-            leaderType: this.convertNumberToString(this.data.agt_leader_type),
+            leaderType: this.data.agtLeaderType,
             leaderName: 'Painem',
             leaderRelation: 'Sebatas teman',
-            directLeaderType: this.convertNumberToString(this.data.agt_leader_type),
-          }
+            directLeaderType: this.data.agtLeaderType,
+          },
+
+          //new screen
+          new:{}
+
         }
 
-        this._handleTextInputChange = (group,name,value) =>{
-          this.setState({[group]:{[name]:value}})
+        this._handleTextInputChange = (name,value) =>{
+          this.setState({[name]:value})
        }
-
-       if(this.data.agt_name){
-          this.state.type='detail'
-        }else{
-          this.state.type='new'
-        }
-    }
-
-     
-
-    _handleTextInputChangeEmpty(n,v){
-      console.warn(n+"-"+v)
     }
 
     convertNumberToString (num){
@@ -97,7 +94,7 @@ export default class LeadDetail extends Component{
       if(num) result=result+num
       return result
     }
-    
+
     onPressApprove () {
       console.warn("Approved")
     }
@@ -107,11 +104,21 @@ export default class LeadDetail extends Component{
     }
 
     onPressSave (){
-      console.warn("Save Button Clicked")
+      this.onPressSubmit()
     }
 
     onPressSubmit() {
-      console.warn("Submitted")
+      if(this.type==='new'){
+        let data = this.state.new
+        if(newValidator(data)){
+          newAgent(global.token, data).then((res) => {
+            console.warn('res: '+res)
+            this.onPressCancel()
+          });
+        }
+      }else{
+        console.warn("Submit clicked")
+      }
     }
 
     onPressCancel (){
@@ -119,9 +126,10 @@ export default class LeadDetail extends Component{
     }
 
     _renderTab(){
-      if(this.state.type==='detail'){
+      
+      if(this.type==='detail'){
         return (
-          <TabNavigator screenProps={{data:this.data, state:this.state, textInputHandler:this._handleTextInputChange}}/>
+          <DetailTabNavigator screenProps={{data:this.data, state:this.state, textInputHandler:this._handleTextInputChange}}/>
         )
       }else{
         return(
@@ -161,10 +169,10 @@ export default class LeadDetail extends Component{
     }
 }
 const NewTabNavigator = createMaterialTopTabNavigator({
-  Personal: {
-      screen: PersonalInformationScreen,
+  New: {
+      screen: newInformationScreen,
       navigationOptions: ({ navigation }) => ({
-          title: "Identitas Calon Agent",
+          title: "New",
           tabBarIcon:({tintColor}) => <Icon type={'font-awesome'} name={'user'} iconStyle={styles.buttonIcon}/>
       })
   }  
@@ -188,7 +196,7 @@ const NewTabNavigator = createMaterialTopTabNavigator({
     }
 });
 
-const TabNavigator = createMaterialTopTabNavigator({
+const DetailTabNavigator = createMaterialTopTabNavigator({
   Personal: {
       screen: PersonalInformationScreen,
       navigationOptions: ({ navigation }) => ({
