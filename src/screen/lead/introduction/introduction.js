@@ -6,8 +6,7 @@ import styles from './introduction.style.js';
 import Panel from './Panel';
 import { FormLabel,FormInput } from 'react-native-elements';
 
-
-export default class Introduction extends Component{
+export default class introduce_page extends Component {
   constructor(props) {
     super(props);
     this.state={
@@ -75,83 +74,114 @@ export default class Introduction extends Component{
       opacity_get_marriage:1,
     }
   }
+
+  showToast = () => {
+    ToastAndroid.show('Max 3 Goals!',ToastAndroid.SHORT);
+  }
+
   new_house=()=>{
-    if(this.state.isHiddenNewHouse == false)
-    {
-      this.setState({isHiddenNewHouse:true})
-      this.setState({opacity_new_house:0.4})
-      this.setState({hitung:this.state.hitung+1})
-    }else
+    if(this.state.isHiddenNewHouse)
     {
       this.setState({isHiddenNewHouse:false})
       this.setState({opacity_new_house:1})
       this.setState({hitung:this.state.hitung-1})
     }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenNewHouse:true})
+      this.setState({opacity_new_house:0.4})
+      this.setState({hitung:this.state.hitung+1})
+    }
+    else
+    {
+      this.showToast();
+    }
   }
   new_car=()=>{
-    if(this.state.isHiddenNewCar == false)
-    {
-      this.setState({isHiddenNewCar:true})
-      this.setState({opacity_new_car:0.4})
-      this.setState({hitung:this.state.hitung+1})
-    }else
+    if(this.state.isHiddenNewCar)
     {
       this.setState({isHiddenNewCar:false})
       this.setState({opacity_new_car:1})
       this.setState({hitung:this.state.hitung-1})
     }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenNewCar:true})
+      this.setState({opacity_new_car:0.4})
+      this.setState({hitung:this.state.hitung+1})
+    }
+    else
+    {
+      this.showToast();
+    }
   }
   education=()=>{
-    if(this.state.isHiddenEducation == false)
-    {
-      this.setState({isHiddenEducation:true})
-      this.setState({opacity_education:0.4})
-      this.setState({hitung:this.state.hitung+1})
-    }else
+    if(this.state.isHiddenEducation)
     {
       this.setState({isHiddenEducation:false})
       this.setState({opacity_education:1})
       this.setState({hitung:this.state.hitung-1})
     }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenEducation:true})
+      this.setState({opacity_education:0.4})
+      this.setState({hitung:this.state.hitung+1})
+    }
+    else
+      this.showToast();
+    
   }
   holiday=()=>{
-    if(this.state.isHiddenHoliday == false)
-    {
-      this.setState({isHiddenHoliday:true})
-      this.setState({opacity_holiday:0.4})
-      this.setState({hitung:this.state.hitung+1})
-    }else
+    if(this.state.isHiddenHoliday)
     {
       this.setState({isHiddenHoliday:false})
       this.setState({opacity_holiday:1})
       this.setState({hitung:this.state.hitung-1})
     }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenHoliday:true})
+      this.setState({opacity_holiday:0.4})
+      this.setState({hitung:this.state.hitung+1})
+    }
+    else
+      this.showToast();
+    
   }
   others=()=>{
-    if(this.state.isHiddenOthers == false)
-    {
-      this.setState({isHiddenOthers:true})
-      this.setState({opacity_others:0.4})
-      this.setState({hitung:this.state.hitung+1})
-    }else
+    if(this.state.isHiddenOthers)
     {
       this.setState({isHiddenOthers:false})
       this.setState({opacity_others:1})
       this.setState({hitung:this.state.hitung-1})
     }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenOthers:true})
+      this.setState({opacity_others:0.4})
+      this.setState({hitung:this.state.hitung+1})
+    }
+    else
+      this.showToast();
+    
   }
   get_marriage=()=>{
-    if(this.state.isHiddenGetMarriage == false)
-    {
-      this.setState({isHiddenGetMarriage:true})
-      this.setState({opacity_get_marriage:0.4})
-      this.setState({hitung:this.state.hitung+1})
-    }else
+    if(this.state.isHiddenGetMarriage)
     {
       this.setState({isHiddenGetMarriage:false})
       this.setState({opacity_get_marriage:1})
       this.setState({hitung:this.state.hitung-1})
     }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenGetMarriage:true})
+      this.setState({opacity_get_marriage:0.4})
+      this.setState({hitung:this.state.hitung+1})
+    }
+    else
+      this.showToast();
+    
   }
   calculate_new_house=()=>{
       var inflation_rate = (1+(this.state.inflation_rate_new_house/100))
@@ -368,26 +398,108 @@ export default class Introduction extends Component{
   send_simulation_get_marriage=()=>{
 
   }
-   check_hitung=()=>{
-    var hitung = this.state.hitung;
-    if(hitung == 3){
-      this.setState({touch_disable:true});
-      // ToastAndroid.show("Maksimal "+hitung,ToastAndroid.SHORT);
-    }else{
-      this.setState({touch_disable:false});
-      // ToastAndroid.show(""+hitung,ToastAndroid.SHORT);
+  untouch_home=()=>{
+    if(this.state.isHiddenNewHouse)
+    {
+      this.setState({isHiddenNewHouse:false})
+      this.setState({opacity_new_house:1})
+      this.setState({hitung:this.state.hitung-1})
+    }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenNewHouse:true})
+      this.setState({opacity_new_house:0.4})
+      this.setState({hitung:this.state.hitung+1})
+    }
+  }
+  untouch_car=()=>{
+    if(this.state.isHiddenNewCar)
+    {
+      this.setState({isHiddenNewCar:false})
+      this.setState({opacity_new_car:1})
+      this.setState({hitung:this.state.hitung-1})
+    }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenNewCar:true})
+      this.setState({opacity_new_car:0.4})
+      this.setState({hitung:this.state.hitung+1})
+    }
+  }
+  untouch_education=()=>{
+    if(this.state.isHiddenEducation)
+    {
+      this.setState({isHiddenEducation:false})
+      this.setState({opacity_education:1})
+      this.setState({hitung:this.state.hitung-1})
+    }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenEducation:true})
+      this.setState({opacity_education:0.4})
+      this.setState({hitung:this.state.hitung+1})
+    }
+  }
+  untouch_holiday=()=>{
+    if(this.state.isHiddenHoliday)
+    {
+      this.setState({isHiddenHoliday:false})
+      this.setState({opacity_holiday:1})
+      this.setState({hitung:this.state.hitung-1})
+    }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenHoliday:true})
+      this.setState({opacity_holiday:0.4})
+      this.setState({hitung:this.state.hitung+1})
+    }
+  }
+  untouch_others=()=>{
+    if(this.state.isHiddenOthers)
+    {
+      this.setState({isHiddenOthers:false})
+      this.setState({opacity_others:1})
+      this.setState({hitung:this.state.hitung-1})
+    }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenOthers:true})
+      this.setState({opacity_others:0.4})
+      this.setState({hitung:this.state.hitung+1})
+    }
+  }
+  untouch_marriage=()=>{
+    if(this.state.isHiddenGetMarriage)
+    {
+      this.setState({isHiddenGetMarriage:false})
+      this.setState({opacity_get_marriage:1})
+      this.setState({hitung:this.state.hitung-1})
+    }
+    else if (this.state.hitung < 3)
+    {
+      this.setState({isHiddenGetMarriage:true})
+      this.setState({opacity_get_marriage:0.4})
+      this.setState({hitung:this.state.hitung+1})
     }
   }
 
+  _onPress = () => {
+    this.props.navigation.goBack();
+  }
 
   render() {
     return (
-      
-      <ScrollView>
-      <View style={styles.shape_square}>
-      <Text style={{marginTop:10,flexDirection:'row',alignSelf:'center'}}>What are the Top Three dreams for your loved ones?</Text>
-      <Text style={{marginTop:10,marginBottom:15,color:'#d3d3d3',flexDirection:'row',alignSelf:'center'}}
-      onPress={this.check_hitung}>Drag Max 3 Goals</Text>
+
+      <View style={styles.detail_mainContainer}>
+      <TouchableOpacity style={styles.detail_headerBackButton} onPress={this._onPress}>
+          <Icon type={'font-awesome'} name={'angle-left'} iconStyle={styles.detail_headerIcon}/>
+          <Text style={styles.detail_headerText}>Back</Text>
+      </TouchableOpacity>
+
+      <ScrollView style={{top:10}}>
+      <Text style={{marginTop:10,flexDirection:'row',alignSelf:'center'}}>Apa 3 mimpi utama untuk Anda dan orang orang yang</Text>
+      <Text style={{marginTop:10,flexDirection:'row',alignSelf:'center'}}>Anda cintai?</Text>
+      <Text style={{marginTop:10,marginBottom:15,color:'#d3d3d3',flexDirection:'row',alignSelf:'center'}}>Pilih maksimal 3 mimpi</Text>
       <View style={{flexDirection:'column',alignSelf:'center'}}>
       <TouchableOpacity
       onPress={this.new_house}
@@ -396,12 +508,12 @@ export default class Introduction extends Component{
       style={{
         alignItems:'center',
         justifyContent:'center',
-        width:100,
-        height:100,
+        width:80,
+        height:80,
       }}>
       <Image source={require('./icons/drawable-xhdpi/1.png')}
       style={{flex:1,resizeMode:'contain',opacity:this.state.opacity_new_house}}/>
-      <Text style={{opacity:this.state.opacity_new_house}}>New House</Text>
+      <Text style={{opacity:this.state.opacity_new_house}}>Rumah baru</Text>
       </View>
       </TouchableOpacity>
       </View>
@@ -414,12 +526,12 @@ export default class Introduction extends Component{
       style={{
         alignItems:'center',
         justifyContent:'center',
-        width:100,
-        height:100,
+        width:80,
+        height:80,
       }}>
       <Image source={require('./icons/drawable-xhdpi/2.png')}
       style={{flex:1,resizeMode:'contain',opacity:this.state.opacity_new_car}}/>
-      <Text style={{opacity:this.state.opacity_new_car}}>New Car</Text>
+      <Text style={{opacity:this.state.opacity_new_car}}>Mobil Baru</Text>
       </View>
       </TouchableOpacity>
       </View>
@@ -431,12 +543,14 @@ export default class Introduction extends Component{
       style={{
         alignItems:'center',
         justifyContent:'center',
+        alignContent: 'center',
         width:100,
         height:100,
       }}>
       <Image source={require('./icons/drawable-xhdpi/5.png')}
       style={{flex:1,resizeMode:'contain',opacity:this.state.opacity_education}}/>
-      <Text style={{opacity:this.state.opacity_education}}>Education</Text>
+      <Text style={{opacity:this.state.opacity_education}}>Pendidikan</Text>
+      <Text style={{opacity:this.state.opacity_education}}>Anak</Text>
       </View>
       </TouchableOpacity>
       </View>
@@ -447,11 +561,11 @@ export default class Introduction extends Component{
       style={{
         alignItems:'center',
         justifyContent:'center',
-        width:100,
-        height:100,
+        width:90,
+        height:90,
       }}>
-      <Image source={require('./icons/drawable-xhdpi/4.png')}
-      style={{flex:1,resizeMode:'contain',opacity:this.state.opacity_get_marriage}}/>
+      <Image source={require('./icons/drawable-xhdpi/hand.png')}
+      style={{flex:1,resizeMode:'contain'}}/>
       </View>
       </TouchableOpacity>
       </View>
@@ -466,12 +580,12 @@ export default class Introduction extends Component{
       style={{
         alignItems:'center',
         justifyContent:'center',
-        width:100,
-        height:100,
+        width:80,
+        height:80,
       }}>
       <Image source={require('./icons/drawable-xhdpi/3.png')}
       style={{flex:1,resizeMode:'contain',opacity:this.state.opacity_holiday}}/>
-      <Text style={{opacity:this.state.opacity_holiday}}>Holiday</Text>
+      <Text style={{opacity:this.state.opacity_holiday}}>Liburan</Text>
       </View>
       </TouchableOpacity>
       </View>
@@ -483,12 +597,12 @@ export default class Introduction extends Component{
       style={{
         alignItems:'center',
         justifyContent:'center',
-        width:100,
-        height:100,
+        width:80,
+        height:80,
       }}>
       <Image source={require('./icons/drawable-xhdpi/6.png')}
       style={{flex:1,resizeMode:'contain',opacity:this.state.opacity_others}}/>
-      <Text style={{opacity:this.state.opacity_others}}>Others</Text>
+      <Text style={{opacity:this.state.opacity_others}}>Lainnya</Text>
       </View>
       </TouchableOpacity>
       </View>
@@ -501,33 +615,34 @@ export default class Introduction extends Component{
       style={{
         alignItems:'center',
         justifyContent:'center',
-        width:100,
-        height:100,
+        width:80,
+        height:80,
       }}>
       <Image source={require('./icons/drawable-xhdpi/4.png')}
       style={{flex:1,resizeMode:'contain',opacity:this.state.opacity_get_marriage}}/>
-      <Text style={{opacity:this.state.opacity_get_marriage}}>Get Marriage</Text>
+      <Text style={{opacity:this.state.opacity_get_marriage}}>Menikah</Text>
       </View>
       </TouchableOpacity>
       </View>
       <View>
       {this.state.isHiddenNewHouse?
-      <Panel title="New House">
+      <View>
+      <Panel title="Rumah Baru" source={require('./icons/drawable-xhdpi/trash.png')} onPress_delete={this.untouch_home}>
       <View style={{flexDirection:'row'}}>
         <View style={{flexDirection:'column',flex:1}}>
-        <FormLabel>How much it will cost now ?</FormLabel>
+        <FormLabel>Berapa dana yang dibutuhkan untuk mewujudkan mimpi tersebut ?</FormLabel>
         <FormInput
         maxLength={10}
         onChangeText={(cost)=>this.setState({cost_new_house:cost})}
         keyboardType="numeric"
         ></FormInput>
-        <FormLabel>How much it the existing fund allocated for the dream ?</FormLabel>
+        <FormLabel>Berapa dana yang tersedia saat ini ?</FormLabel>
         <FormInput
         maxLength={9}
         onChangeText={(cost)=>this.setState({allocated_new_house:cost})}
         keyboardType="numeric"
         ></FormInput>
-        <FormLabel>When do you want to realize Your dream ?</FormLabel>
+        <FormLabel>Kapan Anda ingin mewujudkan impian anda ?</FormLabel>
         <View style={{marginTop:15,marginBottom:5}}>
         <Slider
         step={1}
@@ -540,11 +655,11 @@ export default class Introduction extends Component{
         ></Slider>
         <View style={{position:'relative',marginTop:10,marginBottom:10}}>
         <Text style={{position:'absolute',alignSelf:'flex-start'}}> 1 </Text>
-        <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_new_house} years</Text>
+        <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_new_house} tahun</Text>
         <Text style={{alignSelf:'flex-end'}}> 30 </Text>
         </View>
         </View>
-        <FormLabel>Assumption of Inflation rate per year ?</FormLabel>
+        <FormLabel>Asumsi nilai inflasi (%)</FormLabel>
         <View style={{marginTop:10,marginBottom:5}}>
         <Slider
         step={1}
@@ -561,7 +676,7 @@ export default class Introduction extends Component{
         <Text style={{alignSelf:'flex-end'}}> 15% </Text>
         </View>
         </View>
-        <FormLabel>Rate of Investment Return ?</FormLabel>
+        <FormLabel>Asumsi nilai investasi (%)</FormLabel>
         <View style={{marginTop:10,marginBottom:5}}>
         <Slider
         step={1}
@@ -582,15 +697,15 @@ export default class Introduction extends Component{
         <TouchableOpacity style={styles.buttonOpac}
         onPress={this.calculate_new_house}>
                 <Text style={styles.buttonText}>
-                    Calculate
+                    Hitung
                 </Text>
             </TouchableOpacity>
         </View>
-        <FormLabel>Future Need Gap</FormLabel>
+        <FormLabel>Selisih dana yang Anda butuhkan untuk mewujudkan mimpi Anda</FormLabel>
         <View style={{marginTop:10,marginBottom:10}}>
         <Text style={{fontSize:32}}>Rp. {this.state.calculated_future_new_house}</Text>
         </View>
-        <FormLabel>Monthly Savings Required</FormLabel>
+        <FormLabel>Jumlah dana yang perlu Anda tabung per bulan</FormLabel>
         <View style={{marginTop:10,marginBottom:10}}>
         <Text style={{fontSize:32}}>Rp. {this.state.calculated_monthly_saving_new_house}</Text>
         </View>
@@ -598,33 +713,34 @@ export default class Introduction extends Component{
         <TouchableOpacity style={styles.buttonOpac}
         onPress={this.send_simulation_new_house}>
                 <Text style={styles.buttonText}>
-                    Send this simulation
+                    Kirim Hasil Simulasi
                 </Text>
             </TouchableOpacity>
         </View>
         </View>
       </View>
       </Panel>
-        :null
+      </View>
+      :null
       }
       </View>
       <View>
       {this.state.isHiddenNewCar?
-        <Panel title="New Car">
+        <Panel title="Mobil Baru" source={require('./icons/drawable-xhdpi/trash.png')} onPress_delete={this.untouch_car}>
         <View style={{flexDirection:'row'}}>
           <View style={{flexDirection:'column',flex:1}}>
-          <FormLabel>How much it will cost now ?</FormLabel>
+          <FormLabel>Berapa dana yang dibutuhkan untuk mewujudkan mimpi tersebut ?</FormLabel>
           <FormInput
           maxLength={10}
           onChangeText={(cost)=>this.setState({cost_new_car:cost})}
           keyboardType="numeric"
           ></FormInput>
-          <FormLabel>How much it the existing fund allocated for the dream ?</FormLabel>
+          <FormLabel>Berapa dana yang tersedia saat ini ?</FormLabel>
           <FormInput
           maxLength={9}
           onChangeText={(cost)=>this.setState({allocated_new_car:cost})}
           keyboardType="numeric"></FormInput>
-          <FormLabel>When do you want to realize Your dream ?</FormLabel>
+          <FormLabel>Kapan anda ingin mewujudkan impian Anda ?</FormLabel>
           <View style={{marginTop:15,marginBottom:5}}>
           <Slider
           step={1}
@@ -637,11 +753,11 @@ export default class Introduction extends Component{
           ></Slider>
           <View style={{position:'relative',marginTop:10,marginBottom:10}}>
           <Text style={{position:'absolute',alignSelf:'flex-start'}}> 1 </Text>
-          <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_new_car} years</Text>
+          <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_new_car} tahun</Text>
           <Text style={{alignSelf:'flex-end'}}> 30 </Text>
           </View>
           </View>
-          <FormLabel>Assumption of Inflation rate per year ?</FormLabel>
+          <FormLabel>Asumsi nilai inflasi (%)</FormLabel>
           <View style={{marginTop:10,marginBottom:5}}>
           <Slider
           step={1}
@@ -658,7 +774,7 @@ export default class Introduction extends Component{
           <Text style={{alignSelf:'flex-end'}}> 15% </Text>
           </View>
           </View>
-          <FormLabel>Rate of Investment Return ?</FormLabel>
+          <FormLabel>Asumsi nilai investasi (%)</FormLabel>
           <View style={{marginTop:10,marginBottom:5}}>
           <Slider
           step={1}
@@ -679,23 +795,23 @@ export default class Introduction extends Component{
           <TouchableOpacity style={styles.buttonOpac}
           onPress={this.calculate_new_car}>
                   <Text style={styles.buttonText}>
-                      Calculate
+                  Hitung
                   </Text>
               </TouchableOpacity>
           </View>
-          <FormLabel>Future Need Gap</FormLabel>
+          <FormLabel>Selisih dana yang Anda butuhkan untuk mewujudkan mimpi Anda</FormLabel>
           <View style={{marginTop:10,marginBottom:10}}>
           <Text style={{fontSize:32}}>Rp. {this.state.calculated_future_new_car}</Text>
           </View>
           <View style={{marginTop:10,marginBottom:10}}>
-          <FormLabel>Monthly Savings Required</FormLabel>
+          <FormLabel>Jumlah dana yang Anda perlu tabung per bulan</FormLabel>
           <Text style={{fontSize:32}}>Rp. {this.state.calculated_monthly_saving_new_car}</Text>
           </View>
           <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.buttonOpac}
           onPress={this.send_simulation_new_car}>
                   <Text style={styles.buttonText}>
-                      Send this simulation
+                  Kirim Hasil Simulasi
                   </Text>
               </TouchableOpacity>
           </View>
@@ -707,21 +823,21 @@ export default class Introduction extends Component{
       </View>
       <View>
       {this.state.isHiddenEducation?
-     <Panel title="Education">
+     <Panel title="Pendidikan Anak" source={require('./icons/drawable-xhdpi/trash.png')} onPress_delete={this.untouch_education}>
         <View style={{flexDirection:'row'}}>
           <View style={{flexDirection:'column',flex:1}}>
-          <FormLabel>How much it will cost now ?</FormLabel>
+          <FormLabel>Berapa dana yang dibutuhkan untuk mewujudkan mimpi tersebut ?</FormLabel>
           <FormInput
           maxLength={10}
           onChangeText={(cost)=>this.setState({cost_education:cost})}
           keyboardType="numeric"
           ></FormInput>
-          <FormLabel>How much it the existing fund allocated for the dream ?</FormLabel>
+          <FormLabel>Berapa dana yang tersedia saat ini ?</FormLabel>
           <FormInput
           maxLength={9}
           onChangeText={(cost)=>this.setState({allocated_education:cost})}
           keyboardType="numeric"></FormInput>
-          <FormLabel>When do you want to realize Your dream ?</FormLabel>
+          <FormLabel>Kapan anda ingin mewujudkan impian Anda ?</FormLabel>
           <View style={{marginTop:15,marginBottom:5}}>
           <Slider
           step={1}
@@ -734,11 +850,11 @@ export default class Introduction extends Component{
           ></Slider>
           <View style={{position:'relative',marginTop:10,marginBottom:10}}>
           <Text style={{position:'absolute',alignSelf:'flex-start'}}> 1 </Text>
-          <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_education} years</Text>
+          <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_education} tahun</Text>
           <Text style={{alignSelf:'flex-end'}}> 30 </Text>
           </View>
           </View>
-          <FormLabel>Assumption of Inflation rate per year ?</FormLabel>
+          <FormLabel>Asumsi nilai inflasi (%)</FormLabel>
           <View style={{marginTop:10,marginBottom:5}}>
           <Slider
           step={1}
@@ -755,7 +871,7 @@ export default class Introduction extends Component{
           <Text style={{alignSelf:'flex-end'}}> 15% </Text>
           </View>
           </View>
-          <FormLabel>Rate of Investment Return ?</FormLabel>
+          <FormLabel>Asumsi nilai investasi (%)</FormLabel>
           <View style={{marginTop:10,marginBottom:5}}>
           <Slider
           step={1}
@@ -776,15 +892,15 @@ export default class Introduction extends Component{
           <TouchableOpacity style={styles.buttonOpac}
           onPress={this.calculate_education}>
                   <Text style={styles.buttonText}>
-                      Calculate
+                  Hitung
                   </Text>
               </TouchableOpacity>
           </View>
-          <FormLabel>Future Need Gap</FormLabel>
+          <FormLabel>Selisih dana yang Anda butuhkan untuk mewujudkan mimpi Anda</FormLabel>
           <View style={{marginTop:10,marginBottom:10}}>
           <Text style={{fontSize:32}}>RP. {this.state.calculated_future_education}</Text>
           </View>
-          <FormLabel>Monthly Savings Required</FormLabel>
+          <FormLabel>Jumlah dana yang Anda perlu tabung per bulan</FormLabel>
           <View style={{marginTop:10,marginBottom:10}}>
           <Text style={{fontSize:32}}>RP. {this.state.calculated_monthly_saving_education}</Text>
           </View>
@@ -792,7 +908,7 @@ export default class Introduction extends Component{
           <TouchableOpacity style={styles.buttonOpac}
           onPress={this.send_simulation_education}>
                   <Text style={styles.buttonText}>
-                      Send this simulation
+                  Kirim Hasil Simulasi
                   </Text>
               </TouchableOpacity>
           </View>
@@ -804,21 +920,21 @@ export default class Introduction extends Component{
       </View>
       <View>
       {this.state.isHiddenHoliday?
-        <Panel title="Holiday">
+        <Panel title="Liburan" source={require('./icons/drawable-xhdpi/trash.png')} onPress_delete={this.untouch_holiday}>
         <View style={{flexDirection:'row'}}>
           <View style={{flexDirection:'column',flex:1}}>
-          <FormLabel>How much it will cost now ?</FormLabel>
+          <FormLabel>Berapa dana yang dibutuhkan untuk mewujudkan mimpi tersebut ?</FormLabel>
           <FormInput
           maxLength={10}
           onChangeText={(cost)=>this.setState({cost_holiday:cost})}
           keyboardType="numeric"
           ></FormInput>
-          <FormLabel>How much it the existing fund allocated for the dream ?</FormLabel>
+          <FormLabel>Berapa dana yang tersedia saat ini ?</FormLabel>
           <FormInput
           maxLength={9}
           onChangeText={(cost)=>this.setState({allocated_holiday:cost})}
           keyboardType="numeric"></FormInput>
-          <FormLabel>When do you want to realize Your dream ?</FormLabel>
+          <FormLabel>Kapan anda ingin mewujudkan impian Anda ?</FormLabel>
           <View style={{marginTop:15,marginBottom:5}}>
           <Slider
           step={1}
@@ -831,11 +947,11 @@ export default class Introduction extends Component{
           ></Slider>
           <View style={{position:'relative',marginTop:10,marginBottom:10}}>
           <Text style={{position:'absolute',alignSelf:'flex-start'}}> 1 </Text>
-          <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_holiday} years</Text>
+          <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_holiday} tahun</Text>
           <Text style={{alignSelf:'flex-end'}}> 30 </Text>
           </View>
           </View>
-          <FormLabel>Assumption of Inflation rate per year ?</FormLabel>
+          <FormLabel>Asumsi nilai inflasi (%)</FormLabel>
           <View style={{marginTop:10,marginBottom:5}}>
           <Slider
           step={1}
@@ -852,7 +968,7 @@ export default class Introduction extends Component{
           <Text style={{alignSelf:'flex-end'}}> 15% </Text>
           </View>
           </View>
-          <FormLabel>Rate of Investment Return ?</FormLabel>
+          <FormLabel>Asumsi nilai investasi (%)</FormLabel>
           <View style={{marginTop:10,marginBottom:5}}>
           <Slider
           step={1}
@@ -873,15 +989,15 @@ export default class Introduction extends Component{
           <TouchableOpacity style={styles.buttonOpac}
           onPress={this.calculate_holiday}>
                   <Text style={styles.buttonText}>
-                      Calculate
+                  Hitung
                   </Text>
               </TouchableOpacity>
           </View>
-          <FormLabel>Future Need Gap</FormLabel>
+          <FormLabel>Selisih dana yang Anda butuhkan untuk mewujudkan mimpi Anda</FormLabel>
           <View style={{marginTop:10,marginBottom:10}}>
           <Text style={{fontSize:32}}>RP. {this.state.calculated_future_holiday}</Text>
           </View>
-          <FormLabel>Monthly Savings Required</FormLabel>
+          <FormLabel>Jumlah dana yang Anda perlu tabung per bulan</FormLabel>
           <View style={{marginTop:10,marginBottom:10}}>
           <Text style={{fontSize:32}}>RP. {this.state.calculated_monthly_saving_holiday}</Text>
           </View>
@@ -889,7 +1005,7 @@ export default class Introduction extends Component{
           <TouchableOpacity style={styles.buttonOpac}
           onPress={this.send_simulation_holiday}>
                   <Text style={styles.buttonText}>
-                      Send this simulation
+                  Kirim Hasil Simulasi
                   </Text>
               </TouchableOpacity>
           </View>
@@ -901,21 +1017,21 @@ export default class Introduction extends Component{
       </View>
       <View>
       {this.state.isHiddenOthers?
-        <Panel title="Others">
+        <Panel title="Lainnya" source={require('./icons/drawable-xhdpi/trash.png')} onPress_delete={this.untouch_others}>
         <View style={{flexDirection:'row'}}>
           <View style={{flexDirection:'column',flex:1}}>
-          <FormLabel>How much it will cost now ?</FormLabel>
+          <FormLabel>Berapa dana yang dibutuhkan untuk mewujudkan mimpi tersebut ?</FormLabel>
           <FormInput
           maxLength={10}
           onChangeText={(cost)=>this.setState({cost_others:cost})}
           keyboardType="numeric"
           ></FormInput>
-          <FormLabel>How much it the existing fund allocated for the dream ?</FormLabel>
+          <FormLabel>Berapa dana yang tersedia saat ini ?</FormLabel>
           <FormInput
           maxLength={9}
           onChangeText={(cost)=>this.setState({allocated_others:cost})}
           keyboardType="numeric"></FormInput>
-          <FormLabel>When do you want to realize Your dream ?</FormLabel>
+          <FormLabel>Kapan anda ingin mewujudkan impian Anda ?</FormLabel>
           <View style={{marginTop:15,marginBottom:5}}>
           <Slider
           step={1}
@@ -928,11 +1044,11 @@ export default class Introduction extends Component{
           ></Slider>
           <View style={{position:'relative',marginTop:10,marginBottom:10}}>
           <Text style={{position:'absolute',alignSelf:'flex-start'}}> 1 </Text>
-          <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_others} years</Text>
+          <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_others} tahun</Text>
           <Text style={{alignSelf:'flex-end'}}> 30 </Text>
           </View>
           </View>
-          <FormLabel>Assumption of Inflation rate per year ?</FormLabel>
+          <FormLabel>Asumsi nilai inflasi (%)</FormLabel>
           <View style={{marginTop:10,marginBottom:5}}>
           <Slider
           step={1}
@@ -949,7 +1065,7 @@ export default class Introduction extends Component{
           <Text style={{alignSelf:'flex-end'}}> 15% </Text>
           </View>
           </View>
-          <FormLabel>Rate of Investment Return ?</FormLabel>
+          <FormLabel>Asumsi nilai investasi (%)</FormLabel>
           <View style={{marginTop:10,marginBottom:5}}>
           <Slider
           step={1}
@@ -970,15 +1086,15 @@ export default class Introduction extends Component{
           <TouchableOpacity style={styles.buttonOpac}
           onPress={this.calculate_others}>
                   <Text style={styles.buttonText}>
-                      Calculate
+                  Hitung
                   </Text>
               </TouchableOpacity>
           </View>
-          <FormLabel>Future Need Gap</FormLabel>
+          <FormLabel>Selisih dana yang Anda butuhkan untuk mewujudkan mimpi Anda</FormLabel>
           <View style={{marginTop:10,marginBottom:10}}>
           <Text style={{fontSize:32}}>RP. {this.state.calculated_future_others}</Text>
           </View>
-          <FormLabel>Monthly Savings Required</FormLabel>
+          <FormLabel>Jumlah dana yang Anda perlu tabung per bulan</FormLabel>
           <View style={{marginTop:10,marginBottom:10}}>
           <Text style={{fontSize:32}}>RP. {this.state.calculated_monthly_saving_others}</Text>
           </View>
@@ -986,7 +1102,7 @@ export default class Introduction extends Component{
           <TouchableOpacity style={styles.buttonOpac}
           onPress={this.send_simulation_others}>
                   <Text style={styles.buttonText}>
-                      Send this simulation
+                  Kirim Hasil Simulasi
                   </Text>
               </TouchableOpacity>
           </View>
@@ -998,21 +1114,21 @@ export default class Introduction extends Component{
       </View>
       <View>
       {this.state.isHiddenGetMarriage?
-        <Panel title="Get Marriage">
+        <Panel title="Menikah" source={require('./icons/drawable-xhdpi/trash.png')} onPress_delete={this.untouch_marriage}>
         <View style={{flexDirection:'row'}}>
           <View style={{flexDirection:'column',flex:1}}>
-          <FormLabel>How much it will cost now ?</FormLabel>
+          <FormLabel>Berapa dana yang dibutuhkan untuk mewujudkan mimpi tersebut ?</FormLabel>
           <FormInput
           maxLength={10}
           onChangeText={(cost)=>this.setState({cost_get_marriage:cost})}
           keyboardType="numeric"
           ></FormInput>
-          <FormLabel>How much it the existing fund allocated for the dream ?</FormLabel>
+          <FormLabel>Berapa dana yang tersedia saat ini ?</FormLabel>
           <FormInput
           maxLength={9}
           onChangeText={(cost)=>this.setState({allocated_get_marriage:cost})}
           keyboardType="numeric"></FormInput>
-          <FormLabel>When do you want to realize Your dream ?</FormLabel>
+          <FormLabel>Kapan anda ingin mewujudkan impian Anda ?</FormLabel>
           <View style={{marginTop:15,marginBottom:5}}>
           <Slider
           step={1}
@@ -1025,11 +1141,11 @@ export default class Introduction extends Component{
           ></Slider>
           <View style={{position:'relative',marginTop:10,marginBottom:10}}>
           <Text style={{position:'absolute',alignSelf:'flex-start'}}> 1 </Text>
-          <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_get_marriage} years</Text>
+          <Text style={{position:'absolute',alignSelf:'center'}}> {this.state.realize_get_marriage} tahun</Text>
           <Text style={{alignSelf:'flex-end'}}> 30 </Text>
           </View>
           </View>
-          <FormLabel>Assumption of Inflation rate per year ?</FormLabel>
+          <FormLabel>Asumsi nilai inflasi (%)</FormLabel>
           <View style={{marginTop:10,marginBottom:5}}>
           <Slider
           step={1}
@@ -1046,7 +1162,7 @@ export default class Introduction extends Component{
           <Text style={{alignSelf:'flex-end'}}> 15% </Text>
           </View>
           </View>
-          <FormLabel>Rate of Investment Return ?</FormLabel>
+          <FormLabel>Asumsi nilai investasi (%)</FormLabel>
           <View style={{marginTop:10,marginBottom:5}}>
           <Slider
           step={1}
@@ -1067,15 +1183,15 @@ export default class Introduction extends Component{
           <TouchableOpacity style={styles.buttonOpac}
           onPress={this.calculate_get_marriage}>
                   <Text style={styles.buttonText}>
-                      Calculate
+                  Hitung
                   </Text>
               </TouchableOpacity>
           </View>
-          <FormLabel>Future Need Gap</FormLabel>
+          <FormLabel>Selisih dana yang Anda butuhkan untuk mewujudkan mimpi Anda</FormLabel>
           <View style={{marginTop:10,marginBottom:10}}>
           <Text style={{fontSize:32}}>RP. {this.state.calculated_future_get_marriage}</Text>
           </View>
-          <FormLabel>Monthly Savings Required</FormLabel>
+          <FormLabel>Jumlah dana yang Anda perlu tabung per bulan</FormLabel>
           <View style={{marginTop:10,marginBottom:10}}>
           <Text style={{fontSize:32}}>RP. {this.state.calculated_monthly_saving_get_marriage}</Text>
           </View>
@@ -1083,7 +1199,7 @@ export default class Introduction extends Component{
           <TouchableOpacity style={styles.buttonOpac}
           onPress={this.send_simulation_get_marriage}>
                   <Text style={styles.buttonText}>
-                      Send this simulation
+                  Kirim Hasil Simulasi
                   </Text>
               </TouchableOpacity>
           </View>
@@ -1093,8 +1209,8 @@ export default class Introduction extends Component{
           :null
         }
       </View>
-      </View>
       </ScrollView>
+      </View>
 );
   }
 }

@@ -6,7 +6,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import styles,{defaultColor} from '../leadDetail.style.js';
 import thumbimageStyle from '../../../../component/thumbImage/thumbimage.style.js';
 import Moment from 'moment';
-import { requiredValidator, lengthValidator, emailValidator, phoneValidator } from '../../../../class/validator.js';
+import { requiredValidator, lengthValidator, emailValidator, phoneValidator } from '../../../../helper/validator.js';
 
 
 
@@ -19,9 +19,11 @@ export default class newInformationScreen extends Component {
         this.screenState= this.props.screenProps.state;
 
         this.state = {
-          agtName:'nama tes'.toUpperCase(),
-          agtMobileNumber: '0812345'.toUpperCase(),
-          agtEmail: 'email@email.com'.toUpperCase(),
+          agtName:'',
+          agtMobileNumber: '',
+          agtEmail: '',
+          agtRecruitType: global.user.level,
+          agtRecruitId: global.user.agentCode
         }
   
         this._handleTextInputChange = (event, name) =>{
@@ -29,8 +31,9 @@ export default class newInformationScreen extends Component {
         }
 
         this.changeState= (name,value)=>{
-          this.setState({[name]:value})
-          this.props.screenProps.textInputHandler('new',this.state)
+          this.setState({[name]:value},()=>{
+            this.props.screenProps.textInputHandler('new',this.state)
+          })
         }
     }
 

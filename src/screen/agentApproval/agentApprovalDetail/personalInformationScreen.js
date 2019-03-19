@@ -17,60 +17,60 @@ export default class PersonalInformationScreen extends Component {
             <View style={styles.tabContainer}>
                 <View style={styles.itemTitleContainer}>
                     <ThumbImage source={require('../../../../resource/image/profile.jpg')} />
-                    <Text style={styles.itemTitle}>{data.agt_name}</Text>
+                    <Text style={styles.itemTitle}>{data.agtName}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Jabatan</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_lvl_id}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.level.lvlName}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Cabang</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_brc_id}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.branch?data.branch.brcName:''}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Kode</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_code}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtCode}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Join Date</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{Moment(data.agt_join_date).format('DD MMM YYYY')}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtJoinDate}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Agent Status</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_stat_id}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.status.statName}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Tempat Lahir</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>asd</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtPob}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Tanggal Lahir</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{Moment(data.agt_dob).format('DD MMM YYYY')}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtDob}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Jenis Kelamin</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_sex=='F'?'Perempuan':'Pria'}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtSex=='F'?'Perempuan':'Pria'}</Text>
                 </View>
                 <View style={styles.tabContainer}>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Status Perkawinan</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_marital_status}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtMaritalStatus}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Pekerjaan</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_ocu_id}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.occupation?data.occupation.ocuName:''}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Jumlah Tanggungan</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_dependent_total}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtDependentTotal}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>No. HP</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_mobile_number}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtMobileNumber}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Email</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_email}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtEmail}</Text>
                 </View>
             </View>
             </View>

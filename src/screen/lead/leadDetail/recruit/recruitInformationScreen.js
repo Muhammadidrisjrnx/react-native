@@ -12,28 +12,48 @@ export default class RecruitInformationScreen extends Component {
       this.data = this.props.screenProps.data;
 
       this.screenState= this.props.screenProps.state;
-
+      
       this.state = this.screenState.recruit
 
+      console.warn(this.state)
+
       this._handleTextInputChange = (event, name) =>{
-        this.setState({[name]:event.nativeEvent.text})
+        this.changeState(name,event.nativeEvent.text)
       }
+
+      this.changeState= (name,value)=>{
+        this.setState({[name]:value},() => {
+
+          data = this.state
+        
+          this.props.screenProps.textInputHandler('recruit',data)
+        })
+      }
+
     }
+
+    /*
+    "agtRecruitType": "FC",
+    "agtRecruitId": "FC0001",
+    "agtRecruitRelation": null,
+    "agtLeaderType": "BM",
+    "agtLeaderId": "BM0003",
+    */
 
     render() {
         const data = this.props.screenProps.data;
         return (
             <ScrollView>
                 <FormLabel>Tipe Perekrut</FormLabel>
-                <FormInput value={this.state.leaderType} onChange={(e) => this._handleTextInputChange(e,'leaderType')}/>
+                <FormInput value={this.state.agtRecruitType+""} editable={false} selectTextOnFocus={false}/>
                 <FormLabel>Nama Perekrut</FormLabel>
-                <FormInput value={this.state.leaderName} onChange={(e) => this._handleTextInputChange(e,'leaderName')}/>
+                <FormInput value={this.state.agtRecruitId+""} editable={false} selectTextOnFocus={false}/>
                 <FormLabel>Hubungan dengan Perekrut</FormLabel>
-                <FormInput value={this.state.leaderRelation} onChange={(e) => this._handleTextInputChange(e,'leaderRelation')}/>
+                <FormInput autoCapitalize="characters" value={this.state.agtRecruitRelation} onChange={(e) => this._handleTextInputChange(e,'agtRecruitRelation')}/>
                 <FormLabel>Direct Leader Type</FormLabel>
-                <FormInput value={this.state.leaderType} onChange={(e) => this._handleTextInputChange(e,'leaderType')}/>
+                <FormInput value={this.state.agtLeaderType+""} editable={false} selectTextOnFocus={false}/>
                 <FormLabel>Direct Leader Name</FormLabel>
-                <FormInput value={this.state.leaderName} onChange={(e) => this._handleTextInputChange(e,'leaderName')}/>
+                <FormInput value={this.state.agtLeaderId+""} editable={false} selectTextOnFocus={false}/>
             </ScrollView>
         );
     }

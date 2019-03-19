@@ -33,4 +33,9 @@ export default ScaledSheet.create({
         height:'15@vs',
         backgroundColor: 'transparent'
     },
+    businessOpportunity_titleText:{
+        fontSize:'20@s',
+        fontWeight:'bold',
+        color:colors.White
+    },
 })

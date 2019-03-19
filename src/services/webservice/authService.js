@@ -1,10 +1,10 @@
-import {BASE_URL, HEADER} from '../class/global.js'
+import {BASE_URL, HEADER} from '../../class/global.js'
 
-export const authToken = () => {
+export const authToken = (username,password) => {
     const URL = BASE_URL+'authenticate'
     data = {
-        'username':'user',
-        'password':'user',
+        'username':username,
+        'password':password,
         'rememberMe':true
     }
     return fetch(URL,{

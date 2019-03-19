@@ -9,7 +9,8 @@ export default ScaledSheet.create({
     introduce_titleText:{
         fontSize:'20@s',
         fontWeight:'bold',
-        color:colors.White
+        color:colors.White,
+        marginTop:10
     },introduce_titleContainer:{
         height:'50@vs',
         paddingLeft:'15@s',
@@ -48,8 +49,11 @@ export default ScaledSheet.create({
         backgroundColor:'#fff',
         flexDirection:'column',
         alignSelf:'center',
-        padding:10,
-        flex:1
+        // padding:10,
+        flex:1,
+        marginRight:10,
+        marginLeft: 10,
+        marginTop:50
     },shape_square_panel:{
         flexDirection:'column',
         borderWidth:1
@@ -81,6 +85,29 @@ export default ScaledSheet.create({
         padding:10,
         paddingTop:30,
         borderWidth:2
-    }
+    },
+    detail_headerBackButton:{
+        flexDirection:'row',
+        paddingHorizontal:'10@s',
+        height:'50@vs',
+        alignItems:'center',
+        borderBottomColor:colors.White,
+        borderBottomWidth:'2@vs'
+    },
+    detail_headerIcon:{
+        fontSize:'30@s'
+    },
+    detail_headerText:{
+        fontSize:'15@s',
+        paddingLeft:'20@s',
+    },
+    detail_mainContainer:{
+        flex:1,
+        borderRadius:'5@s',
+        width:'100%',
+        backgroundColor:colors.White,
+        marginBottom:'15@vs'
+    },
+
 
 })

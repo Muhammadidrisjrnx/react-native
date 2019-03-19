@@ -34,7 +34,7 @@ export default class viewport extends Component{
                     ).start();
                 }
             }
-        })
+        });
     }
     isDropZone(gesture){
         var dz = this.state.dropZoneValues;

@@ -15,34 +15,49 @@ import ExperienceAndBankingInformationScreen from './experienceAndBankingInfomra
 import RecruitInformationScreen from './recruitInformationScreen.js';
 import DocumentInformationScreen from './recruitInformationScreen.js';
 import QualificationInformationScreen from './qualificationInformationScreen';
+import { statusDecline, statusSubmitted } from '../../../helper/status.js';
+import { updateAgent } from '../../../services/webservice/agentService.js';
 
 export default class AgentApprovalDetail extends Component{
     constructor(props){
         super(props);
+        this.data = this.props.navigation.getParam('data',[]);
     }
 
-    onPressApprove = () =>{
-
+    onPressApprove () {
+        this.data.status = statusSubmitted
+        this.data.agtAproval1 = true
+        this.post()
     }
 
-    onPressReject = () =>{
+    onPressReject(){
+        this.data.status = statusDecline
+        this.data.agtAproval1 = false
+        this.post()
+    }
 
+    post(){
+        this.data.agtSubmit = false
+        updateAgent(global.token, this.data).then((res) => {
+            console.warn('result : '+JSON.stringify(res))
+            this.onPressCancel()
+        });
     }
 
     render(){
-        const data = this.props.navigation.getParam('data',[]);
+        const data = this.data
         //ToastAndroid.show(data.agt_name, ToastAndroid.SHORT);
         return(
             <View style={{flex:1}}>
                 <TabNavigator screenProps={{data:data}}/>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.buttonOpac}>
+                    <TouchableOpacity style={styles.buttonOpac} onPress={()=>{this.onPressApprove()}}>
                         <Text style={styles.buttonText}>
                             Approve
                         </Text>
                         <Icon type={'font-awesome'} name={'angle-right'} iconStyle={styles.buttonIcon}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonOpac}>
+                    <TouchableOpacity style={styles.buttonOpac} onPress={()=>{this.onPressReject()}}>
                         <Text style={styles.buttonText}>
                             Reject
                         </Text>

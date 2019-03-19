@@ -16,35 +16,35 @@ export default class ExperienceAndBankingInformationScreen extends Component {
             <View style={styles.tabContainer}>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Nama Perusahaan Asuransi (Ex)</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_ex_insurance_company}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtExInsuranceCompany}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Tgl. Mengundurkan Diri</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{Moment(data.agt_ex_insurance_exit_date).format('DD MMM YYYY')}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtExInsuranceResignDate}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Expired Date</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{Moment(data.agt_ex_aaji_expired).format('DD MMM YYYY')}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtExAajiExpired}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>No. Lisensi Agent</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_aaji_no}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtAajiNo}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Nama Bank</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_bnk_id}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.bank?data.bank.bnkName:''}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>No. Rekening</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_bnk_acc_no}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtBankAccountNo}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Nama Rekening</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_bnk_acc_name}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtBankAccountName}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>No. NPWP</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agt_tax_id}</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtTaxId}</Text>
                 </View>
             </View>
         );

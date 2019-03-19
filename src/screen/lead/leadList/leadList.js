@@ -10,8 +10,8 @@ import ThumbImage from '../../../component/thumbImage/thumbimage.js';
 import SwipeList from '../../../component/swipeList/swipelist.js';
 import {defaultColor} from './leadList.style.js';
 
-import {ds_LeadListData} from '../../../helper/data.js';
-import { getAgents } from '../../../services/agentService.js';
+import {ds_LeadListData, ds_leadNew, ds_Lead, ds_StatusFilter} from '../../../helper/data.js';
+import { getAgents, filterGetAgentByCode } from '../../../services/webservice/agentService.js';
 export default class LeadList extends Component{
     static navigationOptions = {
         header:null
@@ -23,6 +23,7 @@ export default class LeadList extends Component{
         //this._storeData();
 
         //ToastAndroid.show(JSON.stringify(ds_data), ToastAndroid.LONG);
+        this.data = []
         this.state=({
             data: [],
             filter: '1',
@@ -33,62 +34,25 @@ export default class LeadList extends Component{
         this._searchFilterFunction = this._searchFilterFunction.bind(this);
 
         getAgents(global.token).then((res) => {
-            console.warn(JSON.stringify(res))
+            this.data = filterGetAgentByCode(res,global.user.agentCode)
             this.setState({
-               data:res
+               data:this.data
             })
         }); 
-    }
-
-    _storeData = () => {
-        try{
-            AsyncStorage.getItem('t_lead').then((item)=>{
-                if (item != null) 
-                {
-                    const result = JSON.parse(item);
-
-                    //ToastAndroid.show(JSON.stringify(result),ToastAndroid.SHORT);
-                    this.arrayholder = result.sort(function(a, b) { return a.agt_id < b.agt_id ? 1 : -1; });
-
-                    this.setState({
-                        data: result.sort(function(a, b) { return a.agt_id < b.agt_id ? 1 : -1; }).slice(0, 10),
-                        filter: '1',
-                        search: '',
-                        offset: 10,
-                        refreshing: false,
-                    });
-
-                    
-                }                 
-            });
-            //ToastAndroid.show(value,ToastAndroid.LONG);
-            
-        } catch(error){
-            ToastAndroid.show('Failed!',ToastAndroid.SHORT);
-        } 
     }
 
     _refreshListData =()=>{
 
         return new Promise((resolve,reject)=>{
-            const previousOffset = this.state.offset;
-            var result =true;
-
-            const newData = this.arrayholder;
-
-            if(newData!=null){
-                //ToastAndroid.show(JSON.stringify(this.arrayholder),ToastAndroid.SHORT);
-
+            getAgents(global.token).then((res) => {
+                this.data = filterGetAgentByCode(res,global.user.agentCode)
                 this.setState({
-                    data: newData.sort(function(a, b) { return a.agt_id < b.agt_id ? 1 : -1; }).slice(0, previousOffset+10),
-                    offset: previousOffset+10
-                });
-
-                resolve(true);
-            }
-            else{
-                resolve(false);
-            }
+                   data:this.data
+                })
+                if(res.length>0){
+                    resolve(true)
+                }else resolve(false)
+            }); 
         })
     }
 
@@ -96,7 +60,7 @@ export default class LeadList extends Component{
         // this.setState({search:text });
         // this._refreshList(text,this.props.filter);
 
-        const newData = this.arrayholder.filter(item => {
+        const newData = this.data.filter(item => {
             // var nameFilter =true;
             // var statusFilter =true;
 
@@ -113,7 +77,7 @@ export default class LeadList extends Component{
             // {
             //     statusFilter = item.agt_stat_id == status;
             // }
-            const itemData = `${item.agt_name.toUpperCase()}`;
+            const itemData = `${item.agtName.toUpperCase()}`;
 
             return itemData.indexOf(text.toUpperCase()) > -1  ;   
         });    
@@ -128,7 +92,10 @@ export default class LeadList extends Component{
         // this.setState({filter:text });
         // this._refreshList(this.props.search,text);
 
-        const newData = this.arrayholder.filter(item => {
+        text = ds_StatusFilter[parseInt(text)-1].value
+        console.warn(text)
+
+        const newData = this.data.filter(item => {
             // var nameFilter =true;
             // var statusFilter =true;
 
@@ -145,7 +112,8 @@ export default class LeadList extends Component{
             // {
             //     statusFilter = item.agt_stat_id == status;
             // }
-            const itemData = `${item.agt_name.toUpperCase()}`;
+
+            const itemData = `${item.status.statName.toUpperCase()}`;
 
             return itemData.indexOf(text.toUpperCase()) > -1  ;   
         });    
@@ -155,35 +123,6 @@ export default class LeadList extends Component{
             search:text
         });
     }
-
-    _refreshList = (status,name) =>{
-        const newData = this.arrayholder.filter(item => {
-            var nameFilter =true;
-            var statusFilter =true;
-
-            //ToastAndroid.show(this.props.filter,ToastAndroid.SHORT);
-
-            if(name==''){
-                nameFilter= true;
-            }else
-            {
-                nameFilter = `${item.agt_name.toUpperCase()}` == name.toUpperCase();
-            }
-
-            if(status==''){
-                statusFilter = true;
-            }else
-            {
-                statusFilter = item.agt_stat_id == status;
-            }
-            
-
-            return nameFilter && statusFilter ;    
-        });    
-
-        this.setState({ data: newData });
-    }
-    
 
     render(){ 
         return (
@@ -197,7 +136,7 @@ export default class LeadList extends Component{
                 onPress={(item)=>{this.props.navigation.navigate('LeadDetail',{data:item,type:'detail'})}}
                 onPress_Call={ (number) => {this.call(number)}}
                 onPress_Email={(email)=>{this.mailTo(email)}}
-                onPress_Introduction={_=>{this.navigateToIntroduction()}}
+                onPress_Introduction={_=>{{this.props.navigation.navigate("Introduction");}}}
                 onPress_Schedule={_=>{{this.props.navigation.navigate("Schedule",{scheduleType:1});}}}
                 />
                 <Fab 
@@ -212,17 +151,8 @@ export default class LeadList extends Component{
         );
     }
 
-    navigateToIntroduction(){
-        resetAction = StackActions.reset({
-            index: 0,
-            key: null,
-            actions: [NavigationActions.navigate({ routeName: 'Introduction' })]
-          });
-          this.props.navigation.dispatch(resetAction);
-    }
-
     print(item){
-        console.warn(JSON.stringify(item))
+//        console.warn(JSON.stringify(item))
     }
 
     call(number){

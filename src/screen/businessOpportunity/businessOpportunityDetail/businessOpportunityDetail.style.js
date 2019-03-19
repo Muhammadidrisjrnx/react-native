@@ -45,5 +45,10 @@ export default ScaledSheet.create({
     detail_schollView:{
         flex:1,
         paddingBottom:'15@vs'
-    }
+    },
+    businessOpportunity_titleText:{
+        fontSize:'20@s',
+        fontWeight:'bold',
+        color:colors.White
+    },
 })

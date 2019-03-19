@@ -3,6 +3,8 @@ package com.irecruit;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
+import io.realm.react.RealmReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
@@ -33,6 +35,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImagePickerPackage(),
+            new RealmReactPackage(),
             new VectorIconsPackage(),
             new SvgPackage(),
             new SplashScreenReactPackage(),

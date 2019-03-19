@@ -7,28 +7,56 @@ import styles,{defaultColor} from '../leadDetail.style.js';
 import thumbimageStyle from '../../../../component/thumbImage/thumbimage.style.js';
 import Moment from 'moment';
 
-
+import { requiredValidator, lengthValidator, emailValidator, phoneValidator,ktpValidator } from '../../../../helper/validator.js';
 
 
 export default class PersonalInformationScreen extends Component {
 
     constructor(props){
-        super(props);
+        super(props)
+
         this.data = this.props.screenProps.data;
 
         this.screenState= this.props.screenProps.state;
 
         this.state = this.screenState.personal
 
-        this.setState(
-          {
-            isBirthDatePickerVisible:false,
-            isJoinDatePickerVisible:false
-          }
-        )
+        this.props.screenProps.setTabNav({nav:this.props.navigation})
 
-        this.onDropDownChangeText = (text) => {
-          
+//        this.state.tabNav = this.props.navigation
+
+        this.onDropDownChangeText = (type,text) => {
+          obj = {}
+          switch(type){
+            case 'level':
+              obj =global.levels.find(x => x.id === text)
+              break;
+            case 'agtSex':
+              obj = text
+              break;
+            case 'city':
+              obj = global.cities.find(x => x.id === text)
+            break;
+            case 'religion':
+              obj = global.religions.find(x => x.id === text)
+            break;
+            case 'education':
+              obj = global.educations.find(x => x.id === text)
+            break;
+            case 'agtMaritalStatus':
+              obj = text
+            break;
+            case 'occupation':
+              obj = global.occupations.find(x => x.id === text)
+            break;
+            case 'branch':
+              obj = global.branches.find(x => x.id === text)
+            break;
+          }
+
+          this.changeState(type,obj)
+
+          console.warn(this.state[type]);
         }
 
         this._showJoinDatePicker = () => this.setState({ isJoinDatePickerVisible: true })
@@ -37,9 +65,9 @@ export default class PersonalInformationScreen extends Component {
         
         this._handleJoinDatePicked = (date) => {
           this._hideJoinDatePicker();
-          strDate = Moment(date).format('DD MM YYYY')
+          strDate = Moment(date).format('YYYY-MM-DD')
         
-          this.changeState('joinDate',strDate)          
+          this.changeState('agtJoinDate',strDate)          
         }
 
         this._showBirthDatePicker = () => this.setState({ isBirthDatePickerVisible: true });
@@ -48,8 +76,8 @@ export default class PersonalInformationScreen extends Component {
 
         this._handleBirthDatePicked = (date) => {
           this._hideBirthDatePicker();       
-          strDate = Moment(date).format('DD MM YYYY')
-          this.changeState('dob',strDate)          
+          strDate = Moment(date).format('YYYY-MM-DD')
+          this.changeState('agtDob',strDate)          
         }
 
         this._handleTextInputChange = (event, name) =>{
@@ -57,54 +85,136 @@ export default class PersonalInformationScreen extends Component {
         }
 
         this.changeState= (name,value)=>{
-          this.setState({[name]:value})
-          data = this.state
-          delete data.isBirthDatePickerVisible
-          delete data.isJoinDatePickerVisible
-          delete data.occupation
-          delete data.dependent
-          delete data.status
-          delete data.religion
-          delete data.education
-          delete data.level
-          this.props.screenProps.textInputHandler('personal',this.state)
+          console.warn('change state : '+name+" - "+value)
+          this.setState({[name]:value},() => {
+            console.warn(this.state)
+
+            data = this.state
+            delete data.isBirthDatePickerVisible
+            delete data.isJoinDatePickerVisible
+            delete data.drop_level
+            delete data.drop_religion
+            delete data.drop_education
+            delete data.drop_city
+            delete data.drop_occupation
+            delete data.drop_branch
+            /*if(name==='agtJoinDate' || name==='agtDob'){
+              data[name] = Moment(this.state[name]).format('YYYY-MM-DD')
+              console.warn(name+" : "+data[name])
+            }*/
+            this.props.screenProps.textInputHandler('personal',data)
+          })
         }
+
+        this.levelOptions = [];
+        this.religionOptions = [];
+        this.educationOptions = [];
+        this.cityOptions = [];
+        this.occupationOptions = [];
+        this.branchOptions = [];
+
+        this.generateDropdown()
+    }
+
+    generateDropdown(){
+
+      this.state.drop_level = this.state.level ? this.state.level.id : '';
+      this.state.drop_religion = this.state.religion? this.state.religion.id : '';
+      this.state.drop_education = this.state.education? this.state.education.id : '';
+      this.state.drop_city = this.state.city? this.state.city.id : '';
+      this.state.drop_occupation = this.state.occupation? this.state.occupation.id : '';
+      this.state.drop_branch = this.state.branch ? this.state.branch.id : '';
+
+      if(!this.state.agtSex) this.state.agtSex = ''
+      if(!this.state.agtMaritalStatus) this.state.agtMaritalStatus = ''
+
+      //levels
+      for(i =0 ; i< global.levels.length;i++){
+        this.levelOptions [i] = {
+          'value': global.levels[i].id,
+          'label': global.levels[i].lvlName.toUpperCase()
+        };
+      }
+
+      //cities
+      for(i =0 ; i< global.cities.length;i++){
+        this.cityOptions [i] = {
+          'value': global.cities[i].id,
+          'label': global.cities[i].cityName.toUpperCase()
+        };
+      }
+
+      //religions
+      for(i =0 ; i< global.religions.length;i++){
+        this.religionOptions [i] = {
+          'value': global.religions[i].id,
+          'label': global.religions[i].reliName.toUpperCase()
+        };
+      }
+
+      //educations
+      for(i =0 ; i< global.educations.length;i++){
+        this.educationOptions [i] = {
+          'value': global.educations[i].id,
+          'label': global.educations[i].eduName.toUpperCase()
+        };
+      }
+
+      //occupation
+      for(i =0 ; i< global.occupations.length;i++){
+        this.occupationOptions [i] = {
+          'value': global.occupations[i].id,
+          'label': global.occupations[i].ocuName.toUpperCase()
+        };
+      }
+
+      //branch
+      for(i =0 ; i< global.branches.length;i++){
+        this.branchOptions [i] = {
+          'value': global.branches[i].id,
+          'label': global.branches[i].brcName.toUpperCase()
+        };
+
+      }
     }
 
     render() {
-        data= this.data
+        data= this.data;
 
         return (
             <ScrollView >
               <Dropdown
-                ref='level'
                 label='Jabatan'
-                data={LEVEL}
-                value={this.state.level}
-                onChangeText={this.onDropDownChangeText}
+                data={this.levelOptions}
+                value={this.state.drop_level}
+                onChangeText={(text) => {this.onDropDownChangeText('level',text)}}
                 containerStyle={{marginHorizontal:17}}
                 baseColor={defaultColor.Black}/> 
+              <FormValidationMessage>{requiredValidator(this.state.level)?'':'Wajib diisi'}</FormValidationMessage>
                   
               <Dropdown
-                  ref='branch'
                   label='Cabang'
-                  data={BRANCH}
-                  value={this.state.branch}
-                  onChangeText={this.onDropDownChangeText}
+                  data={this.branchOptions}
+                  value={this.state.drop_branch}
+                  onChangeText={(text) => {this.onDropDownChangeText('branch',text)}}
                   containerStyle={{marginHorizontal:17}}
                   baseColor={defaultColor.Black}/> 
+              <FormValidationMessage>{requiredValidator(this.state.branch)?'':'Wajib diisi'}</FormValidationMessage>
+
               <FormLabel>Nama Lengkap Agent {'('}Sesuai Dengan KTP{')'}</FormLabel>
-              <FormInput ref='name' value={this.state.name} onChange={(e) => this._handleTextInputChange(e,'name')}/>
+              <FormInput autoCapitalize="characters" ref='name' value={this.state.agtName} onChange={(e) => this._handleTextInputChange(e,'agtName')}/>
+              <FormValidationMessage>{lengthValidator(this.state.agtName,1,50)?'':'Harus diisi. Maks 50 karakter'}</FormValidationMessage>
+              
               <View style={{flexDirection:'row'}}>
                 <View style={{flex:1}}>
                   <FormLabel>Kode</FormLabel>
-                  <FormInput ref='code' value={this.state.code} onChange={(e) => this._handleTextInputChange(e,'code')}/>
+                  <FormInput ref='code' value={this.state.agtCode} editable={false} selectTextOnFocus={false}/>
                 </View>
                 <View style={{flex:1}}>
                   <FormLabel>Join Date</FormLabel>
-                  <TouchableOpacity onPress={()=>this._showJoinDatePicker()}>
+                  <TouchableOpacity>
                     <View pointerEvents="none">
-                      <FormInput ref='joinDate' value={this.state.joinDate}/>
+                      <FormInput ref='joinDate' value={this.state.agtJoinDate} editable={false} selectTextOnFocus={false}/>
                     </View>
                   </TouchableOpacity>
                   <DateTimePicker
@@ -114,17 +224,21 @@ export default class PersonalInformationScreen extends Component {
                 </View>
               </View>
               <FormLabel>Agent Status</FormLabel>
-              <FormInput ref='agentStatus' value={this.state.status} onChange={(e) => this._handleTextInputChange(e,'status')}/>
+              <FormInput value={this.state.status.statName.toUpperCase()} editable={false} selectTextOnFocus={false}/>
+              <FormLabel>Remark</FormLabel>
+              <FormInput value={this.state.agtAddr3} editable={false} selectTextOnFocus={false}/>
               <View style={{flexDirection:'row'}}>
               <View style={{flex:1}}>
                   <FormLabel>Tempat Lahir</FormLabel>
-                  <FormInput ref='pob' value={this.state.pob} onChange={(e) => this._handleTextInputChange(e,'pob')}/>
+                  <FormInput ref='pob' value={this.state.agtPob} autoCapitalize="characters" onChange={(e) => this._handleTextInputChange(e,'agtPob')}/>
+                  <FormValidationMessage>{lengthValidator(this.state.agtPob,1,20)?'':'Wajib diisi. Maks 20 karakter'}</FormValidationMessage>              
               </View>
               <View style={{flex:1}}>
                 <FormLabel>Tanggal Lahir</FormLabel>
                 <TouchableOpacity onPress={()=>this._showBirthDatePicker()}>
                   <View pointerEvents="none">
-                    <FormInput ref='dob' value={this.state.dob}/>
+                    <FormInput autoCapitalize="characters" ref='dob' value={this.state.agtDob}/>
+                     <FormValidationMessage>{requiredValidator(this.state.agtDob)?'':'Wajib diisi'}</FormValidationMessage>
                   </View>
                 </TouchableOpacity>
                 <DateTimePicker
@@ -138,173 +252,123 @@ export default class PersonalInformationScreen extends Component {
                   ref='sex'
                   label='Jenis Kelamin'
                   data={SEX}
-                  value={this.state.sex}
-                  onChangeText={this.onDropDownChangeText}
+                  value={this.state.agtSex}
+                  onChangeText={(text) => {this.onDropDownChangeText('agtSex',text)}}
                   containerStyle={{marginHorizontal:17}}
                   baseColor={defaultColor.Black}/>
+              <FormValidationMessage>{requiredValidator(this.state.agtSex)?'':'Wajib diisi'}</FormValidationMessage>
+
               <FormLabel>Alamat</FormLabel>
-              <FormInput ref='address' value={this.state.address} onChange={(e) => this._handleTextInputChange(e,'address')}/>
+              <FormInput ref='address' autoCapitalize="characters" value={this.state.agtAddr1} onChange={(e) => this._handleTextInputChange(e,'agtAddr1')}/>
+              <FormValidationMessage>{lengthValidator(this.state.agtAddr1,1,30)?'':'Wajib diisi. Maks. 30 karakter'}</FormValidationMessage>
+
               <View style={{flexDirection:'row'}}>
               <View style={{flex:1}}>
                   <FormLabel>RT/RW/Kelurahan</FormLabel>
-                  <FormInput ref='address2' value={this.state.address2} onChange={(e) => this._handleTextInputChange(e,'address2')}/>
+                  <FormInput ref='address2' autoCapitalize="characters" value={this.state.agtAddr2} onChange={(e) => this._handleTextInputChange(e,'agtAddr2')}/>
+                  <FormValidationMessage>{lengthValidator(this.state.agtAddr2,1,30)?'':'Wajib diisi. Maks. 30 karakter'}</FormValidationMessage>
+
               </View>
               <View style={{flex:1}}>
                   <FormLabel>Kecamatan</FormLabel>
-                  <FormInput ref='district' value={this.state.district} onChange={(e) => this._handleTextInputChange(e,'district')}/>
+                  <FormInput ref='district' autoCapitalize="characters" value={this.state.agtDistrict} onChange={(e) => this._handleTextInputChange(e,'agtDistrict')}/>
+                  <FormValidationMessage>{lengthValidator(this.state.agtDistrict,1,30)?'':'Wajib diisi. Maks. 30 karakter'}</FormValidationMessage>
               </View>
               </View>
-              <FormLabel>Kota</FormLabel>
-              <FormInput ref='city' value={this.state.city} onChange={(e) => this._handleTextInputChange(e,'city')}/>
+              <Dropdown
+                  label='Kota'
+                  data={this.cityOptions}
+                  value={this.state.drop_city}
+                  onChangeText={(text) => {this.onDropDownChangeText('city',text)}}
+                  containerStyle={{marginHorizontal:17}}
+                  baseColor={defaultColor.Black}/>
+                <FormValidationMessage>{requiredValidator(this.state.city)?'':'Wajib diisi'}</FormValidationMessage>
+
               <Dropdown
                   ref='religion'
                   label='Agama'
-                  data={RELIGION}
-                  value={this.state.religion}
-                  onChangeText={this.onDropDownChangeText}
+                  data={this.religionOptions}
+                  value={this.state.drop_religion}
+                  onChangeText={(text) => {this.onDropDownChangeText('religion',text)}}
                   containerStyle={{marginHorizontal:17}}
                   baseColor={defaultColor.Black}/>
+                <FormValidationMessage>{requiredValidator(this.state.religion)?'':'Wajib diisi'}</FormValidationMessage>
+
               <FormLabel>No. KTP</FormLabel>
-              <FormInput ref='idCardNo' value={this.state.idCardNo} onChange={(e) => this._handleTextInputChange(e,'idCardNo')}/>
+              <FormInput ref='idCardNo' autoCapitalize="characters" keyboardType="numeric" value={this.state.agtIdCardNo} onChange={(e) => this._handleTextInputChange(e,'agtIdCardNo')}/>
+              <FormValidationMessage>{ktpValidator(this.state.agtIdCardNo)?'':'Wajib diisi, maks 20 karakter'}</FormValidationMessage>
+
               <Dropdown
                   ref='education'
                   label='Pendidikan Terakhir'
-                  data={EDUCATION}
-                  value={this.state.education}
-                  onChangeText={this.onDropDownChangeText}
+                  data={this.educationOptions}
+                  value={this.state.drop_education}
+                  onChangeText={(text) => {this.onDropDownChangeText('education',text)}}                  
                   containerStyle={{marginHorizontal:17}}
                   baseColor={defaultColor.Black}/>
+              <FormValidationMessage>{requiredValidator(this.state.education)?'':'Wajib diisi'}</FormValidationMessage>
+              
+              <Dropdown
+                  ref='marital'
+                  label='Status Pernikahan'
+                  data={MARITAL_STATUS}
+                  value={this.state.agtMaritalStatus}
+                  onChangeText={(text) => {this.onDropDownChangeText('agtMaritalStatus',text)}}                  
+                  containerStyle={{marginHorizontal:17}}
+                  baseColor={defaultColor.Black}/>
+              <FormValidationMessage>{requiredValidator(this.state.agtMaritalStatus)?'':'Wajib diisi'}</FormValidationMessage>
 
-                <FormLabel>Status Perkawinan</FormLabel>
-                <FormInput value={this.state.maritalStatus} onChange={(e) => this._handleTextInputChange(e,'maritalStatus')}/>
-                <FormLabel>Pekerjaan</FormLabel>
-                <FormInput value={this.state.occupation} onChange={(e) => this._handleTextInputChange(e,'ocuppation')}/>
+
+              <Dropdown
+                  ref='occupation'
+                  label='Pekerjaan'
+                  data={this.occupationOptions}
+                  value={this.state.drop_occupation}
+                  onChangeText={(text) => {this.onDropDownChangeText('occupation',text)}}
+                  containerStyle={{marginHorizontal:17}}
+                  baseColor={defaultColor.Black}/>
+              <FormValidationMessage>{requiredValidator(this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
+
+
                 <FormLabel>Jumlah Tanggungan</FormLabel>
-                <FormInput value={this.state.dependent} onChange={(e) => this._handleTextInputChange(e,'dependent')}/>
+                <FormInput autoCapitalize="characters" keyboardType="numeric" value={this.state.agtDependentTotal} onChange={(e) => this._handleTextInputChange(e,'agtDependentTotal')}/>
+                <FormValidationMessage>{requiredValidator(this.state.agtDependentTotal)?'':'Wajib diisi'}</FormValidationMessage>
+
                 <FormLabel>No. HP</FormLabel>
-                <FormInput value={this.state.phone} onChange={(e) => this._handleTextInputChange(e,'phone')}/>
+                <FormInput autoCapitalize="characters" keyboardType="phone-pad" value={this.state.agtMobileNumber} onChange={(e) => this._handleTextInputChange(e,'agtMobileNumber')}/>
+                <FormValidationMessage>{phoneValidator(this.state.agtMobileNumber)?'':'No. Telpon antara 8-15'}</FormValidationMessage>
+
                 <FormLabel>Email</FormLabel>
-                <FormInput value={this.state.email} onChange={(e) => this._handleTextInputChange(e,'email')}/>
+                <FormInput autoCapitalize="characters" value={this.state.agtEmail} onChange={(e) => this._handleTextInputChange(e,'agtEmail')}/>
+                <FormValidationMessage>{emailValidator(this.state.agtEmail)?'':'Email Tidak Valid'}</FormValidationMessage>
+
             </ScrollView>
         );
     }
   }
 
-  const LEVEL = [
-    {
-      value:'1',
-      label:'EFC'
-    },
-    {
-      value:'2',
-      label:'BM'
-    },
-    {
-      value:'3',
-      label:'ABD'
-    },
-    {
-      value:'4',
-      label:'AD'
-  }
-];
-
-const BRANCH = [
-    {
-      value:'1',
-      label:'Jakarta',
-      desc:''
-    },
-    {
-      value:'2',
-      label:'Medan',
-      desc:''
-    },
-    {
-      value:'3',
-      label:'Balikpapan',
-      desc:''
-    },
-    {
-      value:'4',
-      label:'Bandung',
-      desc:''
-    }
-];
-
 const SEX = [
   {
     value:'M',
-    label:'Pria'
+    label:'PRIA'
   },
   {
     value:'F',
-    label:'Perempuan'
-  }
+    label:'PEREMPUAN'
+  },
 ];
 
-const RELIGION = [
+const MARITAL_STATUS = [
   {
-    value:'1',
-    label:'Islam'
+    value:'M',
+    label:'MENIKAH'
   },
   {
-    value:'2',
-    label:'Kristen Katolik'
+    value:'S',
+    label:'BELUM MENIKAH'
   },
   {
-    value:'3',
-    label:'Kristen Protestan'
-  },
-  {
-    value:'4',
-    label:'Buddha'
-  },
-  {
-    value:'5',
-    label:'Hindu'
-  },
-  {
-    value:'6',
-    label:'Konghucu'
-  }
-];
-
-const EDUCATION = [
-  {
-    value:'1',
-    label:'SD'
-  },
-  {
-    value:'2',
-    label:'SLTP'
-  },
-  {
-    value:'3',
-    label:'SLTA'
-  },
-  {
-    value:'4',
-    label:'D1'
-  },
-  {
-    value:'5',
-    label:'D2'
-  },
-  {
-    value:'6',
-    label:'D3'
-  },
-  {
-    value:'7',
-    label:'S1'
-  },
-  {
-    value:'8',
-    label:'S2'
-  },
-  {
-    value:'9',
-    label:'S3'
+    value:'D',
+    label:'BERCERAI'
   }
 ];

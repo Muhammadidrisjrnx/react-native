@@ -47,8 +47,8 @@ export default class BusinessOpportunityList extends Component{
     render(){
         return(
             <View style={{flex:1}}>
+
                 <FlatList
-                    
                     data={ds_BusinessOpportunity}
                     renderItem={this.BusinessOpportunityList_renderListItem}
                     ItemSeparatorComponent={this.BusinessOpportunityList_renderSeparator}

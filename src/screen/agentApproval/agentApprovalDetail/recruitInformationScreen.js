@@ -16,23 +16,23 @@ export default class RecruitInformationScreen extends Component {
             <View style={styles.tabContainer}>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Tipe Perekrut</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>TipePerekrut</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtRecruitType}</Text>
                 </View>
                 <View style={styles.itemContainer}>
-                    <Text style={styles.itemDetail}>Nama Perekrut</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>NamaPerekrut</Text>
+                    <Text style={styles.itemDetail}>Perekrut</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtRecruitId}</Text>
                 </View>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Hubungan dengan Perekrut</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>HubunganDenganPerekrut</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtRecruitRelation}</Text>
                 </View>
                 <View style={styles.itemContainer}>
-                    <Text style={styles.itemDetail}>Direct Leader Type</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>DirectLeaderType</Text>
+                    <Text style={styles.itemDetail}>Leader Type</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtLeaderType}</Text>
                 </View>
                 <View style={styles.itemContainer}>
-                    <Text style={styles.itemDetail}>Direct Leader Name</Text>
-                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>DirectLeaderName</Text>
+                    <Text style={styles.itemDetail}>Leader Name</Text>
+                    <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtLeaderId}</Text>
                 </View>
             </View>
         );

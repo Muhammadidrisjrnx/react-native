@@ -24,6 +24,7 @@ export default class BusinessOpportunityDetail extends Component{
 
         return(
             <View style={styles.detail_mainContainer}>
+                
                 <TouchableOpacity style={styles.detail_headerBackButton} onPress={this._onPress}>
                     <Icon type={'font-awesome'} name={'angle-left'} iconStyle={styles.detail_headerIcon}/>
                     <Text style={styles.detail_headerText}>Back</Text>

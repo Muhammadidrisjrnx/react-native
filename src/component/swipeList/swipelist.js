@@ -18,26 +18,26 @@ SubItem = (props) =>{
         <View>
             {/* CONTACT NUMBER */}
             <View key={props.id} style={styles.listItem_SubTitleContainer}>
-                <Text style={styles.listItem_SubTitleCaption}>{ds_LeadListItem[0].desc}</Text>
-                <Text style={styles.listItem_SubTitleValue}>: {props.item[ds_LeadListItem[0].field]}</Text>
+                <Text style={styles.listItem_SubTitleCaption}>Contact Number</Text>
+                <Text style={styles.listItem_SubTitleValue}>: {props.item.agtMobileNumber}</Text>
             </View>
             
             {/* Status */}
             <View key={props.item.agt_id} style={styles.listItem_SubTitleContainer}>
-                <Text style={styles.listItem_SubTitleCaption}>{ds_LeadListItem[3].desc}</Text>
-                <Text style={styles.listItem_SubTitleValue}>: {props.item[ds_LeadListItem[3].field].statName}</Text>
+                <Text style={styles.listItem_SubTitleCaption}>Status</Text>
+                <Text style={styles.listItem_SubTitleValue}>: {props.item.status?props.item.status.statName:'-'}</Text>
             </View>
 
             {/* LEVEL */}
             <View key={props.item.agt_id} style={styles.listItem_SubTitleContainer}>
-                <Text style={styles.listItem_SubTitleCaption}>{ds_LeadListItem[4].desc}</Text>
-                <Text style={styles.listItem_SubTitleValue}>: {props.item[ds_LeadListItem[4].field]}</Text>
+                <Text style={styles.listItem_SubTitleCaption}>Level</Text>
+                <Text style={styles.listItem_SubTitleValue}>: {props.item.level?props.item.level.lvlName:'-'}</Text>
             </View>
 
             {/* EMAIL */}
             <View key={props.item.agt_id} style={styles.listItem_SubTitleContainer}>
-                <Text style={styles.listItem_SubTitleCaption}>{ds_LeadListItem[5].desc}</Text>
-                <Text style={styles.listItem_SubTitleValue}>: {props.item[ds_LeadListItem[5].field]}</Text>
+                <Text style={styles.listItem_SubTitleCaption}>Email</Text>
+                <Text style={styles.listItem_SubTitleValue}>: {props.item.agtEmail}</Text>
             </View>
         </View>
     )
@@ -89,7 +89,7 @@ ListHiddenItem = (props) =>{
                 <View style={styles.hiddenButtonRowDivider}>
                     <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt3},styles.hiddenButton]} onPress={ props.onPress_Introduction }>
                         <Icon type={'font-awesome'} name={'info-circle'} iconStyle={styles.hiddenButtonIcon}/>
-                        <Text style={styles.hiddenButtonText}>Introduction</Text>
+                        <Text style={styles.hiddenButtonText}>Dream Board</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[{backgroundColor:defaultColor.Red_Alt1},styles.hiddenButton]} onPress={ props.onPress_Schedule }>
                         <Icon type={'font-awesome'} name={'calendar'} iconStyle={styles.hiddenButtonIcon}/>
@@ -123,12 +123,13 @@ SearchPanel = (props) => {
             clearIcon/>
             <Icon name={"sort"} type={"font-awesome"} containerStyle={styles.searchSortIcon} 
                 underlayColor={'transparent'} color={defaultColor.White}
-                onPress={()=>{this.ModalSelector._setModalVisible(true);ToastAndroid.show(props.selected,ToastAndroid.SHORT);}}/>
+                onPress={()=>{this.ModalSelector._setModalVisible(true);}}/>
         </View>   
     );  
   };
 
 export default class SwipeList extends Component{
+
     constructor(props){
         super(props);
         this._keyExtractor = this._keyExtractor.bind(this);

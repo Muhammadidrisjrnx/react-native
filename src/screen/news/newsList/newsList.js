@@ -5,7 +5,7 @@ import tes from '../../../class/global';
 
 import styles from './newsList.style.js';
 import {ds_News,ds_Lead} from '../../../helper/data.js';
-import {getNews} from '../../../services/contentService.js';
+import { getAllService } from '../../../services/webservice/getService';
 
 export default class NewsList extends Component{
 
@@ -16,14 +16,12 @@ export default class NewsList extends Component{
             data: []
         });
 
-        getNews(global.token).then((res) => {
+        getAllService(global.token,'contents').then((res) => {
             console.warn(JSON.stringify(res))
             this.setState({data:res})
         }); 
         
     }
-
-    
 
     // NewsList_renderSeparator = () =>{
     //     return(
@@ -52,7 +50,7 @@ export default class NewsList extends Component{
 
     render(){
         return(
-            //<View style={styles.flatlistContainer}>
+            <View style={styles.flatlistContainer}>
                 <FlatList  
                     data={this.state.data}
                     extraData={this.state}
@@ -62,7 +60,7 @@ export default class NewsList extends Component{
                     keyExtractor={this.NewsList_keyExtractor}
                     showsVerticalScrollIndicator={false}
                 />
-            //</View>
+            </View>
         )
     }
 }
