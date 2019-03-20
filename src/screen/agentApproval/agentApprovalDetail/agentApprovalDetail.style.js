@@ -75,6 +75,29 @@ export default ScaledSheet.create(
             fontSize:'20@vs',
             marginLeft:5,
             alignSelf:'flex-end'
-        }
+        },
+        detail_mainContainer:{
+            flex:1,
+            borderRadius:'5@s',
+            width:'100%',
+            backgroundColor:colors.White,
+            marginBottom:'15@vs'
+        },
+        detail_headerBackButton:{
+            flexDirection:'row',
+            paddingHorizontal:'10@s',
+            height:'50@vs',
+            alignItems:'center',
+            borderBottomColor:colors.Grey,
+            borderBottomWidth:'2@vs'
+        },
+        detail_headerIcon:{
+            color:colors.Grey,
+            fontSize:'30@s'
+        },
+        detail_headerText:{
+            fontSize:'15@s',
+            paddingLeft:'20@s'
+        },
     }
 )

@@ -57,11 +57,11 @@ export const defaultColor = colors;
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'center',
-        borderWidth:'2@s',
+        //borderWidth:'2@s',
         borderRadius:'10@s',
-        borderColor:colors.Red,
+        //borderColor:colors.Red,
         // marginHorizontal:'5@s',
-        backgroundColor:colors.White
+        backgroundColor:colors.Red
     },
     buttonText:{
         color:colors.Red,
@@ -72,4 +72,8 @@ export const defaultColor = colors;
         color:colors.Red,
         fontSize:'20@vs'
     },
+
+    buttonDisabled:{
+        backgroundColor:'#c5271c50'
+    }
 })

@@ -8,11 +8,19 @@ import PropTypes from 'prop-types';
 import {verticalScale,scale} from 'react-native-size-matters';
 import styles,{defaultColor} from './schedulePicker.style.js';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import {ExamDb} from '../../model/realm/examDb';
+import { convertDate } from '../../helper/date';
+import { getAgent } from '../../services/webservice/agentService';
 
 
 export default class SchedulePickerList extends Component{
     constructor(props){
         super(props);
+
+        this.examDb = new ExamDb()
+        
+        this.agent = this.props.screenProps.data.agentId;
+
         this.state = {
             typeSelected:0,
             branch:'1',
@@ -27,15 +35,46 @@ export default class SchedulePickerList extends Component{
             appointmentTime:''
         }
 
-        getAllService(global.token,'exams').then((res) => {
-            this.setState({data:res})
-            console.warn(this.state)
-        });
+        getAgent(global.token,this.agent).then((res)=>{
+
+            agt = res
+            console.warn("status : "+agt.status.id)
+
+            if(this.isPermission(agt.status.id)){
+                console.warn("Permission")
+            }
+
+            if(this.isPermission(agt.status.id)){
+                getAllService(global.token,'exams').then((res) => {
+                    //this.setState({data:res})
+                    this.examDb.deleteAll()
+                    if(res[0].id)
+                    this.examDb.insertAll(res)
+        
+                    this.loadData()
+                });
+            }
+        })
+
+        this.isPermission = (statusId) => {
+            return (statusId === 1101 || statusId === 1106) 
+        }
+
+        
+
+        this.loadData = () =>{
+            dataFromDb = this.examDb.getAll()
+            this.setState({
+                data:dataFromDb
+            })            
+        }
 
     }
-    _onPress = () =>{
-        this.props.navigation.navigate('Detail');
-    }
+
+    /*_onPress = (item) =>{
+        this.props.navigation.navigate('Detail',{item:item});
+        //(item)=>{this.props.navigation.navigate("Detail",{data:item})}
+    }*/
 
     onButtonPress = (buttonIndex) => {
         this.setState({
@@ -51,12 +90,18 @@ export default class SchedulePickerList extends Component{
         
     }
 
+    
+
     SchedulePicker_RenderListItem = ({item}) => {
+        _onPress = () => {
+            //ToastAndroid.show(item.agt_name, ToastAndroid.SHORT);
+            this.props.navigation.navigate('Detail',{data:item});
+        }
         return(
-            <TouchableOpacity key={item.id} style={styles.listItem_TouchableOpac} onPress={this._onPress}>
+            <TouchableOpacity key={item.id} style={styles.listItem_TouchableOpac} onPress={_onPress}>
                 <Icon type={'font-awesome'} name={'calendar'} iconStyle={styles.listItem_leftIcon} />
                 <View style={styles.listItem_textContainer}>
-                    <Text style={styles.listItem_textTitle}>{String(item.exmDate)}</Text>
+                    <Text style={styles.listItem_textTitle}>{convertDate(item.exmDate)}</Text>
                     <Text style={styles.listItem_textSubTitle}>{item.exmCity}</Text>
                 </View>
                 <Icon type={'font-awesome'} name={'angle-right'} iconStyle={styles.listItem_rightIcon}/>
@@ -124,7 +169,7 @@ export default class SchedulePickerList extends Component{
     SchedulePicker_renderCalendar(){
         return(
             <View>
-                <Dropdown
+             { /*  <Dropdown
                     ref={this.branchRef}
                     label='Lokasi'
                     data={BRANCH}
@@ -133,7 +178,7 @@ export default class SchedulePickerList extends Component{
                     containerStyle={{marginHorizontal:scale(15)}}
                     textColor={'white'}
                     itemTextStyle={{color:defaultColor.Red}}
-                    />
+             /> */}
                 <FlatList
                     data={this.state.data}
                     renderItem = {this.SchedulePicker_RenderListItem}
@@ -142,13 +187,23 @@ export default class SchedulePickerList extends Component{
                     ItemSeparatorComponent={this.SchedulePicker_renderSeparator}
                     style={styles.flatlist}
                 />
+
+                {
+                    (!this.state.data)  && this.renderNoData()
+                }
             </View>
+        )
+    }
+
+    renderNoData(){
+        return(
+            <Text>No Data</Text>
         )
     }
 
     render(){
 
-        let selectedButton ={borderBottomWidth:verticalScale(2),borderBottomColor:'white'};
+        let selectedButton ={borderBottomWidth:verticalScale(2),borderBottomColor:'red'};
 
 
         return(
@@ -170,8 +225,11 @@ export default class SchedulePickerList extends Component{
                 {
                     (this.state.typeSelected == 0) && this.SchedulePicker_renderMyAppointment()
                 }
+                {
+                    (this.state.typeSelected == 1) && this.renderNoData()
+                }
                 { 
-                    (this.state.typeSelected == 1 || this.state.typeSelected == 2) && this.SchedulePicker_renderCalendar()
+                    (this.state.typeSelected == 2) && this.SchedulePicker_renderCalendar()
                 }
             </View>
         )

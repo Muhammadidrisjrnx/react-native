@@ -12,6 +12,7 @@ import {defaultColor} from './leadList.style.js';
 
 import {ds_LeadListData, ds_leadNew, ds_Lead, ds_StatusFilter} from '../../../helper/data.js';
 import { getAgents, filterGetAgentByCode } from '../../../services/webservice/agentService.js';
+import { statusDb } from '../../../model/realm/statusDb.js';
 export default class LeadList extends Component{
     static navigationOptions = {
         header:null
@@ -33,6 +34,10 @@ export default class LeadList extends Component{
 
         this._searchFilterFunction = this._searchFilterFunction.bind(this);
 
+        this.loadData()
+    }
+
+    loadData(){
         getAgents(global.token).then((res) => {
             this.data = filterGetAgentByCode(res,global.user.agentCode)
             this.setState({
@@ -40,6 +45,14 @@ export default class LeadList extends Component{
             })
         }); 
     }
+
+
+    componentWillMount(){
+        this._subscribe = this.props.navigation.addListener('didFocus', () => {
+         this.loadData();
+         //Put your Data loading function here instead of my this.LoadData()
+        });}
+    
 
     _refreshListData =()=>{
 
@@ -91,9 +104,15 @@ export default class LeadList extends Component{
     _updateStatusFilter = text =>{
         // this.setState({filter:text });
         // this._refreshList(this.props.search,text);
-
-        text = ds_StatusFilter[parseInt(text)-1].value
         console.warn(text)
+
+        if(text==='all'){
+            text = ''
+        }else{
+            item = statusDb.get(parseInt(text))
+            console.warn(item)
+            text = item.statName
+        }
 
         const newData = this.data.filter(item => {
             // var nameFilter =true;
@@ -137,7 +156,7 @@ export default class LeadList extends Component{
                 onPress_Call={ (number) => {this.call(number)}}
                 onPress_Email={(email)=>{this.mailTo(email)}}
                 onPress_Introduction={_=>{{this.props.navigation.navigate("Introduction");}}}
-                onPress_Schedule={_=>{{this.props.navigation.navigate("Schedule",{scheduleType:1});}}}
+                onPress_Schedule={(item)=>{this.props.navigation.navigate("Schedule",{data:item})}}
                 />
                 <Fab 
                     active={true}

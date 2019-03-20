@@ -48,6 +48,7 @@ export default ScaledSheet.create({
         flexDirection:'row',
         backgroundColor:colors.White,
         paddingLeft:'15@s',
+        paddingRight:'40@s',
         marginVertical:'4@vs',
         alignItems:'center',
     },

@@ -90,6 +90,17 @@ const schemaOccupation = {
     }
 }
 
+/*
+    "id": 1101,
+    "statVersion": 1,
+    "statUpdateDate": "2019-03-17T22:32:00Z",
+    "statUpdateBy": null,
+    "statActive": true,
+    "statName": "AAJI Clear, please choose exam date",
+    "statDesc": null,
+    "statIsShown": true
+*/
+
 const schemaStatus = {
     name: 'status',
     primaryKey: 'id',
@@ -145,29 +156,15 @@ const schemaUser = {
     "exmType": "ONLINE"
 */
 
-const schemaAajiSchedule = {
-    name: 'aaji',
+const schemaExam = { //AAJI SCHEDULE
+    name:'exam',
     primaryKey: 'id',
     properties:{
         id:'int',
+        exmCity:'string',
         exmLocation:'string',
-        exmType:'string?',
-        exmCity:{type:'string',indexed:true},
-        day:'string',
-        month:'string',
-        year:'string'
-    }
-}
-
-const schemaUserAaji = {
-    name: 'useraaji',
-    primaryKey: 'id',
-    properties:{
-        id:'int',
-        name:'string',
-        date:'string',
-        location:'string',
-        city:'string'
+        exmDate:'date',
+        exmType:'string'
     }
 }
 
@@ -184,7 +181,6 @@ const schemaAppointment = {
     }
 }
 
-
 export let realm = new Realm({
     schema: [
         schemaLevel,
@@ -196,8 +192,7 @@ export let realm = new Realm({
         schemaStatus,
         schemaBank,
         schemaUser,
-        schemaAajiSchedule,
-        schemaUserAaji,
+        schemaExam,
         schemaAppointment
     ],
     schemaVersion:0

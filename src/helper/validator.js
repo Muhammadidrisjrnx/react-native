@@ -7,7 +7,7 @@ export const requiredValidator = (data) => {
 export const lengthValidator = (data, min,max) =>{
     req = requiredValidator(data)
     if(req)
-        return (data.length<max && data.length>min)
+        return (data.length<=max && data.length>=min)
     else 
         return req
 }

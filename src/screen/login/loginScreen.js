@@ -51,7 +51,7 @@ export default class LoginScreen extends Component{
 
         this.state = {
             username:'68000035',
-            password:''
+            password:'password'
         }
 
         this.serviceCount=0;

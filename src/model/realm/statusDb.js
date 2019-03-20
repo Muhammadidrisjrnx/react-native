@@ -5,3 +5,5 @@ export class StatusDb extends DbService{
         super("status")
     }
 }
+
+export let statusDb = new StatusDb()

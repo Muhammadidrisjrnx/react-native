@@ -36,8 +36,11 @@ export default class AgentApprovalDetail extends Component{
         this.post()
     }
 
+    _onPressBack = () => {
+        this.props.navigation.goBack();
+    }
+
     post(){
-        this.data.agtSubmit = false
         updateAgent(global.token, this.data).then((res) => {
             console.warn('result : '+JSON.stringify(res))
             this.onPressCancel()
@@ -48,8 +51,14 @@ export default class AgentApprovalDetail extends Component{
         const data = this.data
         //ToastAndroid.show(data.agt_name, ToastAndroid.SHORT);
         return(
-            <View style={{flex:1}}>
+            <View style={styles.detail_mainContainer}>
+                <TouchableOpacity style={styles.detail_headerBackButton} onPress={this._onPressBack}>
+                    <Icon type={'font-awesome'} name={'angle-left'} iconStyle={styles.detail_headerIcon}/>
+                    <Text style={styles.detail_headerText}>Back</Text>
+                </TouchableOpacity>
+
                 <TabNavigator screenProps={{data:data}}/>
+
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.buttonOpac} onPress={()=>{this.onPressApprove()}}>
                         <Text style={styles.buttonText}>

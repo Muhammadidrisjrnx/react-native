@@ -1,6 +1,6 @@
 import {ScaledSheet} from 'react-native-size-matters';
 
-import colors from '../../../helper/style/defaultStyle.js';
+import {colors} from '../../../helper/style/defaultStyle.js';
 
 export const defaultColor = colors;
 
@@ -29,7 +29,7 @@ export default ScaledSheet.create(
             paddingHorizontal:'10@s',
             height:'50@vs',
             alignItems:'center',
-            borderBottomColor:colors.Grey,
+            borderBottomColor:defaultColor.Grey_Light,
             borderBottomWidth:'2@vs'
         },
     }

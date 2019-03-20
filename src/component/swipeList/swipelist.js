@@ -107,10 +107,10 @@ SearchPanel = (props) => {
         <View style={styles.searchContainer}>
             {/* <SortModal visible={props.sortVisible} onPress={props.sortOnPress}/> */}
             <ModalSelector onRef={ref => (this.ModalSelector = ref)} 
-                source={ds_StatusFilter} 
+                source={ds_StatusFilter} //ga guna hiraukan
                 title={'FILTER BY STATUS'} 
                 selected={props.selected} 
-                onSelected={props.onSelectedFilter} />
+                onSelected={props.onSelectedFilter}/>
 
             <SearchBar        
             placeholder="Type Here..."               

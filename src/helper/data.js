@@ -566,7 +566,7 @@ export const ds_StatusFilter = [
   {
     id:10,
     desc:'AAJI Clear',
-    value:'aaji clear'
+    value:'AAJI Clear, please choose exam date'
   },
   {
     id:11,
@@ -597,6 +597,11 @@ export const ds_StatusFilter = [
     id:15,
     desc:'Closing Case',
     value:'closing case'
+  },
+  {
+    id:16,
+    desc:'Exam Confirm',
+    value:'Exam Confirm'
   }
 ]
 

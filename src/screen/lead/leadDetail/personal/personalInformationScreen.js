@@ -86,8 +86,8 @@ export default class PersonalInformationScreen extends Component {
 
         this.changeState= (name,value)=>{
           console.warn('change state : '+name+" - "+value)
+          value = value.toUpperCase()
           this.setState({[name]:value},() => {
-            console.warn(this.state)
 
             data = this.state
             delete data.isBirthDatePickerVisible

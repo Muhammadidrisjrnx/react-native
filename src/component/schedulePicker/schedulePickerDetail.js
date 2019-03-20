@@ -5,17 +5,40 @@ import {Icon} from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 import styles from './schedulePicker.style.js';
+import { convertDate } from '../../helper/date.js';
+import { getAgent, updateAgent } from '../../services/webservice/agentService.js';
+import { postExam, getExam } from '../../services/webservice/examService.js';
+import { StatusDb } from '../../model/realm/statusDb.js';
+import { getStatus } from '../../services/webservice/statusService.js';
 
 
 export default class SchedulePickerDetail extends Component{
     constructor(props){
         super(props);
+        this.data = this.props.navigation.getParam('data',[]);
+        console.warn('data'+JSON.stringify(this.data))
+
+        this.agentId = this.props.screenProps.data.agentId;
+        console.warn('pickerlist props : '+JSON.stringify(this.props)+"\nagentId : "+this.agentId)
+
+        getAgent(global.token,this.agentId).then((res) => {
+            this.agent=res
+        });
+
+        getExam(global.token,this.data.id).then((res) => {
+            this.exam=res
+        });
+
+        getStatus(global.token,9753).then((res) => {
+            this.examConfirm=res
+        });
+
         this.state = {
             modalVisible:false
         }
     }
 
-    _onPress = () => {
+    goBack = () => {
         this.props.navigation.goBack();
     }
 
@@ -27,10 +50,45 @@ export default class SchedulePickerDetail extends Component{
         this.setState({modalVisible:bol})
     }
 
+    btnEmail = ()=>{
+        //this.btnSubmit()
+        this.props.navigation.popToTop();
+    }
+
+    btnSubmit = () => {
+        console.warn("EXAM : "+this.exam)
+        data = {
+            egtexmConfirmationStatus:'0',
+            agent:this.agent,
+            exam:this.exam
+        }
+        postExam(global.token,data).then((res) => {
+            console.warn('result : '+JSON.stringify(res))
+            this.updateStatusAgent()
+        });
+    }
+
+    updateStatusAgent(){
+        data = this.agent
+        data.status = {
+            id: 5101,
+            statVersion: 0,
+        }
+
+        updateAgent(global.token,data).then((res) => {
+            console.warn('result : '+JSON.stringify(res))
+            this.submitted()
+        });
+    }
+
+    submitted(){
+        this.setModalVisible(false)
+    }
+
     render(){
         return(
             <View style={styles.detail_mainContainer}>
-                <TouchableOpacity style={styles.detail_headerBackButton} onPress={this._onPress}>
+                <TouchableOpacity style={styles.detail_headerBackButton} onPress={this.goBack}>
                     <Icon type={'font-awesome'} name={'angle-left'} iconStyle={styles.detail_headerIcon}/>
                     <Text style={styles.detail_headerText}>Back</Text>
                 </TouchableOpacity>
@@ -38,23 +96,26 @@ export default class SchedulePickerDetail extends Component{
 
                 <View style={styles.detail_subContainer}>
                     <View style={styles.detail_textContainer}>
-                        <Text style={styles.detail_leftText}>Date</Text>
-                        <Text style={styles.detail_rightText}>asdfasdf</Text>
+                        <Text style={styles.detail_leftText}>Tanggal</Text>
+                        <Text style={styles.detail_rightText}>{convertDate(this.data.exmDate)}</Text>
                     </View>
                     <View style={styles.detail_separator}/>
-                    <View style={styles.detail_textContainer}>
-                        <Text style={styles.detail_leftText}>Time</Text>
-                        <Text style={styles.detail_rightText}>asdfasdf</Text>
-                    </View>
+        
                     <View style={styles.detail_separator}/>
                     <View style={styles.detail_textContainer}>
-                        <Text style={styles.detail_leftText}>Location</Text>
-                        <Text style={styles.detail_rightText}>asdfasdf</Text>
+                        <Text style={styles.detail_leftText}>Lokasi</Text>
+                    </View>
+                    <View style={styles.detail_textContainer}>
+                        <Text style={styles.detail_leftText}>{this.data.exmLocation}</Text>
+                    </View>
+                    <View style={styles.detail_textContainer}>
+                        <Text style={styles.detail_leftText}>Kota</Text>
+                        <Text style={styles.detail_rightText}>{this.data.exmCity}</Text>
                     </View>
                 </View>
 
                 <TouchableOpacity style={styles.detail_button} onPress={()=>this.setModalVisible(true)}>
-                    <Text style={styles.detail_buttonText}>SEND</Text>
+                    <Text style={styles.detail_buttonText}>DAFTARKAN</Text>
                 </TouchableOpacity>
 
                 <Modal
@@ -67,15 +128,15 @@ export default class SchedulePickerDetail extends Component{
                     <View style={styles.modalBackdrop}>
                         <View style={styles.modalContainer}>
                             <Icon type={'font-awesome'} name={'paper-plane'} iconStyle={styles.modalIcon}/>
-                            <Text style={styles.modalTitle}>Send this Schedule By Email?</Text>
+                            <Text style={styles.modalTitle}>Kirim jadwal ke Email?</Text>
                             <View style={{flexDirection:'row',justifyContent:'space-evenly',margin:20}}>
-                                <TouchableOpacity style={styles.modalButton}>
-                                    <Text style={styles.modalButtonText}>Send</Text>
+                                <TouchableOpacity style={styles.modalButton} onPress={()=>this.btnEmail()}>
+                                    <Text style={styles.modalButtonText}>Daftar dan Kirim</Text>
                                     <Icon type={'font-awesome'} name={'check'} iconStyle={styles.modalButtonText}/>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.modalButton} onPress={()=>{this.setModalVisible(false)}}>
-                                    <Text style={styles.modalButtonText}>Cancel</Text>
-                                    <Icon type={'font-awesome'} name={'close'} iconStyle={styles.modalButtonText}/>
+                                <TouchableOpacity style={styles.modalButton} onPress={()=>this.btnSubmit()}>
+                                    <Text style={styles.modalButtonText}>Daftar</Text>
+                                    <Icon type={'font-awesome'} name={'check'} iconStyle={styles.modalButtonText}/>
                                 </TouchableOpacity>
                             </View>
                         </View>

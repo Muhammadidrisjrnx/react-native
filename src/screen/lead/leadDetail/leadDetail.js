@@ -68,6 +68,7 @@ export default class LeadDetail extends Component{
             agtPob: this.data.agtPob,
             agtAddr1: this.data.agtAddr1,
             agtAddr2: this.data.agtAddr2,
+            agtAddr3: this.data.agtAddr3,
             agtDistrict: this.data.agtDistrict,
             city: this.data.city,
             agtIdCardNo: this.convertNumberToString(this.data.agtIdCardNo),
@@ -140,6 +141,8 @@ export default class LeadDetail extends Component{
           });
         }
       }else if(this.type==='detail'){
+        if(!this.isSubmittable()) return
+
         let data = {
           id: this.data.id,
           agtVersion: this.data.agtVersion,
@@ -180,6 +183,7 @@ export default class LeadDetail extends Component{
     }
 
     submit(data){
+      
       data = this.checkApproval(data)
 
       console.warn('aprv : '+data.agtApproval1+'\nleadertype:'+data.agtLeaderType);
@@ -271,6 +275,10 @@ export default class LeadDetail extends Component{
       }
     }
 
+    isSubmittable(){
+      return submittableStatus.includes(this.data.status.id)
+    }
+
     render(){
         
         //ToastAndroid.show(data.agt_name, ToastAndroid.SHORT);
@@ -278,18 +286,18 @@ export default class LeadDetail extends Component{
             <View style={{flex:1}}>
                 {this._renderTab()}
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={[styles.buttonOpac,{backgroundColor:defaultColor.Red,flex:1}]} onPress={()=>this.onPressSave()}>
-                        <Text style={[styles.buttonText,{color:defaultColor.White}]}>
+                    <TouchableOpacity style={[styles.buttonOpac,{flex:1}, this.isSubmittable()?'':styles.buttonDisabled ]} onPress={()=>this.onPressSave()}>
+                        <Text style={[styles.buttonText, {color:defaultColor.White}]}>
                             Save
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.buttonOpac,{flex:2,marginHorizontal:verticalScale(15)}]} onPress={()=>this.onPressSubmit()}>
-                        <Text style={styles.buttonText}>
+                    <TouchableOpacity style={[styles.buttonOpac,{flex:2,marginHorizontal:verticalScale(15)}, this.isSubmittable()?'':styles.buttonDisabled]} onPress={()=>this.onPressSubmit()}>
+                        <Text style={[styles.buttonText, {color:defaultColor.White}] }>
                             Submit
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.buttonOpac,{backgroundColor:defaultColor.Red,flex:1}]} onPress={()=>this.onPressCancel()}>
-                        <Text style={[styles.buttonText,{color:defaultColor.White}]}>
+                    <TouchableOpacity style={[styles.buttonOpac,{flex:1} ]} onPress={()=>this.onPressCancel()}>
+                        <Text style={[styles.buttonText,  {color:defaultColor.White}]}>
                             Cancel
                         </Text>
                     </TouchableOpacity>
@@ -383,3 +391,12 @@ const DetailTabNavigator = createMaterialTopTabNavigator({
         }
     }
 });
+
+
+const submittableStatus = [
+  2351, //NEW
+  2352, //APPROACH
+  2353, //INVITE BOS
+  2354, //ACCEPT BOS
+  2355  //ATTEND BOS
+]

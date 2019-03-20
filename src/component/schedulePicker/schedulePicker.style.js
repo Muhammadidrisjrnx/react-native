@@ -114,12 +114,12 @@ export default ScaledSheet.create(
         },
         schedule_buttonTypeIcon:{
             fontSize:'30@s',
-            color:colors.White,
+            color:colors.Grey_Dark,
             marginBottom:'3@vs'
         },  
         schedule_buttonText:{
             fontSize:'10@s',
-            color:colors.White
+            color:colors.Grey
         },
         modalBackdrop:{
             height:'100%',
@@ -140,7 +140,8 @@ export default ScaledSheet.create(
             margin:20
         },
         modalTitle:{
-            fontSize:'20@s'
+            fontSize:'20@s',
+            justifyContent:'center'
         },
         modalButton:{
             borderColor:colors.Red,

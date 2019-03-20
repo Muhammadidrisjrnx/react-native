@@ -18,37 +18,27 @@ import AajiTab from './tab/aajiTab.js';
 export default class ScheduleRegistration extends Component{
     constructor(props){
         super(props);
-
-        this.state={
-            data:ds_Schedule
-        }
+            
+        this.agent = this.props.navigation.getParam('data',[])
     }
 
     _onPress = () => {
         this.props.navigation.goBack();
     }
 
-    componentWillMount(){
-        const newData = ds_Schedule.filter(item => {
-            const { navigation } = this.props;
-            const itemId = navigation.getParam('scheduleType', '1');
-
-            return item.scheduleType == itemId ;    
-        });    
-
-        this.setState({ data: newData });
-    }
-
     render(){
+        console.warn('sche reg secreen : '+JSON.stringify(this.agent))
+
         return(
-            <View style={styles.detail_mainContainer}>
+            //<SchedulePicker data={{agentId:this.agent}}/>              )
+
+        <View style={styles.detail_mainContainer}>
                 <TouchableOpacity style={styles.detail_headerBackButton} onPress={this._onPress}>
                     <Icon type={'font-awesome'} name={'angle-left'} iconStyle={styles.detail_headerIcon}/>
                     <Text style={styles.detail_headerText}>Back</Text>
                 </TouchableOpacity>
                 <SchedulePicker/>  
-            </View>
-        )
+        </View>)
     }
 }
 

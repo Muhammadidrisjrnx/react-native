@@ -13,6 +13,18 @@ export const getAgents = (tkn) => {
     });
 }
 
+
+export const getAgent = (tkn,id) => {
+    const URL = BASE_URL+'agents/'+id
+    return fetch(URL,{
+        method: 'GET',
+        headers: HEADER(tkn),
+    }).then((res) => res.json())
+    .catch((error) => {
+        console.warn('erorr : ' + JSON.stringify(error))
+    });
+}
+
 export const getApprovalAgents = (tkn) => {
     const URL = BASE_URL+'rest/agents/approval-list'
     return fetch(URL,{

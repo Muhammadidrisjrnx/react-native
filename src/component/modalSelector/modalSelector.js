@@ -5,10 +5,12 @@ import {Icon} from 'react-native-elements'
 import PropTypes from 'prop-types';
 
 import styles from './modalSelector.style.js';
+import { statusDb } from '../../model/realm/statusDb.js';
+import { ds_StatusFilter } from '../../helper/data.js';
 
 ModalSelector_ListItem = (props) =>{
     _onPress = (index) =>{
-        ToastAndroid.show(String(index),ToastAndroid.SHORT);
+        //ToastAndroid.show(String(index),ToastAndroid.SHORT);
         props.onPress(false);
         props.onSelected(String(index));
     }
@@ -43,19 +45,45 @@ export default class ModalSelector extends Component{
         this._renderTitle = this._renderTitle.bind(this);
         this._renderListItem = this._renderListItem.bind(this);
         this._setModalVisible = this._setModalVisible.bind(this);
+        this.state = {
+            modalVisible: false,
+            status : []
+          };
+
+        this.fromDb = statusDb.getAll()
+
+    }
+
+    generateListStatus(){
+        status = []
+
+        status[0]={
+            id:'all',
+            desc:'ALL',
+            value:'ALL'
+        }
+
+        for(i=0;i<this.fromDb.length;i++){
+            status[i+1] = {
+                id:this.fromDb[i].id,
+                desc:this.fromDb[i].statName,
+                value:this.fromDb[i].statName
+            }
+        }
+        
+        this.setState({status:status})
     }
 
     componentDidMount() {
         this.props.onRef(this)
+        this.generateListStatus()
       }
       
     componentWillUnmount() {
     this.props.onRef(undefined)
     }
 
-    state = {
-        modalVisible: false,
-      };
+   
 
     _renderTitle = (props) =>{
         return(
@@ -89,14 +117,15 @@ export default class ModalSelector extends Component{
                 >
                 <TouchableHighlight style={styles.overlay}
                     onPress={() => {
-                            this._setModalVisible(!this.state.modalVisible);ToastAndroid.show(this.props.selected,ToastAndroid.SHORT);
+                            this._setModalVisible(!this.state.modalVisible) //ToastAndroid.show(this.props.selected,ToastAndroid.SHORT);
                             }}>
                     <Text></Text>
                 </TouchableHighlight>
                 <View style={styles.mainContainer}>
                     <View style={styles.flatlistContainer}>
                         <FlatList
-                            data = {this.props.source}
+                            data = {this.state.status}
+                            extraData = {this.state}
                             renderItem = {({item}) => (<this._renderListItem data={item} 
                                 selected={this.props.selected} onSelected={this.props.onSelected} onPress={()=>{this._setModalVisible(false)}}/>)}
                             ListHeaderComponent ={() => (<this._renderTitle title={this.props.title}/>)}
