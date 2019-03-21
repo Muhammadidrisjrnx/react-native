@@ -22,6 +22,8 @@ import { postAgent, newAgent, updateAgent, updateAgentFiles, deleteAgent } from 
 import newInformationScreen from './new/newInformationScreen.js';
 import { newValidator, detailValidator, informationValidator, bankingValidator, documentValidator } from '../../../helper/validator.js';
 import { statusApproval, statusSubmitted } from '../../../helper/status.js';
+import { LoadingDialog } from '../../../component/popup/loading.js';
+import { popUpError } from '../../../component/popup/error.js';
 
 export default class LeadDetail extends Component{
 
@@ -37,6 +39,7 @@ export default class LeadDetail extends Component{
           //experience screen
           id:this.data.id,
           tabNav: {},
+          isLoading: false,
 
           /*
             "agtExInsuranceCompany": null,
@@ -135,10 +138,7 @@ export default class LeadDetail extends Component{
       if(this.type==='new'){
         let data = this.state.new
         if(newValidator(data)){
-          newAgent(global.token, data).then((res) => {
-            console.warn('result : '+JSON.stringify(res))
-            this.onPressCancel()
-          });
+          this.submitNew(data)
         }
       }else if(this.type==='detail'){
         if(!this.isSubmittable()) return
@@ -153,9 +153,11 @@ export default class LeadDetail extends Component{
           ...this.state.recruit
         }
 
-        //bypass validasi
-  //      this.submit(data)
-  
+// BYPASS VALIDASI
+      //this.submitDetail(data)
+  /* JALUR YANG BENAR */
+      
+
         if(informationValidator(data)){
           console.warn('INFORMATION : CORRECT')
           if(bankingValidator(data)){
@@ -163,7 +165,7 @@ export default class LeadDetail extends Component{
             if(documentValidator(this.files)){
               console.warn('document validaator corect')
               console.warn('all validator success')
-              this.submit(data)
+              this.submitDetail(data)
             }else{
               console.warn('document error')
               this.state.tabNav.navigate('Document')
@@ -176,13 +178,36 @@ export default class LeadDetail extends Component{
           console.warn(data)
           this.state.tabNav.navigate('Personal')
         }
-
       }else{
-        console.warn("Submit clicked")
+        console.warn("NOT NEW AND DETAIL")
       }
     }
 
-    submit(data){
+    changeState= (name,value)=>{
+      this.setState({[name]:value},()=>{
+      })
+    }
+
+    showLoadingDialog(show){
+      this.changeState("isLoading",show)
+    }
+
+    submitNew(data){
+      this.showLoadingDialog(true)
+      newAgent(global.token, data).then((res) => {
+        console.warn('result : '+JSON.stringify(res))
+        this.showLoadingDialog(false)
+        if(res.id){
+          this.onPressCancel()              
+        }else{
+          popUpError("Error","Terjadi Kesalahan")
+        }
+
+      });
+    }
+
+    submitDetail(data){
+      this.showLoadingDialog(true)
       
       data = this.checkApproval(data)
 
@@ -212,6 +237,7 @@ export default class LeadDetail extends Component{
       console.warn('mendelete '+this.state.id);
       deleteAgent(global.token,this.state.id).then((res)=>{
         console.warn('del : '+JSON.stringify(res))
+        this.showLoadingDialog(false)
         this.onPressCancel()
       })
     }
@@ -276,7 +302,15 @@ export default class LeadDetail extends Component{
     }
 
     isSubmittable(){
-      return submittableStatus.includes(this.data.status.id)
+      if(this.type==='detail')
+        return submittableStatus.includes(this.data.status.id)
+      else return true
+    }
+
+    showSave(){
+      if(this.type==='new'){
+        return false
+      }else return true
     }
 
     render(){
@@ -286,11 +320,12 @@ export default class LeadDetail extends Component{
             <View style={{flex:1}}>
                 {this._renderTab()}
                 <View style={styles.buttonContainer}>
+                { this.showSave() && (
                     <TouchableOpacity style={[styles.buttonOpac,{flex:1}, this.isSubmittable()?'':styles.buttonDisabled ]} onPress={()=>this.onPressSave()}>
                         <Text style={[styles.buttonText, {color:defaultColor.White}]}>
                             Save
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>)}
                     <TouchableOpacity style={[styles.buttonOpac,{flex:2,marginHorizontal:verticalScale(15)}, this.isSubmittable()?'':styles.buttonDisabled]} onPress={()=>this.onPressSubmit()}>
                         <Text style={[styles.buttonText, {color:defaultColor.White}] }>
                             Submit
@@ -302,6 +337,10 @@ export default class LeadDetail extends Component{
                         </Text>
                     </TouchableOpacity>
                 </View>
+
+                { 
+                    (this.state.isLoading) && <LoadingDialog/>
+                }
               
             </View>
         )

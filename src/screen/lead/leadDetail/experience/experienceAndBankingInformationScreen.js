@@ -7,7 +7,7 @@ import {Dropdown} from 'react-native-material-dropdown';
 
 import Moment from 'moment';
 
-import { requiredValidator, lengthValidator, emailValidator, phoneValidator } from '../../../../helper/validator.js';
+import { requiredValidator, lengthValidator, emailValidator, phoneValidator, npwpValidator, rekeningValidator } from '../../../../helper/validator.js';
 
 
 export default class ExperienceAndBankingInformationScreen extends Component {
@@ -129,7 +129,7 @@ export default class ExperienceAndBankingInformationScreen extends Component {
 
                 <FormLabel>No. Rekening</FormLabel>
                 <FormInput autoCapitalize="characters" ref='name' value={this.state.agtBankAccountNo} onChange={(e) => this._handleTextInputChange(e,'agtBankAccountNo')}/>
-                <FormValidationMessage>{requiredValidator(this.state.agtBankAccountNo)?'':'Wajib diisi'}</FormValidationMessage>
+                <FormValidationMessage>{rekeningValidator(this.state.agtBankAccountNo)?'':'Wajib diisi angka, maks 20 karakter'}</FormValidationMessage>
 
                 <FormLabel>Nama Rekening</FormLabel>
                 <FormInput autoCapitalize="characters" ref='name' value={this.state.agtBankAccountName} onChange={(e) => this._handleTextInputChange(e,'agtBankAccountName')}/>
@@ -137,6 +137,7 @@ export default class ExperienceAndBankingInformationScreen extends Component {
 
                 <FormLabel>No. NPWP</FormLabel>
                 <FormInput autoCapitalize="characters" ref='name' value={this.state.agtTaxId} onChange={(e) => this._handleTextInputChange(e,'agtTaxId')}/>
+                <FormValidationMessage>{npwpValidator(this.state.agtTaxId)?'':'Wajib diisi angka, maks 20 karakter'}</FormValidationMessage>
 
             </ScrollView>
         );
