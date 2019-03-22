@@ -1,5 +1,17 @@
 import Realm from 'realm';
 
+const schemaSelection = {
+    name: 'selection',
+    primaryKey: 'id',
+    properties: {
+        id: {type: 'int', indexed: true},
+        selVersion:'int?',
+        selectionUpdateDate:'string?',
+        selectionUpdateBy:'string?',
+        selectionCategory:'string?'
+    }
+}
+
 const schemaLevel = {
     name: 'level',
     primaryKey: 'id',
@@ -193,7 +205,8 @@ export let realm = new Realm({
         schemaBank,
         schemaUser,
         schemaExam,
-        schemaAppointment
+        schemaAppointment,
+        schemaSelection
     ],
     schemaVersion:0
 });

@@ -130,6 +130,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            matchingFallbacks = ['release', 'debug']
             signingConfig signingConfigs.release
         }
     }
@@ -149,8 +150,8 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-image-picker')
-    compile project(':realm')
+    implementation project(':react-native-image-picker')
+    implementation project(':realm')
     implementation project(':react-native-firebase')
     implementation project(':react-native-svg')
     implementation project(':react-native-vector-icons')
