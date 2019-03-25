@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {ToastAndroid, View, Text, TouchableOpacity,ScrollView,TouchableWithoutFeedback} from 'react-native';
+import {ToastAndroid, View, Text, TouchableOpacity,ScrollView,Modal} from 'react-native';
 import {Icon,FormInput,FormLabel,FormValidationMessage} from 'react-native-elements';
 import {Dropdown} from 'react-native-material-dropdown';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -19,9 +19,13 @@ export default class PersonalInformationScreen extends Component {
 
         this.screenState= this.props.screenProps.state;
 
+        this.isSubmittable = this.props.screenProps.isSubmittable;
+
         this.state = this.screenState.personal
 
         this.props.screenProps.setTabNav({nav:this.props.navigation})
+
+        console.warn("isSubmit : "+this.isSubmittable)
 
 //        this.state.tabNav = this.props.navigation
 
@@ -51,6 +55,9 @@ export default class PersonalInformationScreen extends Component {
             break;
             case 'branch':
               obj = global.branches.find(x => x.id === text)
+            break;
+            case 'agtDependentTotal':
+              obj = text
             break;
           }
 
@@ -88,6 +95,8 @@ export default class PersonalInformationScreen extends Component {
           console.warn('change state : '+name+" - "+value)
           //value = value.toUpperCase()
           this.setState({[name]:value},() => {
+
+            console.warn(name+" : "+this.state[name])
 
             data = this.state
             delete data.isBirthDatePickerVisible
@@ -127,6 +136,7 @@ export default class PersonalInformationScreen extends Component {
 
       if(!this.state.agtSex) this.state.agtSex = ''
       if(!this.state.agtMaritalStatus) this.state.agtMaritalStatus = ''
+      if(!this.state.agtDependentTotal) this.state.agtDependentTotal = ''
 
       //levels
       for(i =0 ; i< global.levels.length;i++){
@@ -189,7 +199,8 @@ export default class PersonalInformationScreen extends Component {
                 value={this.state.drop_level}
                 onChangeText={(text) => {this.onDropDownChangeText('level',text)}}
                 containerStyle={{marginHorizontal:17}}
-                baseColor={defaultColor.Black}/> 
+                baseColor={defaultColor.Black}
+                disabled={!this.isSubmittable}/> 
               <FormValidationMessage>{requiredValidator(this.state.level)?'':'Wajib diisi'}</FormValidationMessage>
                   
               <Dropdown
@@ -198,11 +209,16 @@ export default class PersonalInformationScreen extends Component {
                   value={this.state.drop_branch}
                   onChangeText={(text) => {this.onDropDownChangeText('branch',text)}}
                   containerStyle={{marginHorizontal:17}}
-                  baseColor={defaultColor.Black}/> 
+                  baseColor={defaultColor.Black}
+                  disabled={!this.isSubmittable}/> 
               <FormValidationMessage>{requiredValidator(this.state.branch)?'':'Wajib diisi'}</FormValidationMessage>
 
               <FormLabel>Nama Lengkap Agent {'('}Sesuai Dengan KTP{')'}</FormLabel>
-              <FormInput autoCapitalize="characters" ref='name' value={this.state.agtName} onChange={(e) => this._handleTextInputChange(e,'agtName')}/>
+              <FormInput
+                autoCapitalize="characters"
+                value={this.state.agtName}
+                onChange={(e) => this._handleTextInputChange(e,'agtName')}
+                editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
               <FormValidationMessage>{lengthValidator(this.state.agtName,1,50)?'':'Harus diisi. Maks 50 karakter'}</FormValidationMessage>
               
               <View style={{flexDirection:'row'}}>
@@ -212,9 +228,9 @@ export default class PersonalInformationScreen extends Component {
                 </View>
                 <View style={{flex:1}}>
                   <FormLabel>Join Date</FormLabel>
-                  <TouchableOpacity>
+                  <TouchableOpacity disabled={true}>
                     <View pointerEvents="none">
-                      <FormInput ref='joinDate' value={this.state.agtJoinDate} editable={false} selectTextOnFocus={false}/>
+                      <FormInput ref='joinDate' value={this.state.agtJoinDate}/>
                     </View>
                   </TouchableOpacity>
                   <DateTimePicker
@@ -230,14 +246,22 @@ export default class PersonalInformationScreen extends Component {
               <View style={{flexDirection:'row'}}>
               <View style={{flex:1}}>
                   <FormLabel>Tempat Lahir</FormLabel>
-                  <FormInput ref='pob' value={this.state.agtPob} autoCapitalize="characters" onChange={(e) => this._handleTextInputChange(e,'agtPob')}/>
+                  <FormInput
+                    value={this.state.agtPob}
+                    autoCapitalize="characters"
+                    onChange={(e) => this._handleTextInputChange(e,'agtPob')}
+                    editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
+                    
                   <FormValidationMessage>{lengthValidator(this.state.agtPob,1,20)?'':'Wajib diisi. Maks 20 karakter'}</FormValidationMessage>              
               </View>
               <View style={{flex:1}}>
                 <FormLabel>Tanggal Lahir</FormLabel>
-                <TouchableOpacity onPress={()=>this._showBirthDatePicker()}>
+                <TouchableOpacity disabled={!this.isSubmittable} onPress={()=>this._showBirthDatePicker()}>
                   <View pointerEvents="none">
-                    <FormInput autoCapitalize="characters" ref='dob' value={this.state.agtDob}/>
+                    <FormInput
+                      autoCapitalize="characters"
+                      value={this.state.agtDob}
+                      editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
                      <FormValidationMessage>{requiredValidator(this.state.agtDob)?'':'Wajib diisi'}</FormValidationMessage>
                   </View>
                 </TouchableOpacity>
@@ -255,23 +279,40 @@ export default class PersonalInformationScreen extends Component {
                   value={this.state.agtSex}
                   onChangeText={(text) => {this.onDropDownChangeText('agtSex',text)}}
                   containerStyle={{marginHorizontal:17}}
-                  baseColor={defaultColor.Black}/>
+                  baseColor={defaultColor.Black}
+                  disabled={!this.isSubmittable}/> 
+
               <FormValidationMessage>{requiredValidator(this.state.agtSex)?'':'Wajib diisi'}</FormValidationMessage>
 
               <FormLabel>Alamat</FormLabel>
-              <FormInput ref='address' autoCapitalize="characters" value={this.state.agtAddr1} onChange={(e) => this._handleTextInputChange(e,'agtAddr1')}/>
+              <FormInput 
+                autoCapitalize="characters"
+                value={this.state.agtAddr1}
+                onChange={(e) => this._handleTextInputChange(e,'agtAddr1')}
+                editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
+
               <FormValidationMessage>{lengthValidator(this.state.agtAddr1,1,30)?'':'Wajib diisi. Maks. 30 karakter'}</FormValidationMessage>
 
               <View style={{flexDirection:'row'}}>
               <View style={{flex:1}}>
                   <FormLabel>RT/RW/Kelurahan</FormLabel>
-                  <FormInput ref='address2' autoCapitalize="characters" value={this.state.agtAddr2} onChange={(e) => this._handleTextInputChange(e,'agtAddr2')}/>
+                  <FormInput 
+                    autoCapitalize="characters"
+                    value={this.state.agtAddr2}
+                    onChange={(e) => this._handleTextInputChange(e,'agtAddr2')}
+                    editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
+
                   <FormValidationMessage>{lengthValidator(this.state.agtAddr2,1,30)?'':'Wajib diisi. Maks. 30 karakter'}</FormValidationMessage>
 
               </View>
               <View style={{flex:1}}>
                   <FormLabel>Kecamatan</FormLabel>
-                  <FormInput ref='district' autoCapitalize="characters" value={this.state.agtDistrict} onChange={(e) => this._handleTextInputChange(e,'agtDistrict')}/>
+                  <FormInput 
+                    autoCapitalize="characters"
+                    value={this.state.agtDistrict}
+                    onChange={(e) => this._handleTextInputChange(e,'agtDistrict')}
+                    editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
+                    
                   <FormValidationMessage>{lengthValidator(this.state.agtDistrict,1,30)?'':'Wajib diisi. Maks. 30 karakter'}</FormValidationMessage>
               </View>
               </View>
@@ -281,7 +322,9 @@ export default class PersonalInformationScreen extends Component {
                   value={this.state.drop_city}
                   onChangeText={(text) => {this.onDropDownChangeText('city',text)}}
                   containerStyle={{marginHorizontal:17}}
-                  baseColor={defaultColor.Black}/>
+                  baseColor={defaultColor.Black}
+                  disabled={!this.isSubmittable}/> 
+                  
                 <FormValidationMessage>{requiredValidator(this.state.city)?'':'Wajib diisi'}</FormValidationMessage>
 
               <Dropdown
@@ -291,11 +334,20 @@ export default class PersonalInformationScreen extends Component {
                   value={this.state.drop_religion}
                   onChangeText={(text) => {this.onDropDownChangeText('religion',text)}}
                   containerStyle={{marginHorizontal:17}}
-                  baseColor={defaultColor.Black}/>
+                  baseColor={defaultColor.Black}
+                  disabled={!this.isSubmittable}/> 
+                  
                 <FormValidationMessage>{requiredValidator(this.state.religion)?'':'Wajib diisi'}</FormValidationMessage>
 
               <FormLabel>No. KTP</FormLabel>
-              <FormInput ref='idCardNo' autoCapitalize="characters" keyboardType="numeric" value={this.state.agtIdCardNo} onChange={(e) => this._handleTextInputChange(e,'agtIdCardNo')}/>
+              <FormInput 
+                autoCapitalize="characters"
+                keyboardType="numeric"
+                value={this.state.agtIdCardNo}
+                onChange={(e) => this._handleTextInputChange(e,'agtIdCardNo')}
+                editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}
+                /> 
+                
               <FormValidationMessage>{ktpValidator(this.state.agtIdCardNo)?'':'Wajib diisi angka, maks 20 karakter'}</FormValidationMessage>
 
               <Dropdown
@@ -305,7 +357,9 @@ export default class PersonalInformationScreen extends Component {
                   value={this.state.drop_education}
                   onChangeText={(text) => {this.onDropDownChangeText('education',text)}}                  
                   containerStyle={{marginHorizontal:17}}
-                  baseColor={defaultColor.Black}/>
+                  baseColor={defaultColor.Black}
+                  disabled={!this.isSubmittable}/> 
+
               <FormValidationMessage>{requiredValidator(this.state.education)?'':'Wajib diisi'}</FormValidationMessage>
               
               <Dropdown
@@ -315,7 +369,9 @@ export default class PersonalInformationScreen extends Component {
                   value={this.state.agtMaritalStatus}
                   onChangeText={(text) => {this.onDropDownChangeText('agtMaritalStatus',text)}}                  
                   containerStyle={{marginHorizontal:17}}
-                  baseColor={defaultColor.Black}/>
+                  baseColor={defaultColor.Black}
+                  disabled={!this.isSubmittable}/> 
+
               <FormValidationMessage>{requiredValidator(this.state.agtMaritalStatus)?'':'Wajib diisi'}</FormValidationMessage>
 
 
@@ -326,22 +382,40 @@ export default class PersonalInformationScreen extends Component {
                   value={this.state.drop_occupation}
                   onChangeText={(text) => {this.onDropDownChangeText('occupation',text)}}
                   containerStyle={{marginHorizontal:17}}
-                  baseColor={defaultColor.Black}/>
+                  baseColor={defaultColor.Black}
+                  disabled={!this.isSubmittable}/> 
+
               <FormValidationMessage>{requiredValidator(this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
 
-
-                <FormLabel>Jumlah Tanggungan</FormLabel>
-                <FormInput autoCapitalize="characters" keyboardType="numeric" value={this.state.agtDependentTotal} onChange={(e) => this._handleTextInputChange(e,'agtDependentTotal')}/>
-                <FormValidationMessage>{requiredValidator(this.state.agtDependentTotal)?'':'Wajib diisi'}</FormValidationMessage>
+              <Dropdown
+                  label='Jumlah Tanggungan'
+                  data={DEPENDENT_TOTAL}
+                  value={this.state.agtDependentTotal}
+                  onChangeText={(text) => {this.onDropDownChangeText('agtDependentTotal',text)}}                  
+                  containerStyle={{marginHorizontal:17}}
+                  baseColor={defaultColor.Black}
+                  disabled={!this.isSubmittable}/> 
+                  
+              <FormValidationMessage>{requiredValidator(this.state.agtDependentTotal)?'':'Wajib diisi'}</FormValidationMessage>
 
                 <FormLabel>No. HP</FormLabel>
-                <FormInput autoCapitalize="characters" keyboardType="phone-pad" value={this.state.agtMobileNumber} onChange={(e) => this._handleTextInputChange(e,'agtMobileNumber')}/>
+                <FormInput 
+                  autoCapitalize="characters"
+                  keyboardType="phone-pad"
+                  value={this.state.agtMobileNumber}
+                  onChange={(e) => this._handleTextInputChange(e,'agtMobileNumber')}
+                  editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/>
+                  
+
                 <FormValidationMessage>{phoneValidator(this.state.agtMobileNumber)?'':'No. Telpon antara 8-15, angka saja'}</FormValidationMessage>
 
                 <FormLabel>Email</FormLabel>
-                <FormInput autoCapitalize="characters" value={this.state.agtEmail} onChange={(e) => this._handleTextInputChange(e,'agtEmail')}/>
+                <FormInput
+                  autoCapitalize="characters" 
+                  value={this.state.agtEmail} 
+                  onChange={(e) => this._handleTextInputChange(e,'agtEmail')}
+                  editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/>
                 <FormValidationMessage>{emailValidator(this.state.agtEmail)?'':'Email Tidak Valid'}</FormValidationMessage>
-
             </ScrollView>
         );
     }
@@ -372,3 +446,22 @@ const MARITAL_STATUS = [
     label:'BERCERAI'
   }
 ];
+
+const DEPENDENT_TOTAL = [
+  {
+    value:'0',
+    label:'0'
+  },
+  {
+    value:'1',
+    label:'1'
+  },
+  {
+    value:'2',
+    label:'2'
+  },
+  {
+    value:'3',
+    label:'3'
+  }
+]

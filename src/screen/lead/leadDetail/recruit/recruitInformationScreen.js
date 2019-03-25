@@ -15,6 +15,9 @@ export default class RecruitInformationScreen extends Component {
       
       this.state = this.screenState.recruit
 
+      this.isSubmittable = this.props.screenProps.isSubmittable;
+
+
       console.warn(this.state)
 
       this._handleTextInputChange = (event, name) =>{
@@ -49,7 +52,11 @@ export default class RecruitInformationScreen extends Component {
                 <FormLabel>Nama Perekrut</FormLabel>
                 <FormInput value={this.state.agtRecruitId+""} editable={false} selectTextOnFocus={false}/>
                 <FormLabel>Hubungan dengan Perekrut</FormLabel>
-                <FormInput autoCapitalize="characters" value={this.state.agtRecruitRelation} onChange={(e) => this._handleTextInputChange(e,'agtRecruitRelation')}/>
+                <FormInput
+                  autoCapitalize="characters"
+                  value={this.state.agtRecruitRelation}
+                  onChange={(e) => this._handleTextInputChange(e,'agtRecruitRelation')}
+                  editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
                 <FormLabel>Direct Leader Type</FormLabel>
                 <FormInput value={this.state.agtLeaderType+""} editable={false} selectTextOnFocus={false}/>
                 <FormLabel>Direct Leader Name</FormLabel>

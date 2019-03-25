@@ -20,6 +20,8 @@ export default class ExperienceAndBankingInformationScreen extends Component {
 
       this.state = this.screenState.experience
 
+      this.isSubmittable = this.props.screenProps.isSubmittable;
+
       this._showExpiredDatePicker = () => this.setState({ isExpiredDatePickerVisible: true });
     
       this._hideExpiredDatePicker = () => this.setState({ isExpiredDatePickerVisible: false });
@@ -87,10 +89,14 @@ export default class ExperienceAndBankingInformationScreen extends Component {
         return (
             <ScrollView>
                 <FormLabel>Nama Perusahaan Asuransi (Ex)</FormLabel>
-                <FormInput autoCapitalize="characters" ref='name' value={this.state.agtExInsuranceCompany} onChange={(e) => this._handleTextInputChange(e,'agtExInsuranceCompany')}/>
+                <FormInput 
+                  autoCapitalize="characters" 
+                  value={this.state.agtExInsuranceCompany} 
+                  onChange={(e) => this._handleTextInputChange(e,'agtExInsuranceCompany')}
+                  editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
 
                 <FormLabel>Resign Date</FormLabel>
-                <TouchableOpacity onPress={()=>this._showResignDatePicker()}>
+                <TouchableOpacity disabled={!this.isSubmittable} onPress={()=>this._showResignDatePicker()}>
                   <View pointerEvents="none">
                     <FormInput autoCapitalize="characters" value={this.state.agtExInsuranceResignDate}/>
                   </View>
@@ -102,7 +108,7 @@ export default class ExperienceAndBankingInformationScreen extends Component {
                 />     
 
                 <FormLabel>Expired Date</FormLabel>
-                <TouchableOpacity onPress={()=>this._showExpiredDatePicker()}>
+                <TouchableOpacity disabled={!this.isSubmittable} onPress={()=>this._showExpiredDatePicker()}>
                   <View pointerEvents="none">
                     <FormInput autoCapitalize="characters" value={this.state.agtExAajiExpired}/>
                   </View>
@@ -114,7 +120,11 @@ export default class ExperienceAndBankingInformationScreen extends Component {
                 />
 
                 <FormLabel>No. Lisensi Agent</FormLabel>
-                <FormInput autoCapitalize="characters" ref='name' value={this.state.agtAajiNo} onChange={(e) => this._handleTextInputChange(e,'agtAajiNo')}/>
+                <FormInput 
+                  autoCapitalize="characters" 
+                  value={this.state.agtAajiNo} 
+                  onChange={(e) => this._handleTextInputChange(e,'agtAajiNo')}
+                  editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
                 
                 <FormLabel>Nama Bank</FormLabel>
                 <Dropdown
@@ -123,20 +133,33 @@ export default class ExperienceAndBankingInformationScreen extends Component {
                   value={this.state.drop_bank}
                   onChangeText={(text) => {this.onDropDownChangeText('bank',text)}}
                   containerStyle={{marginHorizontal:17}}
-                  baseColor={defaultColor.Black}/>
+                  baseColor={defaultColor.Black}
+                  disabled={!this.isSubmittable}/>
                 <FormValidationMessage>{requiredValidator(this.state.bank)?'':'Wajib diisi'}</FormValidationMessage>
 
 
                 <FormLabel>No. Rekening</FormLabel>
-                <FormInput autoCapitalize="characters" ref='name' value={this.state.agtBankAccountNo} onChange={(e) => this._handleTextInputChange(e,'agtBankAccountNo')}/>
+                <FormInput 
+                  autoCapitalize="characters"
+                  value={this.state.agtBankAccountNo}
+                  onChange={(e) => this._handleTextInputChange(e,'agtBankAccountNo')}
+                  editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
                 <FormValidationMessage>{rekeningValidator(this.state.agtBankAccountNo)?'':'Wajib diisi angka, maks 20 karakter'}</FormValidationMessage>
 
                 <FormLabel>Nama Rekening</FormLabel>
-                <FormInput autoCapitalize="characters" ref='name' value={this.state.agtBankAccountName} onChange={(e) => this._handleTextInputChange(e,'agtBankAccountName')}/>
+                <FormInput 
+                  autoCapitalize="characters" 
+                  value={this.state.agtBankAccountName}
+                  onChange={(e) => this._handleTextInputChange(e,'agtBankAccountName')}
+                  editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
                 <FormValidationMessage>{requiredValidator(this.state.agtBankAccountName)?'':'Wajib diisi'}</FormValidationMessage>
 
                 <FormLabel>No. NPWP</FormLabel>
-                <FormInput autoCapitalize="characters" ref='name' value={this.state.agtTaxId} onChange={(e) => this._handleTextInputChange(e,'agtTaxId')}/>
+                <FormInput
+                  autoCapitalize="characters" 
+                  value={this.state.agtTaxId}
+                  onChange={(e) => this._handleTextInputChange(e,'agtTaxId')}
+                  editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
                 <FormValidationMessage>{npwpValidator(this.state.agtTaxId)?'':'Wajib diisi angka, maks 20 karakter'}</FormValidationMessage>
 
             </ScrollView>

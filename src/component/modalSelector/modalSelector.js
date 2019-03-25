@@ -112,7 +112,7 @@ export default class ModalSelector extends Component{
                 transparent={true}
                 visible={this.state.modalVisible}
                 onRequestClose={() => { 
-                    Alert.alert('Modal has been closed.');
+                    this.setState({modalVisible:false})
                 }}
                 >
                 <TouchableHighlight style={styles.overlay}
@@ -132,16 +132,6 @@ export default class ModalSelector extends Component{
                             style={styles.flatlist}
                         />
                     </View>
-                    {/* <View style={{width:scale(300),backgroundColor:'white',position:'absolute'}}>
-                        <Text>Hello Wo rld!</Text>
-
-                        <TouchableHighlight
-                            onPress={() => {
-                            props.onPress(!props.visible);
-                            }}>
-                            <Text>Hide Modal</Text>
-                        </TouchableHighlight>
-                    </View> */}
                 </View>
             </Modal>
         )

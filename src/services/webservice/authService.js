@@ -29,3 +29,22 @@ export const agentLogin = () => {
         body:JSON.stringify(data)
     }).then((res) => res.json());
 }
+
+
+export const postBranches = (tkn,data) => {
+    const URL = BASE_URL+'branches'
+    return fetch(URL,{
+        method: 'POST',
+        headers: HEADER(tkn),
+        body: JSON.stringify(data)
+    }).then((res) => res.json());
+}
+
+
+export const deleteBranches = (tkn,id) =>{
+    const URL = BASE_URL+'branches/'+id
+    return fetch(URL,{
+        method: 'DELETE',
+        headers: HEADER(tkn)
+    }).then((res) => res.json());
+}

@@ -153,6 +153,8 @@ export default class LeadDetail extends Component{
           ...this.state.recruit
         }
 
+        
+
 // BYPASS VALIDASI
       //this.submitDetail(data)
   /* JALUR YANG BENAR */
@@ -194,6 +196,10 @@ export default class LeadDetail extends Component{
 
     submitNew(data){
       this.showLoadingDialog(true)
+
+      data.agtName = data.agtName.toUpperCase()
+      data.agtEmail = data.agtEmail.toUpperCase()
+
       newAgent(global.token, data).then((res) => {
         console.warn('result : '+JSON.stringify(res))
         this.showLoadingDialog(false)
@@ -210,6 +216,7 @@ export default class LeadDetail extends Component{
       this.showLoadingDialog(true)
       
       data = this.checkApproval(data)
+      data = this.capitalize(data)
 
       console.warn('aprv : '+data.agtApproval1+'\nleadertype:'+data.agtLeaderType);
 
@@ -284,6 +291,27 @@ export default class LeadDetail extends Component{
       return data
     }
 
+    capitalize(data){
+      //personal
+      data.agtName = data.agtName.toUpperCase()
+      data.agtPob = data.agtPob.toUpperCase()
+      data.agtAddr1 = data.agtAddr1.toUpperCase()
+      data.agtAddr2 = data.agtAddr2.toUpperCase()
+      data.agtDistrict = data.agtDistrict.toUpperCase()
+      data.agtIdCardNo = data.agtIdCardNo.toUpperCase()
+      data.agtEmail = data.agtEmail.toUpperCase()
+
+      //experience&banking
+      data.agtExInsuranceCompany = data.agtExInsuranceCompany.toUpperCase()
+      data.agtAajiNo = data.agtAajiNo.toUpperCase()
+      data.agtBankAccountName = data.agtBankAccountName.toUpperCase()
+
+      //recruit
+      data.agtRecruitRelation = data.agtRecruitRelation.toUpperCase()
+
+      return data
+    }
+
     onPressCancel (){
       this.props.navigation.dispatch(NavigationActions.back())
     }
@@ -292,7 +320,7 @@ export default class LeadDetail extends Component{
       
       if(this.type==='detail'){
         return (
-          <DetailTabNavigator screenProps={{data:this.data, state:this.state, textInputHandler:this._handleTextInputChange, setTabNav:this._setTabNav}}/>
+          <DetailTabNavigator screenProps={{data:this.data, state:this.state, textInputHandler:this._handleTextInputChange, setTabNav:this._setTabNav, isSubmittable:this.isSubmittable()}}/>
         )
       }else{
         return(

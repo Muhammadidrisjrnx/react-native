@@ -27,15 +27,14 @@ export default class LeadList extends Component{
         this.data = []
         this.state=({
             data: [],
-            filter: '1',
+            filter: '',
             search: '',
             active:'false'
         });
 
         this._searchFilterFunction = this._searchFilterFunction.bind(this);
-
-        this.loadData()
     }
+
 
     loadData(){
         getAgents(global.token).then((res) => {
@@ -43,6 +42,12 @@ export default class LeadList extends Component{
             this.setState({
                data:this.data
             })
+            
+            if(this.state.search){
+                this._searchFilterFunction(this.state.search)
+            }else{
+                this._updateStatusFilter(this.state.filter)
+            }
         }); 
     }
 
@@ -50,46 +55,14 @@ export default class LeadList extends Component{
     componentWillMount(){
         this._subscribe = this.props.navigation.addListener('didFocus', () => {
          this.loadData();
-         //Put your Data loading function here instead of my this.LoadData()
         });}
     
+    _searchFilterFunction = (text)  => {
 
-    _refreshListData =()=>{
-
-        return new Promise((resolve,reject)=>{
-            getAgents(global.token).then((res) => {
-                this.data = filterGetAgentByCode(res,global.user.agentCode)
-                this.setState({
-                   data:this.data
-                })
-                if(res.length>0){
-                    resolve(true)
-                }else resolve(false)
-            }); 
-        })
-    }
-
-    _searchFilterFunction = text => {
-        // this.setState({search:text });
-        // this._refreshList(text,this.props.filter);
+        console.warn("search : "+text)
 
         const newData = this.data.filter(item => {
-            // var nameFilter =true;
-            // var statusFilter =true;
-
-            // if(name==''){
-            //     nameFilter= true;
-            // }else
-            // {
-            //     nameFilter = `${item.agt_name.toUpperCase()}` == name.toUpperCase();
-            // }
-
-            // if(status==''){
-            //     statusFilter = true;
-            // }else
-            // {
-            //     statusFilter = item.agt_stat_id == status;
-            // }
+         
             const itemData = `${item.agtName.toUpperCase()}`;
 
             return itemData.indexOf(text.toUpperCase()) > -1  ;   
@@ -101,37 +74,23 @@ export default class LeadList extends Component{
         });
       };
     
-    _updateStatusFilter = text =>{
-        // this.setState({filter:text });
-        // this._refreshList(this.props.search,text);
+    _updateStatusFilter = (text) =>{
+     
         console.warn(text)
 
-        if(text==='all'){
-            text = ''
-        }else{
+        if(parseInt(text)){
             item = statusDb.get(parseInt(text))
             console.warn(item)
             text = item.statName
+        }else if(text==='all'){
+            text = ''
+        }else{
+            text = text;
         }
 
+        console.warn("filter : "+text)
+
         const newData = this.data.filter(item => {
-            // var nameFilter =true;
-            // var statusFilter =true;
-
-            // if(name==''){
-            //     nameFilter= true;
-            // }else
-            // {
-            //     nameFilter = `${item.agt_name.toUpperCase()}` == name.toUpperCase();
-            // }
-
-            // if(status==''){
-            //     statusFilter = true;
-            // }else
-            // {
-            //     statusFilter = item.agt_stat_id == status;
-            // }
-
             const itemData = `${item.status.statName.toUpperCase()}`;
 
             return itemData.indexOf(text.toUpperCase()) > -1  ;   
@@ -139,7 +98,7 @@ export default class LeadList extends Component{
 
         this.setState({
             data: newData,
-            search:text
+            filter:text
         });
     }
 
@@ -151,7 +110,7 @@ export default class LeadList extends Component{
                 onChangeText = {this._searchFilterFunction} 
                 onFilterChange={this._updateStatusFilter} 
                 filter={String(this.state.filter)}
-                onRefresh={this._refreshListData}
+                onRefresh={this.loadData}
                 onPress={(item)=>{this.props.navigation.navigate('LeadDetail',{data:item,type:'detail'})}}
                 onPress_Call={ (number) => {this.call(number)}}
                 onPress_Email={(email)=>{this.mailTo(email)}}
@@ -169,11 +128,7 @@ export default class LeadList extends Component{
             </View>
         );
     }
-
-    print(item){
-//        console.warn(JSON.stringify(item))
-    }
-
+    
     call(number){
         this.intentUrl(`tel:${number}`)        
     }
