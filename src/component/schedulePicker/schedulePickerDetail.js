@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Modal, TouchableHighlight} from 'react-native';
+import {View, Text, TouchableOpacity, Modal, TouchableHighlight,ScrollView} from 'react-native';
 import {Icon} from 'react-native-elements';
 
 import PropTypes from 'prop-types';
@@ -10,6 +10,8 @@ import { getAgent, updateAgent } from '../../services/webservice/agentService.js
 import { postExam, getExam } from '../../services/webservice/examService.js';
 import { StatusDb } from '../../model/realm/statusDb.js';
 import { getStatus } from '../../services/webservice/statusService.js';
+import { LoadingDialog } from '../../component/popup/loading.js';
+import { popUpError } from '../../component/popup/error.js';
 
 
 export default class SchedulePickerDetail extends Component{
@@ -34,7 +36,8 @@ export default class SchedulePickerDetail extends Component{
         });
 
         this.state = {
-            modalVisible:false
+            modalVisible:false,
+            isLoading:false
         }
     }
 
@@ -45,17 +48,27 @@ export default class SchedulePickerDetail extends Component{
     _onPressSend = () => {
         console.warn("Sent");
     }
+    
+    changeState= (name,value)=>{
+        this.setState({[name]:value},()=>{
+        })
+    }
+
+    showLoadingDialog(show){
+        this.changeState("isLoading",show)
+    }
 
     setModalVisible(bol){
         this.setState({modalVisible:bol})
     }
 
     btnEmail = ()=>{
-        //this.btnSubmit()
-        this.props.navigation.popToTop();
+        this.btnSubmit()
     }
 
     btnSubmit = () => {
+        this.setModalVisible(false)
+        this.showLoadingDialog(true)
         console.warn("EXAM : "+this.exam)
         data = {
             egtexmConfirmationStatus:'0',
@@ -82,18 +95,13 @@ export default class SchedulePickerDetail extends Component{
     }
 
     submitted(){
-        this.setModalVisible(false)
+        this.showLoadingDialog(false)
+        this.props.navigation.popToTop()
     }
 
     render(){
         return(
-            <View style={styles.detail_mainContainer}>
-                <TouchableOpacity style={styles.detail_headerBackButton} onPress={this.goBack}>
-                    <Icon type={'font-awesome'} name={'angle-left'} iconStyle={styles.detail_headerIcon}/>
-                    <Text style={styles.detail_headerText}>Back</Text>
-                </TouchableOpacity>
-
-
+            <ScrollView style={styles.detail_mainContainer}>
                 <View style={styles.detail_subContainer}>
                     <View style={styles.detail_textContainer}>
                         <Text style={styles.detail_leftText}>Tanggal</Text>
@@ -101,13 +109,14 @@ export default class SchedulePickerDetail extends Component{
                     </View>
                     <View style={styles.detail_separator}/>
         
-                    <View style={styles.detail_separator}/>
                     <View style={styles.detail_textContainer}>
                         <Text style={styles.detail_leftText}>Lokasi</Text>
                     </View>
+                    <View style={styles.detail_separator}/>
                     <View style={styles.detail_textContainer}>
                         <Text style={styles.detail_leftText}>{this.data.exmLocation}</Text>
                     </View>
+                    <View style={styles.detail_separator}/>
                     <View style={styles.detail_textContainer}>
                         <Text style={styles.detail_leftText}>Kota</Text>
                         <Text style={styles.detail_rightText}>{this.data.exmCity}</Text>
@@ -119,7 +128,7 @@ export default class SchedulePickerDetail extends Component{
                 </TouchableOpacity>
 
                 <Modal
-                    animationType="slide"
+                    animationType="fade"
                     transparent={true}
                     visible={this.state.modalVisible}
                     onRequestClose={() => {
@@ -142,7 +151,11 @@ export default class SchedulePickerDetail extends Component{
                         </View>
                     </View>
                 </Modal>
-            </View>
+
+                { 
+                    (this.state.isLoading) && <LoadingDialog/>
+                }
+            </ScrollView>
         )
     }
 }

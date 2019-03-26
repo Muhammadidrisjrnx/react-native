@@ -12,12 +12,26 @@ export const lengthValidator = (data, min,max) =>{
         return req
 }
 
+export const numericValidator = (data) =>{
+    return /^\d+$/.test(data);
+}
+
 export const phoneValidator = (data) =>{
-    return lengthValidator(data,8,15)
+    return lengthValidator(data,8,15) && numericValidator(data)
 }
 
 export const ktpValidator = (data) =>{
-    return lengthValidator(data,1,20)
+    return lengthValidator(data,1,20) && numericValidator(data)
+}
+
+export const npwpValidator = (data) => {
+    if(data){
+        return lengthValidator(data,1,20) && numericValidator(data)
+    }else return true
+}
+
+export const rekeningValidator = (data)  => {
+    return lengthValidator(data,1,20) && numericValidator(data)
 }
 
 export const emailValidator = (data) => {
@@ -79,7 +93,8 @@ export const bankingValidator = (data) => {
     return (
         requiredValidator(data.bank)
         && lengthValidator(data.agtBankAccountName,1,60)
-        && lengthValidator(data.agtBankAccountNo,1,20)
+        && rekeningValidator(data.agtBankAccountNo)
+        && npwpValidator(data.agtTaxId)
     )
 }
 
@@ -89,7 +104,6 @@ export const documentValidator=(data)=>{
     return(
         docValidator(data.fileKtp)
         && docValidator(data.fileFoto)
-        && docValidator(data.fileKk)
         && docValidator(data.fileFormAaji)
         && docValidator(data.fileBukuRek)
         && docValidator(data.fileBukti)

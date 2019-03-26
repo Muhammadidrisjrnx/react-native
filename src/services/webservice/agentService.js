@@ -224,5 +224,17 @@ export const updateAgentFiles = (tkn,id,data,lead) =>{
     if(data['fileNpwp']){
         data['fileNpwp'].fileName = '6'+data['fileNpwp'].fileName
     }*/
+
 }
 
+export const getAgentSelection = (tkn,id) => {
+    const URL = BASE_URL+`agent-detail-selections?agentId.in=${String(id)}`;
+
+    return fetch(URL,{
+        method: 'GET',
+        headers: HEADER(tkn),
+    }).then((res) => res.json())
+    .catch((error) => {
+        console.warn('erorr : ' + JSON.stringify(error))
+    });
+}

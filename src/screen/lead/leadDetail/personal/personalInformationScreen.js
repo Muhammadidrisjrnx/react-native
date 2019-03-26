@@ -86,7 +86,7 @@ export default class PersonalInformationScreen extends Component {
 
         this.changeState= (name,value)=>{
           console.warn('change state : '+name+" - "+value)
-          value = value.toUpperCase()
+          //value = value.toUpperCase()
           this.setState({[name]:value},() => {
 
             data = this.state
@@ -296,7 +296,7 @@ export default class PersonalInformationScreen extends Component {
 
               <FormLabel>No. KTP</FormLabel>
               <FormInput ref='idCardNo' autoCapitalize="characters" keyboardType="numeric" value={this.state.agtIdCardNo} onChange={(e) => this._handleTextInputChange(e,'agtIdCardNo')}/>
-              <FormValidationMessage>{ktpValidator(this.state.agtIdCardNo)?'':'Wajib diisi, maks 20 karakter'}</FormValidationMessage>
+              <FormValidationMessage>{ktpValidator(this.state.agtIdCardNo)?'':'Wajib diisi angka, maks 20 karakter'}</FormValidationMessage>
 
               <Dropdown
                   ref='education'
@@ -336,7 +336,7 @@ export default class PersonalInformationScreen extends Component {
 
                 <FormLabel>No. HP</FormLabel>
                 <FormInput autoCapitalize="characters" keyboardType="phone-pad" value={this.state.agtMobileNumber} onChange={(e) => this._handleTextInputChange(e,'agtMobileNumber')}/>
-                <FormValidationMessage>{phoneValidator(this.state.agtMobileNumber)?'':'No. Telpon antara 8-15'}</FormValidationMessage>
+                <FormValidationMessage>{phoneValidator(this.state.agtMobileNumber)?'':'No. Telpon antara 8-15, angka saja'}</FormValidationMessage>
 
                 <FormLabel>Email</FormLabel>
                 <FormInput autoCapitalize="characters" value={this.state.agtEmail} onChange={(e) => this._handleTextInputChange(e,'agtEmail')}/>

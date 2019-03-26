@@ -34,28 +34,7 @@ export default class SchedulePickerList extends Component{
             appointmentDate:'',
             appointmentTime:''
         }
-
-        getAgent(global.token,this.agent).then((res)=>{
-
-            agt = res
-            console.warn("status : "+agt.status.id)
-
-            if(this.isPermission(agt.status.id)){
-                console.warn("Permission")
-            }
-
-            if(this.isPermission(agt.status.id)){
-                getAllService(global.token,'exams').then((res) => {
-                    //this.setState({data:res})
-                    this.examDb.deleteAll()
-                    if(res[0].id)
-                    this.examDb.insertAll(res)
         
-                    this.loadData()
-                });
-            }
-        })
-
         this.isPermission = (statusId) => {
             return (statusId === 1101 || statusId === 1106) 
         }
@@ -69,6 +48,38 @@ export default class SchedulePickerList extends Component{
             })            
         }
 
+    }
+
+    componentWillMount(){
+
+        this._subscribe = this.props.navigation.addListener('didFocus', () => {
+            console.warn("didfocus")
+            getAgent(global.token,this.agent).then((res)=>{
+
+                agt = res
+                console.warn("status : "+agt.status.id)
+    
+                if(this.isPermission(agt.status.id)){
+                    console.warn("Permission")
+                }
+    
+                this.examDb.deleteAll()
+
+                if(this.isPermission(agt.status.id)){
+                    getAllService(global.token,'exams').then((res) => {
+                        //this.setState({data:res})
+                        if(res[0].id)
+                            this.examDb.insertAll(res)
+            
+                        this.loadData()
+                    });
+                }else{
+                    this.loadData()
+
+                }
+           });
+        })
+            
     }
 
     /*_onPress = (item) =>{
@@ -181,6 +192,7 @@ export default class SchedulePickerList extends Component{
              /> */}
                 <FlatList
                     data={this.state.data}
+                    extraData={this.state}
                     renderItem = {this.SchedulePicker_RenderListItem}
                     //ListHeaderComponent = {this.SchedulePicker_RenderHeader}
                     extraData={this.state}
@@ -189,7 +201,7 @@ export default class SchedulePickerList extends Component{
                 />
 
                 {
-                    (!this.state.data)  && this.renderNoData()
+                    (!this.state.data || this.state.data.length<=0)  && this.renderNoData()
                 }
             </View>
         )

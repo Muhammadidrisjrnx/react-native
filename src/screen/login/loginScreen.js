@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View,Text,Image} from 'react-native';
+import {View,Text,Image,Alert} from 'react-native';
 import {Form, Input, Item, Icon, Button} from 'native-base';
 import { NavigationActions, StackActions } from 'react-navigation'
 
@@ -21,6 +21,8 @@ import { SelectionDb} from '../../model/realm/selectionDb.js';
 import {updateToken,authToken ,agentLogin} from '../../services/webservice/authService.js'
 import { getAllService } from '../../services/webservice/getService.js';
 import { BankDb } from '../../model/realm/bankDb.js';
+import { LoadingDialog } from '../../component/popup/loading.js';
+import { popUpError } from '../../component/popup/error.js';
 
 export default class LoginScreen extends Component{
     constructor(props){
@@ -48,21 +50,16 @@ export default class LoginScreen extends Component{
           
         this.changeState= (name,value)=>{
             this.setState({[name]:value},()=>{
-
             })
         }
 
         this.state = {
             username:'68000035',
-            password:'password'
+            password:'password',
+            isLoading: false
         }
 
         this.serviceCount=0;
-    }
-
-
-    static navigationOptions = {
-        header:null
     }
 
     authSuccess(tkn){
@@ -142,6 +139,8 @@ export default class LoginScreen extends Component{
     countAllServices(){
         this.serviceCount++;
         if(this.serviceCount>=8){
+            console.warn('success')
+            this.showLoadingDialog(false)
             this.navigateToMainApp()
         }
     }
@@ -156,13 +155,27 @@ export default class LoginScreen extends Component{
         this.props.navigation.dispatch(resetAction)
     }
 
+    showLoadingDialog(show){
+        this.changeState("isLoading",show)
+    }
+
     _ButtonOnPress = () => {
+
+        this.showLoadingDialog(true)
   
         authToken(this.state.username,this.state.password).then((res) => {
+            console.warn(res)
             if(res.id_token){
                 this.authSuccess(res.id_token)
+            }else if(res.status==401){
+                this.showLoadingDialog(false)
+                popUpError("Error","Username/Password salah")
+            }else{
+                this.showLoadingDialog(false)
+                popUpError("Error","Unknown Error")
             }
         })
+    
 /*
         user = null
         switch(this.state.username){
@@ -201,14 +214,20 @@ export default class LoginScreen extends Component{
             "occupation : "+this.occupationDb.getAll().length+"\n"+
             "status : "+this.statusDb.getAll().length+"\n"+
             "user : "+this.userDb.getAll().length+"\n"
-        )*/
+        )
+        
+            {
+                (this.state.isLoading == true) && <LoadingDialog/> 
+            }
+        */
         
     }
 
+  
     render()
     {
         return(
-            <View style={styles.mainContainer}>
+            <View style={styles.mainContainer}>            
              <View style={styles.header}>
                 <Image style={styles.imageTitle} source={require('../../../resource/image/title_white.png')}/>
             </View>
@@ -236,6 +255,9 @@ export default class LoginScreen extends Component{
         </View>
 
                 </MainBody>
+                { 
+                    (this.state.isLoading) && <LoadingDialog/>
+                }
             </View>
         )
     }
