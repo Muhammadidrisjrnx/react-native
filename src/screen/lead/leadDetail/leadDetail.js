@@ -24,7 +24,7 @@ import { newValidator, detailValidator, informationValidator, bankingValidator, 
 import { statusApproval, statusSubmitted } from '../../../helper/status.js';
 import { LoadingDialog } from '../../../component/popup/loading.js';
 import { popUpError } from '../../../component/popup/error.js';
-import {getAgentSelection} from '../../../services/webservice/agentService';
+import {getAgentSelection, createAgentSelection} from '../../../services/webservice/agentService';
 
 export default class LeadDetail extends Component{
 
@@ -107,6 +107,10 @@ export default class LeadDetail extends Component{
       
       this.getSelectionData();
 
+      this._setState = (name,value) =>{
+        this.setState({[name]:value})
+      }
+
       this._handleTextInputChange = (name,value) =>{
         if(name==="document"){
           this.files=value;
@@ -125,11 +129,60 @@ export default class LeadDetail extends Component{
     getSelectionData = () => {
       getAgentSelection(global.token, this.data.id).then((res)=>{
         this.dataSelection = res;
+        
+        let SECTIONS = [];
+
+        for(i =0 ; i< global.selections.length;i++){
+          let value = res.filter((item)=>{
+              return item.selection.id == global.selections[i].id;
+           })
+
+          SECTIONS[i] = {
+          'id': String(global.selections[i].id),
+          'title': global.selections[i].selectionCategory,
+          'value': value.length > 0 ? value[0].agtSelScore : 0
+          };
+        }
+
         this.setState({
-          selection:res
-        })
+          selection:SECTIONS,
+        });
+
       });
     }
+
+    saveSelectionData = (data) =>{
+      let selection = this.state.selection;
+      let finalData = [];
+
+      for (let i = 0; i < selection.length; i++) {
+        let sel = global.selections.filter((item) => {
+          return item.id == selection[i].id;
+        });
+
+        finalData.push({
+          'id': null,
+          'agtSelVersion':0,
+          'agtSelUpdateDate':'',
+          'agtSelUpdateBy':data.id,
+          'agtSelScore':selection[i].value,
+          'agtSelRemark':'',
+          'agent':data,
+          'selection':sel
+        })
+      }
+
+      createAgentSelection(global.token, finalData).then((res)=>{
+        console.warn('result : '+JSON.stringify(res));
+        this.showLoadingDialog(false);
+        if(res.id){
+          this.onPressCancel()              
+        }else{
+          popUpError("Error","Terjadi Kesalahan")
+        }
+      });
+      console.warn(JSON.stringify(finalData));
+    } 
 
     convertNumberToString (num){
       result = ""
@@ -171,28 +224,28 @@ export default class LeadDetail extends Component{
 // BYPASS VALIDASI
       //this.submitDetail(data)
   /* JALUR YANG BENAR */
-      
+      this.saveSelectionData(data);
 
-        if(informationValidator(data)){
-          console.warn('INFORMATION : CORRECT')
-          if(bankingValidator(data)){
-            console.warn('Banking validator corect')
-            if(documentValidator(this.files)){
-              console.warn('document validaator corect')
-              console.warn('all validator success')
-              this.submitDetail(data)
-            }else{
-              console.warn('document error')
-              this.state.tabNav.navigate('Document')
-            }
-          }else{
-            this.state.tabNav.navigate('ExperienceAndBanking')
-          }
-        }else {
-          console.warn('Information NOT VALID')
-          console.warn(data)
-          this.state.tabNav.navigate('Personal')
-        }
+        // if(informationValidator(data)){
+        //   console.warn('INFORMATION : CORRECT')
+        //   if(bankingValidator(data)){
+        //     console.warn('Banking validator corect')
+        //     if(documentValidator(this.files)){
+        //       console.warn('document validaator corect')
+        //       console.warn('all validator success')
+        //       this.submitDetail(data)
+        //     }else{
+        //       console.warn('document error')
+        //       this.state.tabNav.navigate('Document')
+        //     }
+        //   }else{
+        //     this.state.tabNav.navigate('ExperienceAndBanking')
+        //   }
+        // }else {
+        //   console.warn('Information NOT VALID')
+        //   console.warn(data)
+        //   this.state.tabNav.navigate('Personal')
+        // }
       }else{
         console.warn("NOT NEW AND DETAIL")
       }
@@ -307,7 +360,7 @@ export default class LeadDetail extends Component{
       
       if(this.type==='detail'){
         return (
-          <DetailTabNavigator screenProps={{data:this.data, state:this.state, textInputHandler:this._handleTextInputChange, setTabNav:this._setTabNav}}/>
+          <DetailTabNavigator screenProps={{data:this.data, state:this.state, textInputHandler:this._handleTextInputChange, setTabNav:this._setTabNav, setScreenState:this._setState}}/>
         )
       }else{
         return(

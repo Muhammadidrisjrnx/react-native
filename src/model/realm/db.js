@@ -12,6 +12,21 @@ const schemaSelection = {
     }
 }
 
+const schemaAgentDetailSelection = {
+    name: 'agentDetailSelection',
+    primaryKey: 'id',
+    properties: {
+        id: {type: 'int', indexed: true},
+        agtSelVersion:'int?',
+        agtSelUpdateDate:'string?',
+        agtSelUpdateBy:'string?',
+        agtSelScore:'int?',
+        agtSelRemark:'string?',
+        agtSelAgentId:'int?',
+        agtSelSelectionId:'int?'
+    }
+}
+
 const schemaLevel = {
     name: 'level',
     primaryKey: 'id',
@@ -206,7 +221,8 @@ export let realm = new Realm({
         schemaUser,
         schemaExam,
         schemaAppointment,
-        schemaSelection
+        schemaSelection,
+        schemaAgentDetailSelection
     ],
     schemaVersion:0
 });

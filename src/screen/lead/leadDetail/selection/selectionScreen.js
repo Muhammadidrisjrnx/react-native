@@ -7,8 +7,6 @@ import {scale,verticalScale} from 'react-native-size-matters';
 
 import styles,{defaultColor} from './selectionScreen.style.js';
 
-const SECTIONS = [];
-
 
 // const Rate = React.forwardRef((props,  ref) => {
 //     <Rating
@@ -38,47 +36,67 @@ export default class SelectionScreen extends Component {
             totalScore:0,
         };
 
-        this.setSection();
+        //this.setSection();
     }
 
-    setSection = () => {
+    // setSection = () => {
         
-        for(i =0 ; i< global.selections.length;i++){
-            let value = this.state.selection.filter((item)=>{
-                return item.selection.id == global.selections[i].id;
-            })
+    //     for(i =0 ; i< global.selections.length;i++){
+    //         let value = this.state.selection.filter((item)=>{
+    //             return item.selection.id == global.selections[i].id;
+    //          })
+ 
+    //         // SECTIONS[i] ={
+    //         //     'id': 0,
+    //         //     'agtSelVersion':0,
+    //         //     'agtSelUpdateDate':null,
+    //         //     'agtSelUpdateBy':null,
+    //         //     'agtSelScore':value.length > 0 ? value[0].agtSelScore : 0,
+    //         //     'agtSelRemark':'',
+    //         //     'agtSelAgentId':this.data.id,
+    //         //     'agtSelSelectionId':String(global.selections[i].id)
+    //         //     };
+ 
+    //         // if(global.selections[i].id == 2201)
+    //         // console.warn(`id:${global.selections[i].id} - score:${value[0].agtSelScore} - `+JSON.stringify(value));
 
-            // if(global.selections[i].id == 2201)
-            // console.warn(`id:${global.selections[i].id} - score:${value[0].agtSelScore} - `+JSON.stringify(value));
-
-            SECTIONS[i] = {
-            'id': String(global.selections[i].id),
-            'title': global.selections[i].selectionCategory,
-            'value': value.length > 0 ? value[0].agtSelScore : 0
-            };
-        }
-        console.warn(JSON.stringify(SECTIONS),ToastAndroid.SHORT);
-    }
+    //         SECTIONS[i] = {
+    //         'id': String(global.selections[i].id),
+    //         'title': global.selections[i].selectionCategory,
+    //         'value': value.length > 0 ? value[0].agtSelScore : 0
+    //         };
+    //     }
+    //     console.warn(JSON.stringify(SECTIONS),ToastAndroid.SHORT);
+    // }
 
     updateTotalScore = () => {
-        let score = SECTIONS.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0)
+        let score = this.state.selection.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0);
 
         this.setState({
             totalScore:score
         });
+
+        console.warn(String(this.state.totalScore) + JSON.stringify(this.state.selection));
     };
 
     updateSectionScore = (id, score) => {
-        SECTIONS.some((section) =>{
+        this.state.selection.some((section) =>{
             if(String(section.id) == id) {
                 section.value = score;
-
-                //console.warn(JSON.stringify(SECTIONS));
-
+                //console.warn(JSON.stringify(this.state.selection));
+                this.updateTotalScore();
                 return true;
             };
         });
     };
+
+    // _getSelectionDescription = (id) => {
+    //     let data = global.selection.filter((item) => {
+    //         item.id = id
+    //     });
+
+    //     return data[0].selectionCategory;
+    // }
 
     // setRef = (ref) => {
     //     this.ratingRefs.push(ref);
@@ -113,7 +131,7 @@ export default class SelectionScreen extends Component {
         return(
             <View>
                 <FlatList  
-                    data={SECTIONS}
+                    data={this.state.selection}
                     renderItem={this._renderListItem}
                     contentContainerStyle={styles.flatlist}
                     //keyExtractor={this._keyExtractor}

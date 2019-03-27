@@ -238,3 +238,19 @@ export const getAgentSelection = (tkn,id) => {
         console.warn('erorr : ' + JSON.stringify(error))
     });
 }
+
+export const createAgentSelection = (tkn,data) => {
+    const URL = BASE_URL+'agent-detail-selections';
+    
+    //console.warn('URL:'+URL+'\ntkn : '+tkn+"\nformdata : "+JSON.stringify(formdata))
+
+    return fetch(URL,{
+        method: 'POST',
+        headers: HEADER(tkn),
+        body: data
+    }).then((res) => res.json()
+    )
+    .catch((error) => {
+        console.warn('erorr : ' + JSON.stringify(error))
+    })
+}
