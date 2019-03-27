@@ -18,7 +18,7 @@ import ExperienceAndBankingInformationScreen from './experience/experienceAndBan
 import RecruitInformationScreen from './recruit/recruitInformationScreen.js';
 import DocumentInformationScreen from './document/documentInformationScreen.js';
 import SelectionScreen from './selection/selectionScreen.js';
-import { postAgent, newAgent, updateAgent, updateAgentFiles, deleteAgent } from '../../../services/webservice/agentService';
+import { postAgent, newAgent, updateAgent, updateAgentFiles, deleteAgent, checkKtp } from '../../../services/webservice/agentService';
 import newInformationScreen from './new/newInformationScreen.js';
 import { newValidator, detailValidator, informationValidator, bankingValidator, documentValidator, experienceBankingValidator } from '../../../helper/validator.js';
 import { statusApproval, statusSubmitted } from '../../../helper/status.js';
@@ -147,7 +147,7 @@ export default class LeadDetail extends Component{
       console.warn("Rejected")
     }
 
-    onPressSave (){
+    dataPacker(){
       let data = {
         id: this.data.id,
         agtVersion: this.data.agtVersion,
@@ -157,7 +157,28 @@ export default class LeadDetail extends Component{
         ...this.state.experience,
         ...this.state.recruit
       }
-      this.saveDetail(data)
+
+      //personal
+      delete data.isBirthDatePickerVisible
+      delete data.isJoinDatePickerVisible
+      delete data.drop_level
+      delete data.drop_religion
+      delete data.drop_education
+      delete data.drop_city
+      delete data.drop_branch
+
+      //experience
+      delete data.isResignDatePickerVisible
+      delete data.isExpiredDatePickerVisible
+      delete data.drop_bank
+      delete data.drop_leader
+      delete data.drop_occupation
+
+      return data
+    }
+
+    onPressSave (){
+      this.saveDetail(this.dataPacker())
     }
 
     onPressSubmit() {
@@ -169,23 +190,12 @@ export default class LeadDetail extends Component{
       }else if(this.type==='detail'){
         if(!this.isSubmittable()) return
 
-        let data = {
-          id: this.data.id,
-          agtVersion: this.data.agtVersion,
-          agtCreateBy:this.data.agtCreateBy,
-          agtSubmitted: true,
-          ...this.state.personal,
-          ...this.state.experience,
-          ...this.state.recruit
-        }
-
+       data = this.dataPacker()
         
 
 // BYPASS VALIDASI
       //this.submitDetail(data)
-  /* JALUR YANG BENAR */
-      
-
+  /* JALUR YANG BENAR  */
         if(informationValidator(data)){
           console.warn('INFORMATION : CORRECT')
           if(experienceBankingValidator(data)){
@@ -205,7 +215,7 @@ export default class LeadDetail extends Component{
           console.warn('Information NOT VALID')
           console.warn(data)
           this.state.tabNav.navigate('Personal')
-        }
+        }                                                     //*/
       }else{
         console.warn("NOT NEW AND DETAIL")
       }
@@ -246,7 +256,16 @@ export default class LeadDetail extends Component{
 
       console.warn('aprv : '+data.agtApproval1+'\nleadertype:'+data.agtLeaderType);
 
-      this.uploadFile(data)
+      checkKtp(global.token,data.agtIdCardNo,data.agtDob).then((res)=>{
+        console.warn("CEK KTP : "+JSON.stringify(res))
+        if(res==="false"){
+          this.uploadFile(data)
+        }else if(res==="true"){
+          popUpError("Error","KTP sudah terdaftar")
+        }else{
+          popUpError("Error",JSON.stringify(res))
+        }
+      })
 
       /*updateAgent(global.token, data).then((res) => {
         console.warn('result : '+JSON.stringify(res))
@@ -263,11 +282,8 @@ export default class LeadDetail extends Component{
 
       db = agentDb
 
-      //db.insert(data)
-
       updateAgent(global.token, data).then((res) => {
         console.warn("trying to delete : "+data.id)
-        //db.delete(data.id)
         console.warn("length : "+db.getAll().length)
         this.showLoadingDialog(false)
         this.onPressCancel()
@@ -281,6 +297,9 @@ export default class LeadDetail extends Component{
         if(res.id){
           this.delete()
         }
+      }).catch((error)=>{
+        this.showLoadingDialog(false)
+        popUpError("Error",JSON.stringify(error))
       });
     }
 

@@ -5,3 +5,5 @@ export class EducationDb extends DbService{
         super("education")
     }
 }
+
+export const educationDb = new EducationDb()

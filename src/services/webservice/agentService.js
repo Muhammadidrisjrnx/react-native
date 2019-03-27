@@ -92,6 +92,20 @@ export const deleteAgent = (tkn,id) => {
     });
 }
 
+export const checkKtp = (tkn,id,dob) =>{
+    const URL = BASE_URL+'rest/agents/identity-check?dob='+dob+'&idCardNo='+id
+    console.warn(URL)
+    return fetch(URL,{
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer '+tkn
+        }
+    }).then((res)=> res.text())
+    .catch((error)=>{
+        console.warn('error' + JSON.stringify(error))
+    })
+}
+
 export const updateAgentFiles = (tkn,id,data,lead) =>{
 
     //const URL = BASE_URL+'rest/agents/updateLead/'+id
@@ -203,9 +217,6 @@ export const updateAgentFiles = (tkn,id,data,lead) =>{
         },
         body: formdata
     }).then((res) => res.json())
-    .catch((error) => {
-        console.warn('erorr : ' + JSON.stringify(error))
-    })
 
     /*
     

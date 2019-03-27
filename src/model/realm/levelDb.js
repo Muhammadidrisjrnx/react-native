@@ -5,3 +5,5 @@ export class LevelDb extends DbService{
         super("level")
     }
 }
+
+export const levelDb = new LevelDb()

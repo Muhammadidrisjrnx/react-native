@@ -71,42 +71,36 @@ export default class LoginScreen extends Component{
         global.user=user;
 
         getAllService(global.token,'levels').then((res) => {
-            global.levels = res
             this.levelDb.deleteAll();
             this.levelDb.insertAll(res);
             this.countAllServices()
             });
     
         getAllService(global.token,'branches').then((res) => {
-            global.branches = res
             this.branchDb.deleteAll()
             this.branchDb.insertAll(res)
             this.countAllServices()
         })
 
         getAllService(global.token,'cities').then((res) => {
-            global.cities = res
             this.cityDb.deleteAll()
             this.cityDb.insertAll(res)
             this.countAllServices()
         })
 
         getAllService(global.token,'religions').then((res) => {
-            global.religions = res
             this.religionDb.deleteAll()
             this.religionDb.insertAll(res)
             this.countAllServices()
         })
 
         getAllService(global.token,'educations').then((res) => {
-            global.educations = res
             this.educationDb.deleteAll()
             this.educationDb.insertAll(res)
             this.countAllServices()
         })
 
         getAllService(global.token,'occupations').then((res) => {
-            global.occupations = res
             this.occupationDb.deleteAll()
             this.occupationDb.insertAll(res)
             this.countAllServices()
@@ -119,7 +113,6 @@ export default class LoginScreen extends Component{
         })
 
         getAllService(global.token,'banks').then((res)=>{
-            global.banks = res
             this.bankDb.deleteAll()
             this.bankDb.insertAll(res)
             this.countAllServices()

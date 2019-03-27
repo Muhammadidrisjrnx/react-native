@@ -261,6 +261,7 @@ export class DbService  {
         if (!sortBy) sortBy = [['id', false]]
         return realm.objects(this.schema).sorted(sortBy)
     }
+    
     get (id){
         return realm.objectForPrimaryKey(this.schema,id)
     }

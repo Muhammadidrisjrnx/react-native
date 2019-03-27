@@ -8,6 +8,11 @@ import thumbimageStyle from '../../../../component/thumbImage/thumbimage.style.j
 import Moment from 'moment';
 
 import { requiredValidator, lengthValidator, emailValidator, phoneValidator,ktpValidator } from '../../../../helper/validator.js';
+import { levelDb } from '../../../../model/realm/levelDb.js';
+import { citiDb } from '../../../../model/realm/cityDb.js';
+import { religionDb } from '../../../../model/realm/religionDb.js';
+import { educationDb } from '../../../../model/realm/educationDb.js';
+import { branchDb } from '../../../../model/realm/branchDb.js';
 
 
 export default class PersonalInformationScreen extends Component {
@@ -96,17 +101,8 @@ export default class PersonalInformationScreen extends Component {
             console.warn(name+" : "+this.state[name])
 
             data = this.state
-            delete data.isBirthDatePickerVisible
-            delete data.isJoinDatePickerVisible
-            delete data.drop_level
-            delete data.drop_religion
-            delete data.drop_education
-            delete data.drop_city
-            delete data.drop_branch
-            /*if(name==='agtJoinDate' || name==='agtDob'){
-              data[name] = Moment(this.state[name]).format('YYYY-MM-DD')
-              console.warn(name+" : "+data[name])
-            }*/
+         
+            
             this.props.screenProps.textInputHandler('personal',data)
           })
         }
@@ -115,7 +111,6 @@ export default class PersonalInformationScreen extends Component {
         this.religionOptions = [];
         this.educationOptions = [];
         this.cityOptions = [];
-        this.occupationOptions = [];
         this.branchOptions = [];
 
         this.generateDropdown()
@@ -127,58 +122,59 @@ export default class PersonalInformationScreen extends Component {
       this.state.drop_religion = this.state.religion? this.state.religion.id : '';
       this.state.drop_education = this.state.education? this.state.education.id : '';
       this.state.drop_city = this.state.city? this.state.city.id : '';
-      this.state.drop_occupation = this.state.occupation? this.state.occupation.id : '';
       this.state.drop_branch = this.state.branch ? this.state.branch.id : '';
 
       if(!this.state.agtSex) this.state.agtSex = ''
       if(!this.state.agtMaritalStatus) this.state.agtMaritalStatus = ''
       if(!this.state.agtDependentTotal) this.state.agtDependentTotal = ''
 
+      levels = levelDb.getAll()
+
       //levels
-      for(i =0 ; i< global.levels.length;i++){
+      for(i =0 ; i< levels.length;i++){
         this.levelOptions [i] = {
-          'value': global.levels[i].id,
-          'label': global.levels[i].lvlName.toUpperCase()
+          'value': levels[i].id,
+          'label': levels[i].lvlName.toUpperCase()
         };
       }
 
+      cities = citiDb.getAll('cityName')
+
       //cities
-      for(i =0 ; i< global.cities.length;i++){
+      for(i =0 ; i< cities.length;i++){
         this.cityOptions [i] = {
-          'value': global.cities[i].id,
-          'label': global.cities[i].cityName.toUpperCase()
+          'value': cities[i].id,
+          'label': cities[i].cityName.toUpperCase()
         };
       }
+
+      religions = religionDb.getAll()
 
       //religions
       for(i =0 ; i< global.religions.length;i++){
         this.religionOptions [i] = {
-          'value': global.religions[i].id,
-          'label': global.religions[i].reliName.toUpperCase()
+          'value': religions[i].id,
+          'label': religions[i].reliName.toUpperCase()
         };
       }
+
+      educations = educationDb.getAll()
 
       //educations
-      for(i =0 ; i< global.educations.length;i++){
+      for(i =0 ; i< educations.length;i++){
         this.educationOptions [i] = {
-          'value': global.educations[i].id,
-          'label': global.educations[i].eduName.toUpperCase()
+          'value': educations[i].id,
+          'label': educations[i].eduName.toUpperCase()
         };
       }
 
-      //occupation
-      for(i =0 ; i< global.occupations.length;i++){
-        this.occupationOptions [i] = {
-          'value': global.occupations[i].id,
-          'label': global.occupations[i].ocuName.toUpperCase()
-        };
-      }
+      branches = branchDb.getAll('brcName')
 
       //branch
-      for(i =0 ; i< global.branches.length;i++){
+      for(i =0 ; i< branches.length;i++){
         this.branchOptions [i] = {
-          'value': global.branches[i].id,
-          'label': global.branches[i].brcName.toUpperCase()
+          'value': branches[i].id,
+          'label': branches[i].brcName.toUpperCase()
         };
 
       }
@@ -288,30 +284,26 @@ export default class PersonalInformationScreen extends Component {
                 editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
 
               <FormValidationMessage>{lengthValidator(this.state.agtAddr1,1,30)?'':'Wajib diisi. Maks. 30 karakter'}</FormValidationMessage>
+              
+              
+              
+              <FormLabel>RT/RW/Kelurahan</FormLabel>
+              <FormInput 
+                autoCapitalize="characters"
+                value={this.state.agtAddr2}
+                onChange={(e) => this._handleTextInputChange(e,'agtAddr2')}
+                editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
+              <FormValidationMessage>{lengthValidator(this.state.agtAddr2,1,30)?'':'Wajib diisi. Maks. 30 karakter'}</FormValidationMessage>
 
-              <View style={{flexDirection:'row'}}>
-              <View style={{flex:1}}>
-                  <FormLabel>RT/RW/Kelurahan</FormLabel>
-                  <FormInput 
-                    autoCapitalize="characters"
-                    value={this.state.agtAddr2}
-                    onChange={(e) => this._handleTextInputChange(e,'agtAddr2')}
-                    editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
-
-                  <FormValidationMessage>{lengthValidator(this.state.agtAddr2,1,30)?'':'Wajib diisi. Maks. 30 karakter'}</FormValidationMessage>
-
-              </View>
-              <View style={{flex:1}}>
-                  <FormLabel>Kecamatan</FormLabel>
-                  <FormInput 
-                    autoCapitalize="characters"
-                    value={this.state.agtDistrict}
-                    onChange={(e) => this._handleTextInputChange(e,'agtDistrict')}
-                    editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
-                    
-                  <FormValidationMessage>{lengthValidator(this.state.agtDistrict,1,30)?'':'Wajib diisi. Maks. 30 karakter'}</FormValidationMessage>
-              </View>
-              </View>
+              <FormLabel>Kecamatan</FormLabel>
+              <FormInput 
+                autoCapitalize="characters"
+                value={this.state.agtDistrict}
+                onChange={(e) => this._handleTextInputChange(e,'agtDistrict')}
+                editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
+                
+              <FormValidationMessage>{lengthValidator(this.state.agtDistrict,1,30)?'':'Wajib diisi. Maks. 30 karakter'}</FormValidationMessage>
+            
               <Dropdown
                   label='Kota'
                   data={this.cityOptions}

@@ -5,6 +5,7 @@ import styles,{defaultColor} from '../leadDetail.style.js';
 import ImagePicker from 'react-native-image-picker';
 import { requiredValidator, maxFileValidator,jpgValidator } from '../../../../helper/validator.js';
 
+//var ImagePicker = require('react-native-image-picker');
 
 export default class DocumentInformationScreen extends Component {
 
@@ -29,21 +30,19 @@ export default class DocumentInformationScreen extends Component {
       const options = {
         noData: true,
       }
-      ImagePicker.launchImageLibrary(options, response => {
-        //ImagePicker.launchCamera(options,response=>{
+      //ImagePicker.launchImageLibrary(options, response => {
+        ImagePicker.showImagePicker({title: "Choose...", maxWidth: 800, maxHeight: 600}, response => {
         if (response.uri) {
           if(response.type===null){
             ext = response.fileName.split('.').pop();
-            console.warn('ext : '+ext)
             if(ext.toLowerCase() === 'jpeg' || ext.toLowerCase()==='jpg'){
               response.type="image/jpeg"
             }
-            console.warn('response type : '+response.type)
           }
-          this.setState({ [file]: response })
-          console.warn(JSON.stringify(this.state[file]))
-
-          this.props.screenProps.textInputHandler('document',this.state)        
+          
+          this.setState({ [file]: response },(()=>{
+            this.props.screenProps.textInputHandler('document',this.state)
+          }))
         }
       })
     }

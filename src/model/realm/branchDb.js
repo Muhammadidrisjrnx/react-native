@@ -5,3 +5,5 @@ export class BranchDb extends DbService{
         super("branch")
     }
 }
+
+export const branchDb = new BranchDb()

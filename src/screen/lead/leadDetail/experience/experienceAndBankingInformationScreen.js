@@ -8,6 +8,8 @@ import {Dropdown} from 'react-native-material-dropdown';
 import Moment from 'moment';
 
 import { requiredValidator, requiredInsuranceValidator, npwpValidator, rekeningValidator } from '../../../../helper/validator.js';
+import { OccupationDb, occupationDb } from '../../../../model/realm/occupationDb.js';
+import { BankDb, bankDb } from '../../../../model/realm/bankDb.js';
 
 
 export default class ExperienceAndBankingInformationScreen extends Component {
@@ -69,11 +71,7 @@ export default class ExperienceAndBankingInformationScreen extends Component {
         this.setState({[name]:value},() => {
 
           data = this.state
-          delete data.isResignDatePickerVisible
-          delete data.isExpiredDatePickerVisible
-          delete data.drop_bank
-          delete data.drop_leader
-          delete data.drop_occupation
+          
           this.props.screenProps.textInputHandler('experience',data)
         })
       }
@@ -88,19 +86,23 @@ export default class ExperienceAndBankingInformationScreen extends Component {
       this.state.drop_occupation = this.state.occupation? this.state.occupation.id : '';
       this.state.drop_bank = this.state.bank ? this.state.bank.id:'';
 
+      occupations = occupationDb.getAll()
+
       //occupation
-      for(i =0 ; i< global.occupations.length;i++){
+      for(i =0 ; i< occupations.length;i++){
         this.occupationOptions [i] = {
-          'value': global.occupations[i].id,
-          'label': global.occupations[i].ocuName.toUpperCase()
+          'value': occupations[i].id,
+          'label': occupations[i].ocuName.toUpperCase()
         };
       }
 
+      banks = bankDb.getAll('bnkName')
+
       //bank
-      for(i = 0; i<global.banks.length;i++){
+      for(i = 0; i<banks.length;i++){
         this.bankOptions [i] = {
-          'value': global.banks[i].id,
-          'label': global.banks[i].bnkName.toUpperCase()
+          'value': banks[i].id,
+          'label': banks[i].bnkName.toUpperCase()
         };
       }
 
@@ -141,8 +143,6 @@ export default class ExperienceAndBankingInformationScreen extends Component {
                   isVisible={this.state.isResignDatePickerVisible}
                   onConfirm={this._handleResignDatePicked}
                   onCancel={this._hideResignDatePicker}/>  
-                <FormValidationMessage>{requiredInsuranceValidator(this.state.agtExInsuranceResignDate,this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
-
 
                 <FormLabel>Expired Date</FormLabel>
                 <TouchableOpacity disabled={!this.isSubmittable} onPress={()=>this._showExpiredDatePicker()}>
@@ -155,7 +155,6 @@ export default class ExperienceAndBankingInformationScreen extends Component {
                   onConfirm={this._handleExpiredDatePicked}
                   onCancel={this._hideExpiredDatePicker}
                 />
-                <FormValidationMessage>{requiredInsuranceValidator(this.state.agtExAajiExpired,this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
                 
 
                 <FormLabel>No. Lisensi Agent</FormLabel>
@@ -164,7 +163,6 @@ export default class ExperienceAndBankingInformationScreen extends Component {
                   value={this.state.agtAajiNo} 
                   onChange={(e) => this._handleTextInputChange(e,'agtAajiNo')}
                   editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
-                <FormValidationMessage>{requiredInsuranceValidator(this.state.agtAajiNo,this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
 
 
                 <Dropdown

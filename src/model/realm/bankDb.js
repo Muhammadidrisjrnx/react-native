@@ -5,3 +5,5 @@ export class BankDb extends DbService{
         super("bank")
     }
 }
+
+export const bankDb = new BankDb()

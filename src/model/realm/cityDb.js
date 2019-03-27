@@ -5,3 +5,5 @@ export class CityDb extends DbService{
         super("city")
     }
 }
+
+export const citiDb = new CityDb()
