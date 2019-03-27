@@ -47,6 +47,19 @@ export const newValidator = (data) => {
        )
 }
 
+export const dependentHasValueValidator = (data,dependent,value) => {
+    if(dependent===value)
+        return requiredValidator(data)
+    else return true
+}
+
+export const requiredInsuranceValidator = (data,dependent) =>{
+    if(requiredValidator(dependent))
+        return dependentHasValueValidator(data,dependent.ocuName,"INSURANCE")
+    else
+        return true;
+}
+
 export const jpgValidator = (data) =>{
     if(requiredValidator(data))
         return data.type==='image/jpeg'
@@ -81,7 +94,6 @@ export const informationValidator = (data) => {
         && ktpValidator(data.agtIdCardNo)
         && requiredValidator(data.education)
         && requiredValidator(data.agtMaritalStatus)
-        && requiredValidator(data.occupation)
         && requiredValidator(data.agtDependentTotal)
         && phoneValidator(data.agtMobileNumber)
         && emailValidator(data.agtEmail)   
@@ -89,12 +101,19 @@ export const informationValidator = (data) => {
 }
 
 
-export const bankingValidator = (data) => {
+export const experienceBankingValidator = (data) => {
     return (
         requiredValidator(data.bank)
         && lengthValidator(data.agtBankAccountName,1,60)
         && rekeningValidator(data.agtBankAccountNo)
         && npwpValidator(data.agtTaxId)
+        && requiredValidator(data.occupation)
+        && requiredInsuranceValidator(data.agtExInsuranceCompany,data.occupation)
+        && requiredInsuranceValidator(data.agtExInsuranceResignDate,data.occupation)
+        && requiredInsuranceValidator(data.agtExAajiExpired,data.occupation)
+        && requiredInsuranceValidator(data.agtAajiNo,data.occupation)
+        && requiredInsuranceValidator(data.agtLeaderExp,data.occupation)
+        && requiredInsuranceValidator(data.agtORIncome,data.occupation)
     )
 }
 

@@ -24,7 +24,18 @@ export const getExam = (tkn,id) => {
         headers: HEADER(tkn),
     }).then((res) => res.json())
     .catch((error) => {
-        console.warn('erorr : ' + JSON.stringify(error))
+        console.warn('error : ' + JSON.stringify(error))
+    });
+}
+
+export const getAgentDetailExam = (tkn) =>{
+    const URL = BASE_URL+'agent-detail-exams'
+    return fetch(URL,{
+        method: 'GET',
+        headers: HEADER(tkn)
+    }).then((res)=>res.json())
+    .catch((error)=>{
+        console.warn('error : '+ JSON.stringify(error))
     });
 }
 

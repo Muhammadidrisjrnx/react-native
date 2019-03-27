@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import {Calendar} from 'react-native-calendars';
 import styles,{defaultColor} from './scheduleTab.style.js';
 import { Tab } from 'native-base';
+import { getAgentDetailExam } from '../../../services/webservice/examService.js';
 
 export default class ScheduleTab extends Component{
     constructor(props) {
@@ -30,8 +31,20 @@ export default class ScheduleTab extends Component{
 
         this.createRenderMarkedDatesList()
 
+        this.loadAajiSchedule()
+
       }
-   
+
+      loadAajiSchedule(){
+        getAgentDetailExam(global.token).then((res)=>{
+          console.warn(res)
+          
+        })
+      }   
+
+      processAajiSchedule(){
+
+      }
 
     onDropDownChangeText = (text) => {
         ['level', 'branch', 'sample', 'typography']
@@ -87,6 +100,7 @@ export default class ScheduleTab extends Component{
                     </TouchableOpacity>
                 </View>
                 {
+                  /*
                     (this.state.typeSelected == 1 || this.state.typeSelected == 2) &&
                     <Dropdown
                     ref={this.branchRef}
@@ -99,7 +113,7 @@ export default class ScheduleTab extends Component{
                     itemTextStyle={{color:defaultColor.Red}}
                     />
                     
-
+                    */
                 } 
                 <ScrollView style={styles.schedule_body}>
                     <Calendar

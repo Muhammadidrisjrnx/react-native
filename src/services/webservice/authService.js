@@ -1,7 +1,8 @@
 import {BASE_URL, HEADER} from '../../class/global.js'
 
 export const authToken = (username,password) => {
-    const URL = BASE_URL+'authenticate'
+    //const URL = BASE_URL+'authenticate'
+    const URL = BASE_URL+'login'
     data = {
         'username':username,
         'password':password,

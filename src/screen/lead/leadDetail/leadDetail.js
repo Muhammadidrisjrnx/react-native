@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {ToastAndroid, View, Text, TouchableOpacity,ScrollView,TouchableWithoutFeedback,Platform} from 'react-native';
+import {NetInfo,ToastAndroid, View, Text, TouchableOpacity,ScrollView,TouchableWithoutFeedback,Platform} from 'react-native';
 import {createMaterialTopTabNavigator  } from 'react-navigation';
 import Moment from 'moment';
 import {Dropdown} from 'react-native-material-dropdown';
@@ -20,10 +20,11 @@ import DocumentInformationScreen from './document/documentInformationScreen.js';
 import SelectionScreen from './selection/selectionScreen.js';
 import { postAgent, newAgent, updateAgent, updateAgentFiles, deleteAgent } from '../../../services/webservice/agentService';
 import newInformationScreen from './new/newInformationScreen.js';
-import { newValidator, detailValidator, informationValidator, bankingValidator, documentValidator } from '../../../helper/validator.js';
+import { newValidator, detailValidator, informationValidator, bankingValidator, documentValidator, experienceBankingValidator } from '../../../helper/validator.js';
 import { statusApproval, statusSubmitted } from '../../../helper/status.js';
 import { LoadingDialog } from '../../../component/popup/loading.js';
 import { popUpError } from '../../../component/popup/error.js';
+import { agentDb } from '../../../model/realm/agentDb.js';
 
 export default class LeadDetail extends Component{
 
@@ -51,6 +52,7 @@ export default class LeadDetail extends Component{
             "agtTaxId": null */
 
           experience:{
+            occupation:this.data.occupation,
             agtExInsuranceCompany: this.data.agtExInsuranceCompany,
             agtExInsuranceResignDate: this.data.agtExInsuranceResignDate,
             agtExAajiExpired: this.data.agtExAajiExpired,
@@ -59,6 +61,9 @@ export default class LeadDetail extends Component{
             agtBankAccountNo:this.data.agtBankAccountNo,
             agtBankAccountName: this.data.agtBankAccountName,
             agtTaxId: this.data.agtTaxId,
+            agtLeaderExp: this.data.agtLeaderExp,
+            agtCommissionIncome: this.data.agtCommissionIncome,
+            agtORIncome: this.data.agtORIncome
           },
 
           //personal screen
@@ -82,7 +87,6 @@ export default class LeadDetail extends Component{
             agtJoinDate:this.data.agtJoinDate,
 
             agtMaritalStatus: this.data.agtMaritalStatus,
-            occupation:this.data.occupation,
             agtDependentTotal:this.convertNumberToString(this.data.agtDependentTotal),
             agtMobileNumber:this.convertNumberToString(this.data.agtMobileNumber),
             agtEmail:this.data.agtEmail
@@ -114,6 +118,19 @@ export default class LeadDetail extends Component{
          this.state.tabNav = nav.nav
        }
 
+      this.handleConnectivityChange = (isConnected) => {
+        this.setState({ isConnected })
+      }
+    }
+
+    
+
+    componentDidMount() {
+      NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+    }
+
+    componentWillUnmount() {
+      NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
     }
 
     convertNumberToString (num){
@@ -131,7 +148,16 @@ export default class LeadDetail extends Component{
     }
 
     onPressSave (){
-      this.onPressSubmit()
+      let data = {
+        id: this.data.id,
+        agtVersion: this.data.agtVersion,
+        agtCreateBy:this.data.agtCreateBy,
+        agtSubmitted: true,
+        ...this.state.personal,
+        ...this.state.experience,
+        ...this.state.recruit
+      }
+      this.saveDetail(data)
     }
 
     onPressSubmit() {
@@ -162,8 +188,8 @@ export default class LeadDetail extends Component{
 
         if(informationValidator(data)){
           console.warn('INFORMATION : CORRECT')
-          if(bankingValidator(data)){
-            console.warn('Banking validator corect')
+          if(experienceBankingValidator(data)){
+            console.warn('Experience Banking validator corect')
             if(documentValidator(this.files)){
               console.warn('document validaator corect')
               console.warn('all validator success')
@@ -226,6 +252,26 @@ export default class LeadDetail extends Component{
         console.warn('result : '+JSON.stringify(res))
         this.uploadFile(this.data,res)
       });*/
+    }
+
+    saveDetail(data){
+      this.showLoadingDialog(true)
+
+      data = this.capitalize(data)
+
+      console.warn(data)
+
+      db = agentDb
+
+      //db.insert(data)
+
+      updateAgent(global.token, data).then((res) => {
+        console.warn("trying to delete : "+data.id)
+        //db.delete(data.id)
+        console.warn("length : "+db.getAll().length)
+        this.showLoadingDialog(false)
+        this.onPressCancel()
+      })
     }
 
     uploadFile(data){
@@ -293,21 +339,21 @@ export default class LeadDetail extends Component{
 
     capitalize(data){
       //personal
-      data.agtName = data.agtName.toUpperCase()
-      data.agtPob = data.agtPob.toUpperCase()
-      data.agtAddr1 = data.agtAddr1.toUpperCase()
-      data.agtAddr2 = data.agtAddr2.toUpperCase()
-      data.agtDistrict = data.agtDistrict.toUpperCase()
-      data.agtIdCardNo = data.agtIdCardNo.toUpperCase()
-      data.agtEmail = data.agtEmail.toUpperCase()
+      data.agtName = data.agtName ? data.agtName.toUpperCase() : ''
+      data.agtPob = data.agtPob? data.agtPob.toUpperCase() : ''
+      data.agtAddr1 = data.agtAddr1? data.agtAddr1.toUpperCase() : ''
+      data.agtAddr2 = data.agtAddr2? data.agtAddr2.toUpperCase() : ''
+      data.agtDistrict = data.agtDistrict? data.agtDistrict.toUpperCase() : ''
+      data.agtIdCardNo = data.agtIdCardNo? data.agtIdCardNo.toUpperCase() : ''
+      data.agtEmail = data.agtEmail? data.agtEmail.toUpperCase(): ''
 
       //experience&banking
-      data.agtExInsuranceCompany = data.agtExInsuranceCompany.toUpperCase()
-      data.agtAajiNo = data.agtAajiNo.toUpperCase()
-      data.agtBankAccountName = data.agtBankAccountName.toUpperCase()
+      data.agtExInsuranceCompany = data.agtExInsuranceCompany? data.agtExInsuranceCompany.toUpperCase():''
+      data.agtAajiNo = data.agtAajiNo? data.agtAajiNo.toUpperCase():''
+      data.agtBankAccountName = data.agtBankAccountName? data.agtBankAccountName.toUpperCase():''
 
       //recruit
-      data.agtRecruitRelation = data.agtRecruitRelation.toUpperCase()
+      data.agtRecruitRelation = data.agtRecruitRelation? data.agtRecruitRelation.toUpperCase():''
 
       return data
     }

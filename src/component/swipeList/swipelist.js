@@ -18,7 +18,7 @@ SubItem = (props) =>{
         <View>
             {/* CONTACT NUMBER */}
             <View key={props.id} style={styles.listItem_SubTitleContainer}>
-                <Text style={styles.listItem_SubTitleCaption}>Contact Number</Text>
+                <Text style={styles.listItem_SubTitleCaption}>Contact</Text>
                 <Text style={styles.listItem_SubTitleValue}>: {props.item.agtMobileNumber}</Text>
             </View>
             

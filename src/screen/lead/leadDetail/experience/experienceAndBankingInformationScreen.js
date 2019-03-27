@@ -7,7 +7,7 @@ import {Dropdown} from 'react-native-material-dropdown';
 
 import Moment from 'moment';
 
-import { requiredValidator, lengthValidator, emailValidator, phoneValidator, npwpValidator, rekeningValidator } from '../../../../helper/validator.js';
+import { requiredValidator, requiredInsuranceValidator, npwpValidator, rekeningValidator } from '../../../../helper/validator.js';
 
 
 export default class ExperienceAndBankingInformationScreen extends Component {
@@ -45,8 +45,14 @@ export default class ExperienceAndBankingInformationScreen extends Component {
       this.onDropDownChangeText = (type,text) => {
         obj = {}
         switch(type){
+          case 'occupation':
+            obj = global.occupations.find(x => x.id === text)
+          break;
           case 'bank':
             obj = global.banks.find(x => x.id === text)
+          break;
+          case 'agtLeaderExp':
+            obj = text
           break;
         }
 
@@ -66,34 +72,64 @@ export default class ExperienceAndBankingInformationScreen extends Component {
           delete data.isResignDatePickerVisible
           delete data.isExpiredDatePickerVisible
           delete data.drop_bank
+          delete data.drop_leader
+          delete data.drop_occupation
           this.props.screenProps.textInputHandler('experience',data)
         })
       }
   
       this.bankOptions = [];
+      this.leaderOptions = LEADER_EXPERIENCE
+      this.occupationOptions = [];
       this.generateDropdown();
     }
 
     generateDropdown(){
+      this.state.drop_occupation = this.state.occupation? this.state.occupation.id : '';
       this.state.drop_bank = this.state.bank ? this.state.bank.id:'';
 
+      //occupation
+      for(i =0 ; i< global.occupations.length;i++){
+        this.occupationOptions [i] = {
+          'value': global.occupations[i].id,
+          'label': global.occupations[i].ocuName.toUpperCase()
+        };
+      }
+
+      //bank
       for(i = 0; i<global.banks.length;i++){
         this.bankOptions [i] = {
           'value': global.banks[i].id,
           'label': global.banks[i].bnkName.toUpperCase()
-        }
+        };
       }
+
+      this.state.drop_leader = this.state.agtLeaderExp ? this.state.agtLeaderExp:'';
     }
 
     render() {
         return (
             <ScrollView>
+                <Dropdown
+                  ref='occupation'
+                  label='Pekerjaan'
+                  data={this.occupationOptions}
+                  value={this.state.drop_occupation}
+                  onChangeText={(text) => {this.onDropDownChangeText('occupation',text)}}
+                  containerStyle={{marginHorizontal:17}}
+                  baseColor={defaultColor.Black}
+                  disabled={!this.isSubmittable}/> 
+                <FormValidationMessage>{requiredValidator(this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
+
+
                 <FormLabel>Nama Perusahaan Asuransi (Ex)</FormLabel>
                 <FormInput 
                   autoCapitalize="characters" 
                   value={this.state.agtExInsuranceCompany} 
                   onChange={(e) => this._handleTextInputChange(e,'agtExInsuranceCompany')}
                   editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
+                <FormValidationMessage>{requiredInsuranceValidator(this.state.agtExInsuranceCompany,this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
+                  
 
                 <FormLabel>Resign Date</FormLabel>
                 <TouchableOpacity disabled={!this.isSubmittable} onPress={()=>this._showResignDatePicker()}>
@@ -104,8 +140,9 @@ export default class ExperienceAndBankingInformationScreen extends Component {
                 <DateTimePicker
                   isVisible={this.state.isResignDatePickerVisible}
                   onConfirm={this._handleResignDatePicked}
-                  onCancel={this._hideResignDatePicker}
-                />     
+                  onCancel={this._hideResignDatePicker}/>  
+                <FormValidationMessage>{requiredInsuranceValidator(this.state.agtExInsuranceResignDate,this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
+
 
                 <FormLabel>Expired Date</FormLabel>
                 <TouchableOpacity disabled={!this.isSubmittable} onPress={()=>this._showExpiredDatePicker()}>
@@ -118,6 +155,8 @@ export default class ExperienceAndBankingInformationScreen extends Component {
                   onConfirm={this._handleExpiredDatePicked}
                   onCancel={this._hideExpiredDatePicker}
                 />
+                <FormValidationMessage>{requiredInsuranceValidator(this.state.agtExAajiExpired,this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
+                
 
                 <FormLabel>No. Lisensi Agent</FormLabel>
                 <FormInput 
@@ -125,8 +164,31 @@ export default class ExperienceAndBankingInformationScreen extends Component {
                   value={this.state.agtAajiNo} 
                   onChange={(e) => this._handleTextInputChange(e,'agtAajiNo')}
                   editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}/> 
+                <FormValidationMessage>{requiredInsuranceValidator(this.state.agtAajiNo,this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
+
+
+                <Dropdown
+                  label={"Pengalaman Leader"}
+                  data={this.leaderOptions}
+                  value={this.state.drop_leader}
+                  onChangeText={(text) => {this.onDropDownChangeText('agtLeaderExp',text)}}
+                  containerStyle={{marginHorizontal:17}}
+                  baseColor={defaultColor.Black}
+                  disabled={!this.isSubmittable}/>
+                <FormValidationMessage>{requiredInsuranceValidator(this.state.agtLeaderExp,this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
+
+
+                <FormLabel>Pendapatan Per Bulan</FormLabel>
+                <FormInput 
+                  autoCapitalize="characters"
+                  keyboardType="numeric"
+                  value={this.state.agtORIncome}
+                  onChange={(e) => this._handleTextInputChange(e,'agtORIncome')}
+                  editable={this.isSubmittable} selectTextOnFocus={this.isSubmittable}
+                  />
+                <FormValidationMessage>{requiredInsuranceValidator(this.state.agtORIncome,this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
+
                 
-                <FormLabel>Nama Bank</FormLabel>
                 <Dropdown
                   label='Bank'
                   data={this.bankOptions}
@@ -166,3 +228,18 @@ export default class ExperienceAndBankingInformationScreen extends Component {
         );
     }
   }
+
+  const LEADER_EXPERIENCE = [
+    {
+      'label':'BELUM PERNAH',
+      'value':'BELUM PERNAH'
+    },
+    {
+      'label':'< 3 TAHUN',
+      'value':'< 3 TAHUN'
+    },
+    {
+      'label':'> 3 TAHUN',
+      'value':'> 3 TAHUN'
+    }
+  ]

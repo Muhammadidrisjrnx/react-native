@@ -50,9 +50,6 @@ export default class PersonalInformationScreen extends Component {
             case 'agtMaritalStatus':
               obj = text
             break;
-            case 'occupation':
-              obj = global.occupations.find(x => x.id === text)
-            break;
             case 'branch':
               obj = global.branches.find(x => x.id === text)
             break;
@@ -105,7 +102,6 @@ export default class PersonalInformationScreen extends Component {
             delete data.drop_religion
             delete data.drop_education
             delete data.drop_city
-            delete data.drop_occupation
             delete data.drop_branch
             /*if(name==='agtJoinDate' || name==='agtDob'){
               data[name] = Moment(this.state[name]).format('YYYY-MM-DD')
@@ -374,19 +370,6 @@ export default class PersonalInformationScreen extends Component {
 
               <FormValidationMessage>{requiredValidator(this.state.agtMaritalStatus)?'':'Wajib diisi'}</FormValidationMessage>
 
-
-              <Dropdown
-                  ref='occupation'
-                  label='Pekerjaan'
-                  data={this.occupationOptions}
-                  value={this.state.drop_occupation}
-                  onChangeText={(text) => {this.onDropDownChangeText('occupation',text)}}
-                  containerStyle={{marginHorizontal:17}}
-                  baseColor={defaultColor.Black}
-                  disabled={!this.isSubmittable}/> 
-
-              <FormValidationMessage>{requiredValidator(this.state.occupation)?'':'Wajib diisi'}</FormValidationMessage>
-
               <Dropdown
                   label='Jumlah Tanggungan'
                   data={DEPENDENT_TOTAL}
@@ -395,8 +378,8 @@ export default class PersonalInformationScreen extends Component {
                   containerStyle={{marginHorizontal:17}}
                   baseColor={defaultColor.Black}
                   disabled={!this.isSubmittable}/> 
-                  
               <FormValidationMessage>{requiredValidator(this.state.agtDependentTotal)?'':'Wajib diisi'}</FormValidationMessage>
+              
 
                 <FormLabel>No. HP</FormLabel>
                 <FormInput 

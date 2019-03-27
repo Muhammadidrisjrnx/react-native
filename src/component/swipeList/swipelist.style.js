@@ -55,7 +55,7 @@ export default ScaledSheet.create({
         fontSize:'10@s',
     },
     listItem_SubTitleValue:{
-        flex:2,
+        flex:5,
         fontSize:'10@s',
     },
     rowBack: {

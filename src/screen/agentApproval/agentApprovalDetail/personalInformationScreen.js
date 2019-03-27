@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {ToastAndroid,Image, View, Text, TouchableOpacity} from 'react-native';
+import {ToastAndroid,Image, View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {createMaterialTopTabNavigator  } from 'react-navigation';
 import Moment from 'moment';
 import {Icon} from 'react-native-elements';
@@ -10,10 +10,20 @@ import ThumbImage from '../../../component/thumbImage/thumbimage.js'
 import styles,{defaultColor} from './agentApprovalDetail.style.js';
 
 export default class PersonalInformationScreen extends Component {
+
+    constructor(props){
+        super(props)
+        console.warn(JSON.stringify(this.props.screenProps.data))
+    }
+
+    
     render() {
         const data = this.props.screenProps.data;
+        console.warn(JSON.stringify(this.props.screenProps.data))
+
         
         return (
+            <ScrollView>
             <View style={styles.tabContainer}>
                 <View style={styles.itemTitleContainer}>
                     <ThumbImage source={require('../../../../resource/image/profile.jpg')} />
@@ -72,8 +82,9 @@ export default class PersonalInformationScreen extends Component {
                     <Text style={styles.itemDetail}>Email</Text>
                     <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtEmail}</Text>
                 </View>
+                </View>
             </View>
-            </View>
+        </ScrollView>
         );
     }
   }

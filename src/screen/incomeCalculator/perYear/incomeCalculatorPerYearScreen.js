@@ -132,6 +132,10 @@ export class IncomeCalculatorPerYearScreen extends Component {
         return parseInt(str.replace(/\D/g,''));
     }
 
+    changeText(name,value){
+        this.setState({[name]:value})
+    }
+
     render() {
 
         return (
@@ -214,7 +218,7 @@ export class IncomeCalculatorPerYearScreen extends Component {
                     fieldsConfig["year" + this.props.year].includes(fields.promotionToAbm) &&
                     <View>
                     <FormLabel>{fields.promotionToAbm}</FormLabel>
-                    <FormInput editable={false} keyboardType="numeric"  value={this.state.promotionToAbm}/>
+                    <FormInput keyboardType="numeric"  value={this.state.promotionToAbm} onChangeText={(tx => {this.changeText('promotionToAbm',tx)})}/>
                     </View>
                 }
 
@@ -222,7 +226,7 @@ export class IncomeCalculatorPerYearScreen extends Component {
                     fieldsConfig["year" + this.props.year].includes(fields.promotionToBm) &&
                     <View>
                     <FormLabel>{fields.promotionToBm}</FormLabel>
-                    <FormInput editable={false} keyboardType="numeric"  value={this.state.promotionToBm}/>
+                    <FormInput  keyboardType="numeric"  value={this.state.promotionToBm} onChangeText={(tx => {this.changeText('promotionToBm',tx)})}/>
                     </View>
                 }
 
@@ -230,7 +234,7 @@ export class IncomeCalculatorPerYearScreen extends Component {
                     fieldsConfig["year" + this.props.year].includes(fields.promotionToAbd) &&
                     <View>
                     <FormLabel>{fields.promotionToAbd}</FormLabel>
-                    <FormInput editable={false} keyboardType="numeric"  value={this.state.promotionToAbd}/>
+                    <FormInput keyboardType="numeric"  value={this.state.promotionToAbd} onChangeText={(tx => {this.changeText('promotionToAbd',tx)})}/>
                     </View>
                 }
 
@@ -238,7 +242,7 @@ export class IncomeCalculatorPerYearScreen extends Component {
                     fieldsConfig["year" + this.props.year].includes(fields.promotionToBd) &&
                     <View>
                     <FormLabel>{fields.promotionToBd}</FormLabel>
-                    <FormInput editable={false} keyboardType="numeric"  value={this.state.promotionToBd}/>
+                    <FormInput keyboardType="numeric"  value={this.state.promotionToBd} onChangeText={(tx => {this.changeText('promotionToBd',tx)})}/>
                     </View>
                 }
 

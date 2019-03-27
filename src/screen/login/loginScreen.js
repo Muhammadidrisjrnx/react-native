@@ -21,11 +21,11 @@ import { getAllService } from '../../services/webservice/getService.js';
 import { BankDb } from '../../model/realm/bankDb.js';
 import { LoadingDialog } from '../../component/popup/loading.js';
 import { popUpError } from '../../component/popup/error.js';
+import { agentDb } from '../../model/realm/agentDb.js';
 
 export default class LoginScreen extends Component{
     constructor(props){
         super(props);
-
         
         this.levelDb = new LevelDb()
         this.branchDb = new BranchDb()
@@ -156,11 +156,15 @@ export default class LoginScreen extends Component{
         authToken(this.state.username,this.state.password).then((res) => {
             console.warn(res)
             if(res.id_token){
-                this.authSuccess(res.id_token)
+              this.authSuccess(res.id_token)
             }else if(res.status==401){
-                this.showLoadingDialog(false)
-                popUpError("Error","Username/Password salah")
-            }else{
+              this.showLoadingDialog(false)
+              popUpError("Error","Username/Password salah")
+            }else if(res.status==500){
+              this.showLoadingDialog(false)
+              popUpError("Error","Internal Server Error")
+            }
+            else{
                 this.showLoadingDialog(false)
                 popUpError("Error","Unknown Error")
             }

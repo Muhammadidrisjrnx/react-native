@@ -11,8 +11,9 @@ import SwipeList from '../../../component/swipeList/swipelist.js';
 import {defaultColor} from './leadList.style.js';
 
 import {ds_LeadListData, ds_leadNew, ds_Lead, ds_StatusFilter} from '../../../helper/data.js';
-import { getAgents, filterGetAgentByCode } from '../../../services/webservice/agentService.js';
+import { getAgents, filterGetAgentByCode, getAgent, updateAgent } from '../../../services/webservice/agentService.js';
 import { statusDb } from '../../../model/realm/statusDb.js';
+import { agentDb } from '../../../model/realm/agentDb.js';
 export default class LeadList extends Component{
     static navigationOptions = {
         header:null
@@ -21,9 +22,6 @@ export default class LeadList extends Component{
     constructor(props){
         super(props);
 
-        //this._storeData();
-
-        //ToastAndroid.show(JSON.stringify(ds_data), ToastAndroid.LONG);
         this.data = []
         this.state=({
             data: [],
@@ -35,27 +33,46 @@ export default class LeadList extends Component{
         this._searchFilterFunction = this._searchFilterFunction.bind(this);
     }
 
-
     loadData(){
-        getAgents(global.token).then((res) => {
-            this.data = filterGetAgentByCode(res,global.user.agentCode)
-            this.setState({
-               data:this.data
-            })
-            
-            if(this.state.search){
-                this._searchFilterFunction(this.state.search)
-            }else{
-                this._updateStatusFilter(this.state.filter)
+        let agts = agentDb.getAll()
+        console.warn("agts length : "+agts.length)
+        if(agts.length>0){
+            console.warn('push db to server')
+            for(let i=0;i<agts.length;i++){
+                updateAgent(global.token,agts[i]).then((res)=>{
+                    agentDb.delete(agts[i].id)
+                    if(agentDb.getAll().length<=0){
+                        this.loadData()
+                    }
+                })
             }
-        }); 
-    }
+        }else{
 
+            getAgents(global.token).then((res) => {
+                this.data = filterGetAgentByCode(res,global.user.agentCode)        
+
+                this.setState({
+                data:this.data
+                })
+                
+                if(this.state.search){
+                    this._searchFilterFunction(this.state.search)
+                }else{
+                    this._updateStatusFilter(this.state.filter)
+                }
+            }); 
+
+        }
+    }
 
     componentWillMount(){
         this._subscribe = this.props.navigation.addListener('didFocus', () => {
          this.loadData();
         });}
+
+    componentWillUnmount(){
+        this.props.navigation.removeEventListener('didFocus',()=>{})
+    }
     
     _searchFilterFunction = (text)  => {
 
@@ -102,6 +119,23 @@ export default class LeadList extends Component{
         });
     }
 
+    _refreshListData =()=>{
+
+        return new Promise((resolve,reject)=>{
+            this.loadData();
+            resolve(true)
+            /*getAgents(global.token).then((res) => {
+                this.data = filterGetAgentByCode(res,global.user.agentCode)
+                this.setState({
+                   data:this.data
+                })
+                if(res.length>0){
+                    resolve(true)
+                }else resolve(false)
+            }); */
+        })
+    }
+
     render(){ 
         return (
             <View style={{flex:1}}>
@@ -110,7 +144,7 @@ export default class LeadList extends Component{
                 onChangeText = {this._searchFilterFunction} 
                 onFilterChange={this._updateStatusFilter} 
                 filter={String(this.state.filter)}
-                onRefresh={this.loadData}
+                onRefresh={this._refreshListData}
                 onPress={(item)=>{this.props.navigation.navigate('LeadDetail',{data:item,type:'detail'})}}
                 onPress_Call={ (number) => {this.call(number)}}
                 onPress_Email={(email)=>{this.mailTo(email)}}

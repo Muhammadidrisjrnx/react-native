@@ -181,6 +181,58 @@ const schemaAppointment = {
     }
 }
 
+const schemaAgent = {
+    name: 'agent',
+    primaryKey: 'id',
+    properties:{
+        id:'int',
+        agtVersion: 'int?',
+        agtCreateBy: 'string?',
+        agtSubmitted: 'bool?',
+        //personal
+        agtName:'string?',
+        level:'string?',
+        branch:'string?',
+        agtCode: 'string?',
+        status: 'string?',
+        agtPob: 'string?',
+        agtAddr1: 'string?',
+        agtAddr2: 'string?',
+        agtAddr3: 'string?',
+        agtDistrict: 'string?',
+        city: 'string?',
+        agtIdCardNo: 'string?',
+        agtSex: 'string?',
+        education: 'string?',
+        religion: 'string?',
+        agtDob: 'string?',
+        agtJoinDate:'string?',
+        agtMaritalStatus: 'string?',
+        occupation:'string?',
+        agtDependentTotal:'string?',
+        agtMobileNumber:'string?',
+        agtEmail:'string?',
+
+        //experience
+        agtExInsuranceCompany: 'string?',
+        agtExInsuranceResignDate: 'string?',
+        agtExAajiExpired: 'string?',
+        agtAajiNo: 'string?',
+        bank: 'string?',
+        agtBankAccountNo:'string?',
+        agtBankAccountName: 'string?',
+        agtTaxId: 'string?',
+
+        //recruit
+        agtRecruitType: 'string?',
+        agtRecruitId: 'string?',
+        agtRecruitRelation: 'string?',
+        agtLeaderType: 'string?',
+        agtLeaderId: 'string?'
+
+    }
+}
+
 export let realm = new Realm({
     schema: [
         schemaLevel,
@@ -193,7 +245,8 @@ export let realm = new Realm({
         schemaBank,
         schemaUser,
         schemaExam,
-        schemaAppointment
+        schemaAppointment,
+        schemaAgent
     ],
     schemaVersion:0
 });
@@ -222,6 +275,12 @@ export class DbService  {
         for(i=0;i<data.length;i++){
             this.insert(data[i])
         }
+    }
+
+    update (data) {
+        realm.write(() => {
+            realm.create(this.schema, data,true)
+        })
     }
     
     delete (data){
