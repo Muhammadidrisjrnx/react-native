@@ -168,20 +168,21 @@ export default class LeadDetail extends Component{
           'agtSelScore':selection[i].value,
           'agtSelRemark':'',
           'agent':data,
-          'selection':sel
+          'selection':sel[0]
         })
       }
 
       createAgentSelection(global.token, finalData).then((res)=>{
         console.warn('result : '+JSON.stringify(res));
         this.showLoadingDialog(false);
-        if(res.id){
+        if(res[0].id){
           this.onPressCancel()              
         }else{
           popUpError("Error","Terjadi Kesalahan")
         }
       });
       console.warn(JSON.stringify(finalData));
+
     } 
 
     convertNumberToString (num){

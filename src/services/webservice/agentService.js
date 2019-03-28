@@ -240,14 +240,14 @@ export const getAgentSelection = (tkn,id) => {
 }
 
 export const createAgentSelection = (tkn,data) => {
-    const URL = BASE_URL+'agent-detail-selections';
+    const URL = BASE_URL+'rest/agent-detail-selections/create';
     
-    //console.warn('URL:'+URL+'\ntkn : '+tkn+"\nformdata : "+JSON.stringify(formdata))
+    console.warn('URL:'+URL+'\ntkn : '+tkn+"\nformdata : "+JSON.stringify(data));
 
     return fetch(URL,{
         method: 'POST',
         headers: HEADER(tkn),
-        body: data
+        body: JSON.stringify(data)
     }).then((res) => res.json()
     )
     .catch((error) => {
