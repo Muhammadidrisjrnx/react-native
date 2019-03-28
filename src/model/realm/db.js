@@ -1,5 +1,32 @@
 import Realm from 'realm';
 
+const schemaSelection = {
+    name: 'selection',
+    primaryKey: 'id',
+    properties: {
+        id: {type: 'int', indexed: true},
+        selVersion:'int?',
+        selectionUpdateDate:'string?',
+        selectionUpdateBy:'string?',
+        selectionCategory:'string?'
+    }
+}
+
+const schemaAgentDetailSelection = {
+    name: 'agentDetailSelection',
+    primaryKey: 'id',
+    properties: {
+        id: {type: 'int', indexed: true},
+        agtSelVersion:'int?',
+        agtSelUpdateDate:'string?',
+        agtSelUpdateBy:'string?',
+        agtSelScore:'int?',
+        agtSelRemark:'string?',
+        agtSelAgentId:'int?',
+        agtSelSelectionId:'int?'
+    }
+}
+
 const schemaLevel = {
     name: 'level',
     primaryKey: 'id',
@@ -246,7 +273,9 @@ export let realm = new Realm({
         schemaUser,
         schemaExam,
         schemaAppointment,
-        schemaAgent
+        schemaAgent,
+        schemaSelection,
+        schemaAgentDetailSelection
     ],
     schemaVersion:0
 });

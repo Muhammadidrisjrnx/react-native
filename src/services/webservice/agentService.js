@@ -326,5 +326,33 @@ export const updateAgentFiles = (tkn,id,data,lead) =>{
     if(data['fileNpwp']){
         data['fileNpwp'].fileName = '6'+data['fileNpwp'].fileName
     }*/
+
 }
 
+export const getAgentSelection = (tkn,id) => {
+    const URL = BASE_URL+`agent-detail-selections?agentId.in=${String(id)}`;
+
+    return fetch(URL,{
+        method: 'GET',
+        headers: HEADER(tkn),
+    }).then((res) => res.json())
+    .catch((error) => {
+        console.warn('erorr : ' + JSON.stringify(error))
+    });
+}
+
+export const createAgentSelection = (tkn,data) => {
+    const URL = BASE_URL+'agent-detail-selections';
+    
+    //console.warn('URL:'+URL+'\ntkn : '+tkn+"\nformdata : "+JSON.stringify(formdata))
+
+    return fetch(URL,{
+        method: 'POST',
+        headers: HEADER(tkn),
+        body: data
+    }).then((res) => res.json()
+    )
+    .catch((error) => {
+        console.warn('erorr : ' + JSON.stringify(error))
+    })
+}

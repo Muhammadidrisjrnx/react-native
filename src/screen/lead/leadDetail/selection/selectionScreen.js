@@ -2,149 +2,146 @@ import React, { Component } from 'react';
 import {FlatList,View, Text, TouchableOpacity, ToastAndroid, ScrollView} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
-import {Rating,FormLabel,FormInput,FormValidationMessage} from 'react-native-elements'
+import {Rating,FormLabel,FormInput,FormValidationMessage, Icon} from 'react-native-elements'
 import {scale,verticalScale} from 'react-native-size-matters';
 
 import styles,{defaultColor} from './selectionScreen.style.js';
 
+
+// const Rate = React.forwardRef((props,  ref) => {
+//     <Rating
+//         type="star"
+//         ratingCount={5}
+//         imageSize={scale(30)}
+//         style={{ paddingVertical: scale(10) , alignSelf:'center'}} 
+//         ref={ref} />    
+// });
+
 export default class SelectionScreen extends Component {
-    state = {
-        activeSections: [],
-    }
+    // ratingRefs = [];
 
     constructor(props){
         super(props);
+
+        this.data = this.props.screenProps.data;
+
+        this.screenState= this.props.screenProps.state;
+
+        this.props.screenProps.setTabNav({nav:this.props.navigation})
+
+        this._renderListItem = this._renderListItem.bind(this);
+
+        this.state = {
+            selection:this.screenState.selection,
+            totalScore:0,
+        };
+
+        //this.setSection();
     }
 
-    _renderHeader(section, index, isActive, sections) {
-        return (
-        //   <Animatable.View
-        //     duration={300}
-        //     transition="backgroundColor"
-        //     style={[{ backgroundColor: (isActive ? defaultColor.White : defaultColor.Red) }, styles.selection_accordionHeader]}>
-        //         <Text >{section.title}</Text>
-        //   </Animatable.View>
-        <View style={styles.selection_accordionHeader}>
-            <Text style={styles.selection_accordionHeaderTitle}>{section.title}</Text>
-            <Rating
-                type="star"
-                startingValue={3}
-                ratingCount={5}
-                imageSize={scale(30)}
-                style={{ paddingVertical: scale(10) , alignSelf:'center'}}
-                />
-            <FormLabel labelStyle={{marginLeft:scale(5)}}>Remarks</FormLabel>
-            <FormInput containerStyle={{width:'100%',marginLeft:0}}/>
-        </View>
-        );
-      }
+    // setSection = () => {
+        
+    //     for(i =0 ; i< global.selections.length;i++){
+    //         let value = this.state.selection.filter((item)=>{
+    //             return item.selection.id == global.selections[i].id;
+    //          })
+ 
+    //         // SECTIONS[i] ={
+    //         //     'id': 0,
+    //         //     'agtSelVersion':0,
+    //         //     'agtSelUpdateDate':null,
+    //         //     'agtSelUpdateBy':null,
+    //         //     'agtSelScore':value.length > 0 ? value[0].agtSelScore : 0,
+    //         //     'agtSelRemark':'',
+    //         //     'agtSelAgentId':this.data.id,
+    //         //     'agtSelSelectionId':String(global.selections[i].id)
+    //         //     };
+ 
+    //         // if(global.selections[i].id == 2201)
+    //         // console.warn(`id:${global.selections[i].id} - score:${value[0].agtSelScore} - `+JSON.stringify(value));
 
-    _renderContent(section, i, isActive, sections) {
-        return (
-            //<this._renderAgentSection/>
-          <View style={styles.selection_accordionContentContainer}>
-                {/* <Text >{section.title}</Text> */}
-                {section.content.map((data)=>{
-                    return(
-                        <Text key={data.index} style={styles.selection_accordionContentText}>{data}</Text>
-                    )
-                })}
-            </View>
-        );
-    }
+    //         SECTIONS[i] = {
+    //         'id': String(global.selections[i].id),
+    //         'title': global.selections[i].selectionCategory,
+    //         'value': value.length > 0 ? value[0].agtSelScore : 0
+    //         };
+    //     }
+    //     console.warn(JSON.stringify(SECTIONS),ToastAndroid.SHORT);
+    // }
+
+    updateTotalScore = () => {
+        let score = this.state.selection.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0);
+
+        this.setState({
+            totalScore:score
+        });
+
+        console.warn(String(this.state.totalScore) + JSON.stringify(this.state.selection));
+    };
+
+    updateSectionScore = (id, score) => {
+        this.state.selection.some((section) =>{
+            if(String(section.id) == id) {
+                section.value = score;
+                //console.warn(JSON.stringify(this.state.selection));
+                this.updateTotalScore();
+                return true;
+            };
+        });
+    };
+
+    // _getSelectionDescription = (id) => {
+    //     let data = global.selection.filter((item) => {
+    //         item.id = id
+    //     });
+
+    //     return data[0].selectionCategory;
+    // }
+
+    // setRef = (ref) => {
+    //     this.ratingRefs.push(ref);
+    //   };
+
+    // com (){
+        
+    //     ToastAndroid.show(String(SECTIONS.length), ToastAndroid.SHORT);
+    // }
 
    _renderListItem = ({item}) =>{
         return(
-            <View style={styles.selection_accordionHeader}>
+            <View key={item.id}  style={styles.selection_accordionHeader}>
                 <Text style={styles.selection_accordionHeaderTitle}>{item.title}</Text>
-                <Rating
+                    <Rating
                     type="star"
-                    startingValue={3}
                     ratingCount={5}
+                    startingValue={item.value}
                     imageSize={scale(30)}
-                    style={{ paddingVertical: scale(10) , alignSelf:'center'}}
-                    />
-                <FormLabel labelStyle={{marginLeft:scale(5)}}>Remarks</FormLabel>
-                <FormInput containerStyle={{width:'100%',marginLeft:0}}/>
+                    style={{ paddingVertical: scale(10) , alignSelf:'center'}} 
+                    onFinishRating={(rating)=>{this.updateSectionScore(item.id, rating)}} />    
             </View>
         )
     }
 
-    NewsList_keyExtractor = (item, index) => {
-        return String(item.title);
-    };
+    // NewsList_keyExtractor = (item, index) => {
+    //     return String(item.title);
+    // };
 
-    _updateSections = activeSections => {
-        this.setState({ activeSections });
-    };
 
     render(){
         return(
             <View>
                 <FlatList  
-                    data={SECTIONS}
+                    data={this.state.selection}
                     renderItem={this._renderListItem}
                     contentContainerStyle={styles.flatlist}
-                    keyExtractor={this._keyExtractor}
+                    //keyExtractor={this._keyExtractor}
                     showsVerticalScrollIndicator={false}/>
+                <View >
+                    <Text>Profil</Text>
+                    <Icon name="thumbs-up" type="font-awesome"/>
+                </View>
             </View>
         )
     }
 }
 
-const SECTIONS = [
-    {
-      title: 'Kemauan yang Tinggi',
-    },
-    {
-      title: 'Energik dan sehat',
-    },
-    {
-      title: 'Tanggung Jawab',
-    },
-    {
-      title: 'Kesabaran',
-    },
-    {
-      title: 'Kemampuan bekerja dalam ketidakjelasan',
-    },
-    {
-      title: 'Menerima masukan/pendapatan orang lain',
-    },
-    {
-        title: 'Inisiatif/Agresivitas'
-    },
-    {
-        title: 'Kegigihan dalam mendapatkan keinginan'
-    },
-    {
-        title: 'Kemandirian'
-    },
-    {
-        title: 'Kedisiplinan'
-    },
-    {
-        title: 'Percaya diri'
-    },
-    {
-        title: 'Bekerja dalam tekanan'
-    },
-    {
-        title: 'Kemampuan menilai orang'
-    },
-    {
-        title: 'Kemampuan mengatasi orang'
-    },
-    {
-        title: 'Kemampuan mengatasi masalah'
-    },
-    {
-        title: 'Kemampuan komunikasi'
-    },
-    {
-        title: 'Menghargai uang'
-    },
-    {
-        title: 'Kreativitas'
-    }
-  ];

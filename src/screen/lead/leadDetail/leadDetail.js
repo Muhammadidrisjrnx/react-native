@@ -25,8 +25,8 @@ import { statusApproval, statusSubmitted, SUBMITTABLESTATUS, PENDINGSTATUS } fro
 import { LoadingDialog } from '../../../component/popup/loading.js';
 import { popUpError } from '../../../component/popup/error.js';
 import { agentDb } from '../../../model/realm/agentDb.js';
-import { Right } from 'native-base';
 import { branchDb } from '../../../model/realm/branchDb.js';
+import {getAgentSelection, createAgentSelection} from '../../../services/webservice/agentService';
 
 export default class LeadDetail extends Component{
 
@@ -35,6 +35,7 @@ export default class LeadDetail extends Component{
         
         this.data = this.props.navigation.getParam('data',[])
         this.type = this.props.navigation.getParam('type','new')
+        
         
         this.files = {}
 
@@ -113,7 +114,15 @@ export default class LeadDetail extends Component{
 
           //new screen
           new:{},
+
+          selection:{},
         }
+      
+      this.getSelectionData();
+
+      this._setState = (name,value) =>{
+        this.setState({[name]:value})
+      }
 
         
 
@@ -144,6 +153,64 @@ export default class LeadDetail extends Component{
     componentWillUnmount() {
       NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
     }
+
+    getSelectionData = () => {
+      getAgentSelection(global.token, this.data.id).then((res)=>{
+        this.dataSelection = res;
+        
+        let SECTIONS = [];
+
+        for(i =0 ; i< global.selections.length;i++){
+          let value = res.filter((item)=>{
+              return item.selection.id == global.selections[i].id;
+           })
+
+          SECTIONS[i] = {
+          'id': String(global.selections[i].id),
+          'title': global.selections[i].selectionCategory,
+          'value': value.length > 0 ? value[0].agtSelScore : 0
+          };
+        }
+
+        this.setState({
+          selection:SECTIONS,
+        });
+
+      });
+    }
+
+    saveSelectionData = (data) =>{
+      let selection = this.state.selection;
+      let finalData = [];
+
+      for (let i = 0; i < selection.length; i++) {
+        let sel = global.selections.filter((item) => {
+          return item.id == selection[i].id;
+        });
+
+        finalData.push({
+          'id': null,
+          'agtSelVersion':0,
+          'agtSelUpdateDate':'',
+          'agtSelUpdateBy':data.id,
+          'agtSelScore':selection[i].value,
+          'agtSelRemark':'',
+          'agent':data,
+          'selection':sel
+        })
+      }
+
+      createAgentSelection(global.token, finalData).then((res)=>{
+        console.warn('result : '+JSON.stringify(res));
+        if(res.id){
+          this.delete()
+        }else{
+          this.showLoadingDialog(false);
+          popUpError("Error","Terjadi Kesalahan")
+        }
+      });
+      console.warn(JSON.stringify(finalData));
+    } 
 
     convertNumberToString (num){
       result = ""
@@ -294,8 +361,8 @@ export default class LeadDetail extends Component{
         //*/ CHECK KTP DULU
         checkKtp(global.token,data.agtIdCardNo,data.agtDob).then((res)=>{
           console.warn("CEK KTP : "+JSON.stringify(res))
-          if(res==="false"){
-            console.warn("KTP OK");
+          if(res==="false"){ //MASHOOK
+            console.warn("KTP OK");  
             this.uploadFile(data)
           }else if(res==="true"){
             this.showLoadingDialog(false)
@@ -329,8 +396,8 @@ export default class LeadDetail extends Component{
       updateAgentFiles(global.token,data.id, this.files,data).then((res) => {
         console.warn('result files: '+JSON.stringify(res))
         console.warn(res.id)
-        if(res.id){
-          this.delete()
+        if(res.id){ //MASHOOK
+          this.saveSelectionData(res)          
         }
       }).catch((error)=>{
         this.showLoadingDialog(false)
@@ -367,7 +434,7 @@ export default class LeadDetail extends Component{
       //this.onPressCancel()
 
       console.warn('mendelete '+this.state.id);
-      deleteAgent(global.token,this.state.id).then((res)=>{
+      deleteAgent(global.token,this.state.id).then((res)=>{ //MASHOOK
         console.warn('del : '+JSON.stringify(res))
         this.showLoadingDialog(false)
         this.onPressCancel()
@@ -445,7 +512,15 @@ export default class LeadDetail extends Component{
       
       if(this.type==='detail'){
         return (
-          <DetailTabNavigator screenProps={{data:this.data, state:this.state, textInputHandler:this._handleTextInputChange, setTabNav:this._setTabNav, isSubmittable:this.isSubmittable(), isPending:this.isPending()}}/>
+          <DetailTabNavigator
+            screenProps={{
+              data:this.data,
+              state:this.state,
+              textInputHandler:this._handleTextInputChange,
+              setTabNav:this._setTabNav,
+              isSubmittable:this.isSubmittable(),
+              isPending:this.isPending(),
+              setScreenState:this._setState}}/>
         )
       }else{
         return(

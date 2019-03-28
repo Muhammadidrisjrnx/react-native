@@ -14,6 +14,8 @@ import { EducationDb} from '../../model/realm/educationDb.js';
 import { OccupationDb} from '../../model/realm/occupationDb.js';
 import { StatusDb} from '../../model/realm/statusDb.js';
 import { UserDb} from '../../model/realm/userDb.js';
+import { SelectionDb} from '../../model/realm/selectionDb.js';
+
 
 
 import {updateToken,authToken ,agentLogin, postBranches, deleteBranches, getDetailUser} from '../../services/webservice/authService.js'
@@ -36,6 +38,7 @@ export default class LoginScreen extends Component{
         this.statusDb = new StatusDb()
         this.bankDb = new BankDb()
         this.userDb = new UserDb()
+        this.selectionDb = new SelectionDb();
 
         this.userDb.deleteAll()
         this.userDb.insert(userFc),
@@ -116,11 +119,19 @@ export default class LoginScreen extends Component{
           }
           this.countAllServices()
         })
+
+        getAllService(global.token,'selections').then((res)=>{
+          global.selections = res
+          this.selectionDb.deleteAll()
+          this.selectionDb.insertAll(res)
+          this.countAllServices()
+        })
+    
     }
 
     countAllServices(){
         this.serviceCount++;
-        if(this.serviceCount>=9){
+        if(this.serviceCount>=10){
             console.warn('success')
             this.showLoadingDialog(false)
             this.navigateToMainApp()
