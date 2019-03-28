@@ -15,6 +15,9 @@ export default class DocumentInformationScreen extends Component {
 
       this.screenState= this.props.screenProps.state;
 
+      this.isSubmittable = this.props.screenProps.isSubmittable;
+      this.isPending = this.props.screenProps.isPending;
+
       this.state = {
         fileKtp:null,
         fileBukti:null,
@@ -27,24 +30,26 @@ export default class DocumentInformationScreen extends Component {
     }
 
     handleChoosePhoto (file) {
-      const options = {
-        noData: true,
-      }
-      //ImagePicker.launchImageLibrary(options, response => {
-        ImagePicker.showImagePicker({title: "Choose...", maxWidth: 800, maxHeight: 600}, response => {
-        if (response.uri) {
-          if(response.type===null){
-            ext = response.fileName.split('.').pop();
-            if(ext.toLowerCase() === 'jpeg' || ext.toLowerCase()==='jpg'){
-              response.type="image/jpeg"
-            }
-          }
-          
-          this.setState({ [file]: response },(()=>{
-            this.props.screenProps.textInputHandler('document',this.state)
-          }))
+      if(this.isSubmittable || this.isPending){
+        const options = {
+          noData: true,
         }
-      })
+        //ImagePicker.launchImageLibrary(options, response => {
+          ImagePicker.showImagePicker({title: "Choose...", maxWidth: 800, maxHeight: 600}, response => {
+          if (response.uri) {
+            if(response.type===null){
+              ext = response.fileName.split('.').pop();
+              if(ext.toLowerCase() === 'jpeg' || ext.toLowerCase()==='jpg'){
+                response.type="image/jpeg"
+              }
+            }
+            
+            this.setState({ [file]: response },(()=>{
+              this.props.screenProps.textInputHandler('document',this.state)
+            }))
+          }
+        })
+      }
     }
 
     render() {
@@ -53,50 +58,76 @@ export default class DocumentInformationScreen extends Component {
           <TouchableOpacity onPress={()=>this.handleChoosePhoto('fileKtp')}>
             <FormLabel>KTP</FormLabel>
             <FormInput value={this.state.fileKtp?this.state.fileKtp.fileName:''} editable={false} selectTextOnFocus={false}/>
-            <FormValidationMessage>{requiredValidator(this.state.fileKtp)?'':'Wajib diisi'}</FormValidationMessage>
-            <FormValidationMessage>{jpgValidator(this.state.fileKtp)?'':'File Harus Jpg'}</FormValidationMessage>
-            <FormValidationMessage>{maxFileValidator(this.state.fileKtp)?'':'Max 500 KB'}</FormValidationMessage>
-
+            { this.isSubmittable &&
+            <View>
+              <FormValidationMessage>{requiredValidator(this.state.fileKtp)?'':'Wajib diisi'}</FormValidationMessage>
+              <FormValidationMessage>{jpgValidator(this.state.fileKtp)?'':'File Harus Jpg'}</FormValidationMessage>
+              <FormValidationMessage>{maxFileValidator(this.state.fileKtp)?'':'Max 500 KB'}</FormValidationMessage>
+            </View>
+            }
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>this.handleChoosePhoto('fileFoto')}>
             <FormLabel>Foto Berwarna 3x4</FormLabel>
             <FormInput value={this.state.fileFoto?this.state.fileFoto.fileName:''} editable={false} selectTextOnFocus={false}/>
+            { this.isSubmittable &&
+            <View>
             <FormValidationMessage>{requiredValidator(this.state.fileFoto)?'':'Wajib diisi'}</FormValidationMessage>
             <FormValidationMessage>{jpgValidator(this.state.fileFoto)?'':'File Harus Jpg'}</FormValidationMessage>
             <FormValidationMessage>{maxFileValidator(this.state.fileFoto)?'':'Max 500 KB'}</FormValidationMessage>
+            </View>
+            }
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>this.handleChoosePhoto('fileKk')}>          
             <FormLabel>KK</FormLabel>
             <FormInput value={this.state.fileKk?this.state.fileKk.fileName:''} editable={false} selectTextOnFocus={false}/>
+            { this.isSubmittable &&
+            <View>
             <FormValidationMessage>{jpgValidator(this.state.fileKk)?'':'File Harus Jpg'}</FormValidationMessage>
             <FormValidationMessage>{maxFileValidator(this.state.fileKk)?'':'Max 500 KB'}</FormValidationMessage>
+            </View>
+            }
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>this.handleChoosePhoto('fileNpwp')}>          
             <FormLabel>NPWP</FormLabel>
             <FormInput value={this.state.fileNpwp?this.state.fileNpwp.fileName:''} editable={false} selectTextOnFocus={false}/>
+            { this.isSubmittable &&
+            <View>
             <FormValidationMessage>{jpgValidator(this.state.fileNpwp)?'':'File Harus Jpg'}</FormValidationMessage>
             <FormValidationMessage>{maxFileValidator(this.state.fileNpwp)?'':'Max 500 KB'}</FormValidationMessage>
+            </View>
+            }
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>this.handleChoosePhoto('fileFormAaji')}>
             <FormLabel>Form Aaji</FormLabel>
             <FormInput value={this.state.fileFormAaji?this.state.fileFormAaji.fileName:''} editable={false} selectTextOnFocus={false}/>
+            { this.isSubmittable &&
+            <View>
             <FormValidationMessage>{requiredValidator(this.state.fileFormAaji)?'':'Wajib diisi'}</FormValidationMessage>
             <FormValidationMessage>{jpgValidator(this.state.fileFormAaji)?'':'File Harus Jpg'}</FormValidationMessage>
             <FormValidationMessage>{maxFileValidator(this.state.fileFormAaji)?'':'Max 500 KB'}</FormValidationMessage>
+            </View>
+            }
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>this.handleChoosePhoto('fileBukuRek')}>
             <FormLabel>Buku Rekening</FormLabel>
             <FormInput value={this.state.fileBukuRek?this.state.fileBukuRek.fileName:''} editable={false} selectTextOnFocus={false}/>
+            { this.isSubmittable &&
+            <View>
             <FormValidationMessage>{requiredValidator(this.state.fileBukuRek)?'':'Wajib diisi'}</FormValidationMessage>
             <FormValidationMessage>{jpgValidator(this.state.fileBukuRek)?'':'File Harus Jpg'}</FormValidationMessage>
             <FormValidationMessage>{maxFileValidator(this.state.fileBukuRek)?'':'Max 500 KB'}</FormValidationMessage>
+            </View>
+            }
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>this.handleChoosePhoto('fileBukti')}>          
             <FormLabel>Bukti Transfer</FormLabel>
             <FormInput value={this.state.fileBukti?this.state.fileBukti.fileName:''} editable={false} selectTextOnFocus={false}/>
+            { this.isSubmittable &&
+            <View>
             <FormValidationMessage>{requiredValidator(this.state.fileBukti)?'':'Wajib diisi'}</FormValidationMessage>
             <FormValidationMessage>{jpgValidator(this.state.fileBukti)?'':'File Harus Jpg'}</FormValidationMessage>
             <FormValidationMessage>{maxFileValidator(this.state.fileBukti)?'':'Max 500 KB'}</FormValidationMessage>
+            </View>}
           </TouchableOpacity>
           
         </ScrollView>

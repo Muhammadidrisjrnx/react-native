@@ -16,7 +16,7 @@ import { StatusDb} from '../../model/realm/statusDb.js';
 import { UserDb} from '../../model/realm/userDb.js';
 
 
-import {updateToken,authToken ,agentLogin, postBranches, deleteBranches} from '../../services/webservice/authService.js'
+import {updateToken,authToken ,agentLogin, postBranches, deleteBranches, getDetailUser} from '../../services/webservice/authService.js'
 import { getAllService } from '../../services/webservice/getService.js';
 import { BankDb } from '../../model/realm/bankDb.js';
 import { LoadingDialog } from '../../component/popup/loading.js';
@@ -51,7 +51,7 @@ export default class LoginScreen extends Component{
         }
 
         this.state = {
-            username:'68000034',
+            username:'68000035',
             password:'password',
             isLoading: false
         }
@@ -61,14 +61,6 @@ export default class LoginScreen extends Component{
 
     authSuccess(tkn){
         global.token= tkn;
-
-        user = {}
-        switch(this.state.username){
-            case '68000033': user = userBD; break;
-            case '68000034': user = userBm; break;
-            case '68000035': user = userFc; break;
-        }
-        global.user=user;
 
         getAllService(global.token,'levels').then((res) => {
             this.levelDb.deleteAll();
@@ -117,11 +109,18 @@ export default class LoginScreen extends Component{
             this.bankDb.insertAll(res)
             this.countAllServices()
         })
+
+        getDetailUser(global.token,this.state.username).then((res)=>{
+          if(res.usrAgentCode){
+            global.user = res
+          }
+          this.countAllServices()
+        })
     }
 
     countAllServices(){
         this.serviceCount++;
-        if(this.serviceCount>=8){
+        if(this.serviceCount>=9){
             console.warn('success')
             this.showLoadingDialog(false)
             this.navigateToMainApp()

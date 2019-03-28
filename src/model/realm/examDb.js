@@ -1,5 +1,6 @@
 import {realm, DbService } from "./db";
 
+//USELESS
 export class ExamDb extends DbService{
     constructor(){
         super("exam")

@@ -13,7 +13,6 @@ export const getAgents = (tkn) => {
     });
 }
 
-
 export const getAgent = (tkn,id) => {
     const URL = BASE_URL+'agents/'+id
     return fetch(URL,{
@@ -94,7 +93,7 @@ export const deleteAgent = (tkn,id) => {
 
 export const checkKtp = (tkn,id,dob) =>{
     const URL = BASE_URL+'rest/agents/identity-check?dob='+dob+'&idCardNo='+id
-    console.warn(URL)
+    //console.warn(URL)
     return fetch(URL,{
         method: 'POST',
         headers: {
@@ -104,6 +103,98 @@ export const checkKtp = (tkn,id,dob) =>{
     .catch((error)=>{
         console.warn('error' + JSON.stringify(error))
     })
+}
+
+export const checkEmailNumber = (tkn,email,mobileNumber) =>{
+    const URL = BASE_URL + "rest/agents/check?email="+email+"&mobileNo="+mobileNumber
+    return fetch(URL,{
+        method:'GET',
+        headers: {
+            'Authorization': 'Bearer '+tkn
+        }
+    }).then((res)=>res.text())
+    .catch((error)=>{
+
+    })
+}
+
+export const updateDocument = (tkn,id,data)=>{
+    const URL = BASE_URL+'rest/agents/updateLead/'+id
+    formdata = new FormData()
+
+    if(data.fileKtp){
+        formdata.append('fileKtp',{
+            name: "0"+data.fileKtp.fileName,
+            type: data.fileKtp.type,
+            uri: 
+            Platform.OS === "android" ? data.fileKtp.uri : data.fileKtp.uri.replace("file://", "")
+        })
+    }
+
+    if(data.fileFoto){
+        formdata.append('fileFoto',{
+            name: "1"+data.fileFoto.fileName,
+            type: data.fileFoto.type,
+            uri:
+            Platform.OS === "android" ? data.fileFoto.uri : data.fileFoto.uri.replace("file://", "")
+        })
+    }
+
+    if(data.fileBukuRek){
+        formdata.append('fileBukuRek',{
+            name: "2"+data.fileBukuRek.fileName,
+            type: data.fileBukuRek.type,
+            uri:
+            Platform.OS === "android" ? data.fileBukuRek.uri : data.fileBukuRek.uri.replace("file://", "")
+        })
+    }
+
+    if(data.fileKk){
+        formdata.append('fileKk',{
+            name: "3"+data.fileKk.fileName,
+            type: data.fileKk.type,
+            uri:
+            Platform.OS === "android" ? data.fileKk.uri : data.fileKk.uri.replace("file://", "")
+        })
+    }
+
+    if(data.fileFormAaji){
+        formdata.append('fileFormAaji',{
+            name: "4"+data.fileFormAaji.fileName,
+            type: data.fileFormAaji.type,
+            uri:
+            Platform.OS === "android" ? data.fileFormAaji.uri : data.fileFormAaji.uri.replace("file://", "")
+        })
+    }
+
+    if(data.fileBukti){
+        formdata.append('fileBukti',{
+            name: "5"+data.fileBukti.fileName,
+            type: data.fileBukti.type,
+            uri:
+            Platform.OS === "android" ? data.fileBukti.uri : data.fileBukti.uri.replace("file://", "")
+        })
+    }
+
+    if(data.fileNpwp){
+        formdata.append('fileNpwp',{
+            name: "6"+data.fileNpwp.fileName,
+            type: data.fileNpwp.type,
+            uri:
+            Platform.OS === "android" ? data.fileNpwp.uri : data.fileNpwp.uri.replace("file://", "")
+        })
+    }
+
+    return fetch(URL,{
+        method: 'PUT',
+        headers: {
+            'Authorization': 'Bearer ' + tkn,
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data',
+        },
+        body: formdata
+    }).then((res) => res.json())
+
 }
 
 export const updateAgentFiles = (tkn,id,data,lead) =>{
@@ -203,7 +294,7 @@ export const updateAgentFiles = (tkn,id,data,lead) =>{
 
     }*/
 
-    console.warn("form data : "+JSON.stringify(formdata))
+    //console.warn("form data : "+JSON.stringify(formdata))
 
     //let URLI= 'http://10.0.2.2/api/upload'
     //return fetch(URLI,{

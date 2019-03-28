@@ -37,25 +37,6 @@ export default class LeadScreen extends Component{
         //this._storeData();
     }
 
-    _storeData = async () => {
-        try {
-            const value = await AsyncStorage.getItem('t_lead');
-
-            if (value !== null) 
-            {
-                
-                var data = JSON.parse(value);
-                ToastAndroid.show(String(Object.keys(data).length),ToastAndroid.SHORT);
-            } else
-            {
-                await AsyncStorage.setItem('t_lead', JSON.stringify(ds_Lead));
-            }
-            
-        } catch (error) {
-            ToastAndroid.show(String(error),ToastAndroid.SHORT);
-        }
-      }
-
     render(){
         return(
             <MainBody source={require('../../../resource/image/bg.jpg')}>

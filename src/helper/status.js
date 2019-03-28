@@ -30,3 +30,14 @@ export const statusDecline = {
     "statDesc": "",
     "statIsShown": true
 }
+
+
+export const SUBMITTABLESTATUS = [
+    2351, //NEW
+    2352, //APPROACH
+    2353, //INVITE BOS
+    2354, //ACCEPT BOS
+    2355  //ATTEND BOS
+  ]
+  
+export const PENDINGSTATUS = 2358

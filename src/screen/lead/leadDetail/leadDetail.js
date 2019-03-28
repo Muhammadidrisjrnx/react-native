@@ -18,13 +18,15 @@ import ExperienceAndBankingInformationScreen from './experience/experienceAndBan
 import RecruitInformationScreen from './recruit/recruitInformationScreen.js';
 import DocumentInformationScreen from './document/documentInformationScreen.js';
 import SelectionScreen from './selection/selectionScreen.js';
-import { postAgent, newAgent, updateAgent, updateAgentFiles, deleteAgent, checkKtp } from '../../../services/webservice/agentService';
+import { postAgent, newAgent, updateAgent, updateAgentFiles, deleteAgent, checkKtp, updateDocument, checkEmailNumber } from '../../../services/webservice/agentService';
 import newInformationScreen from './new/newInformationScreen.js';
 import { newValidator, detailValidator, informationValidator, bankingValidator, documentValidator, experienceBankingValidator } from '../../../helper/validator.js';
-import { statusApproval, statusSubmitted } from '../../../helper/status.js';
+import { statusApproval, statusSubmitted, SUBMITTABLESTATUS, PENDINGSTATUS } from '../../../helper/status.js';
 import { LoadingDialog } from '../../../component/popup/loading.js';
 import { popUpError } from '../../../component/popup/error.js';
 import { agentDb } from '../../../model/realm/agentDb.js';
+import { Right } from 'native-base';
+import { branchDb } from '../../../model/realm/branchDb.js';
 
 export default class LeadDetail extends Component{
 
@@ -35,6 +37,14 @@ export default class LeadDetail extends Component{
         this.type = this.props.navigation.getParam('type','new')
         
         this.files = {}
+
+        console.warn("global user "+ JSON.stringify(global.user))
+
+        if(this.data.branch==null && global.user.usrBranchCode!=null){
+          bra = branchDb.getByCode(global.user.usrBranchCode)
+          this.data.branch = branchDb.getByCode(global.user.usrBranchCode)
+          //console.warn("BRANCH : "+JSON.stringify(bra))
+        }
         
         this.state = {
           //experience screen
@@ -105,22 +115,24 @@ export default class LeadDetail extends Component{
           new:{},
         }
 
-      this._handleTextInputChange = (name,value) =>{
-        if(name==="document"){
-          this.files=value;
-          console.warn(JSON.stringify(this.files))
-        }else{
-          this.setState({[name]:value})
+        
+
+        this._handleTextInputChange = (name,value) =>{
+          if(name==="document"){
+            this.files=value;
+            //console.warn(JSON.stringify(this.files))
+          }else{
+            this.setState({[name]:value})
+          }
         }
-       }
 
-       this._setTabNav = (nav) => {
-         this.state.tabNav = nav.nav
-       }
+        this._setTabNav = (nav) => {
+          this.state.tabNav = nav.nav
+        }
 
-      this.handleConnectivityChange = (isConnected) => {
-        this.setState({ isConnected })
-      }
+        this.handleConnectivityChange = (isConnected) => {
+          this.setState({ isConnected })
+        }
     }
 
     
@@ -151,6 +163,7 @@ export default class LeadDetail extends Component{
       let data = {
         id: this.data.id,
         agtVersion: this.data.agtVersion,
+        agtCreatedDate:this.data.agtCreatedDate,
         agtCreateBy:this.data.agtCreateBy,
         agtSubmitted: true,
         ...this.state.personal,
@@ -188,19 +201,19 @@ export default class LeadDetail extends Component{
           this.submitNew(data)
         }
       }else if(this.type==='detail'){
-        if(!this.isSubmittable()) return
+        if(!this.isSubmittable() && !this.isPending()) return
 
        data = this.dataPacker()
         
 
-// BYPASS VALIDASI
-      //this.submitDetail(data)
-  /* JALUR YANG BENAR  */
+/*/ BYPASS VALIDASI /
+      this.submitDetail(data) //*/
+  //* JALUR YANG BENAR  /
         if(informationValidator(data)){
           console.warn('INFORMATION : CORRECT')
           if(experienceBankingValidator(data)){
             console.warn('Experience Banking validator corect')
-            if(documentValidator(this.files)){
+            if(documentValidator(this.files) || this.isPending()){
               console.warn('document validaator corect')
               console.warn('all validator success')
               this.submitDetail(data)
@@ -236,6 +249,22 @@ export default class LeadDetail extends Component{
       data.agtName = data.agtName.toUpperCase()
       data.agtEmail = data.agtEmail.toUpperCase()
 
+      checkEmailNumber(global.token,data.agtEmail,data.agtMobileNumber).then((res)=>{
+        this.showLoadingDialog(false)
+        if(res==="false"){
+          console.warn("MOBILE NUMBER & EMAIL OK");
+          this.createNew(data)
+        }else if(res==="true"){
+          this.showLoadingDialog(false)
+          popUpError("Error","Email/No.HP sudah terdaftar")
+        }else{
+          this.showLoadingDialog(false)
+          popUpError("Error","Tidak dapat mensubmit")
+        }
+      });
+    }
+
+    createNew(data){
       newAgent(global.token, data).then((res) => {
         console.warn('result : '+JSON.stringify(res))
         this.showLoadingDialog(false)
@@ -244,7 +273,6 @@ export default class LeadDetail extends Component{
         }else{
           popUpError("Error","Terjadi Kesalahan")
         }
-
       });
     }
 
@@ -256,21 +284,28 @@ export default class LeadDetail extends Component{
 
       console.warn('aprv : '+data.agtApproval1+'\nleadertype:'+data.agtLeaderType);
 
-      checkKtp(global.token,data.agtIdCardNo,data.agtDob).then((res)=>{
-        console.warn("CEK KTP : "+JSON.stringify(res))
-        if(res==="false"){
-          this.uploadFile(data)
-        }else if(res==="true"){
-          popUpError("Error","KTP sudah terdaftar")
-        }else{
-          popUpError("Error",JSON.stringify(res))
-        }
-      })
+      if(this.isPending()){
+        //harus update
+        this.updateFile(data)
+      }else{
+        /*/NO CHECK KTP
+        this.uploadFile(data) //*/
 
-      /*updateAgent(global.token, data).then((res) => {
-        console.warn('result : '+JSON.stringify(res))
-        this.uploadFile(this.data,res)
-      });*/
+        //*/ CHECK KTP DULU
+        checkKtp(global.token,data.agtIdCardNo,data.agtDob).then((res)=>{
+          console.warn("CEK KTP : "+JSON.stringify(res))
+          if(res==="false"){
+            console.warn("KTP OK");
+            this.uploadFile(data)
+          }else if(res==="true"){
+            this.showLoadingDialog(false)
+            popUpError("Error","KTP sudah terdaftar")
+          }else{
+            this.showLoadingDialog(false)
+            popUpError("Error",res.json().detail)
+          }
+        })//*/
+      }
     }
 
     saveDetail(data){
@@ -301,6 +336,31 @@ export default class LeadDetail extends Component{
         this.showLoadingDialog(false)
         popUpError("Error",JSON.stringify(error))
       });
+    }
+
+    updateFile(data){
+      updateDocument(global.token,data.id,this.files).then((res)=>{
+        /*/ tanpa update
+        this.showLoadingDialog(false)
+        this.onPressCancel() //*/
+
+        console.warn('success upload')
+        
+        //* dengan update
+        data.status = statusSubmitted
+        updateAgent(global.token,data).then((res)=>{
+          this.showLoadingDialog(false)
+          console.warn("RESULT : "+JSON.stringify(res))
+          if(res.id){
+            this.onPressCancel()
+          }else{
+            popUpError("Error",JSON.stringify(res))
+          }
+        }) //*/
+      }).catch((error)=>{
+        this.showLoadingDialog(false)
+        popUpError("Error",JSON.stringify(error))
+      })
     }
 
     delete(){
@@ -385,7 +445,7 @@ export default class LeadDetail extends Component{
       
       if(this.type==='detail'){
         return (
-          <DetailTabNavigator screenProps={{data:this.data, state:this.state, textInputHandler:this._handleTextInputChange, setTabNav:this._setTabNav, isSubmittable:this.isSubmittable()}}/>
+          <DetailTabNavigator screenProps={{data:this.data, state:this.state, textInputHandler:this._handleTextInputChange, setTabNav:this._setTabNav, isSubmittable:this.isSubmittable(), isPending:this.isPending()}}/>
         )
       }else{
         return(
@@ -396,8 +456,15 @@ export default class LeadDetail extends Component{
 
     isSubmittable(){
       if(this.type==='detail')
-        return submittableStatus.includes(this.data.status.id)
+        return SUBMITTABLESTATUS.includes(this.data.status.id)
       else return true
+    }
+
+    isPending(){
+      if(this.type==='detail')
+        return this.data.status.id===PENDINGSTATUS
+      else
+        return false
     }
 
     showSave(){
@@ -419,7 +486,7 @@ export default class LeadDetail extends Component{
                             Save
                         </Text>
                     </TouchableOpacity>)}
-                    <TouchableOpacity style={[styles.buttonOpac,{flex:2,marginHorizontal:verticalScale(15)}, this.isSubmittable()?'':styles.buttonDisabled]} onPress={()=>this.onPressSubmit()}>
+                    <TouchableOpacity style={[styles.buttonOpac,{flex:2,marginHorizontal:verticalScale(15)}, this.isSubmittable() || this.isPending()?'':styles.buttonDisabled]} onPress={()=>this.onPressSubmit()}>
                         <Text style={[styles.buttonText, {color:defaultColor.White}] }>
                             Submit
                         </Text>
@@ -523,12 +590,3 @@ const DetailTabNavigator = createMaterialTopTabNavigator({
         }
     }
 });
-
-
-const submittableStatus = [
-  2351, //NEW
-  2352, //APPROACH
-  2353, //INVITE BOS
-  2354, //ACCEPT BOS
-  2355  //ATTEND BOS
-]

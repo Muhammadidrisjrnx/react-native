@@ -11,13 +11,14 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import {ExamDb} from '../../model/realm/examDb';
 import { convertDate } from '../../helper/date';
 import { getAgent } from '../../services/webservice/agentService';
+import { getExams } from '../../services/webservice/examService';
 
 
 export default class SchedulePickerList extends Component{
     constructor(props){
         super(props);
 
-        this.examDb = new ExamDb()
+        this.page = 0
         
         this.agent = this.props.screenProps.data.agentId;
 
@@ -32,20 +33,45 @@ export default class SchedulePickerList extends Component{
             agtMobileNumber:'',
             agtEmail:'',
             appointmentDate:'',
-            appointmentTime:''
+            appointmentTime:'',
+            data:[],
+            isFetching:false
         }
         
         this.isPermission = (statusId) => {
             return (statusId === 1101 || statusId === 1106) 
         }
 
-        
-
-        this.loadData = () =>{
-            dataFromDb = this.examDb.getAll()
+        this.emptyData = (fun) =>{
+            this.page=0;
             this.setState({
-                data:dataFromDb
-            })            
+                data:[]
+            },fun)
+        }
+
+        this.loadData = () => {
+            console.warn('loading... '+this.page)
+            this.setState({isFetching:true},()=>{
+                getExams(global.token,this.page).then((res)=>{
+                    if(res.length>0 && res[0].id){
+                        data = this.state.data
+                        this.setState({data:data.concat(res)},()=>{
+                            this.setState({isFetching:false})
+                        })
+                        this.page++
+                    }
+                })
+            })
+        }
+
+        this.refreshList = () => {
+            console.warn("REFRESH LIST")
+            this.emptyData(this.loadData)
+        }
+
+        this.lazyLoadList = () => {
+            console.warn("LAZY LOAD")
+            this.loadData()
         }
 
     }
@@ -58,24 +84,12 @@ export default class SchedulePickerList extends Component{
 
                 agt = res
                 console.warn("status : "+agt.status.id)
-    
+
                 if(this.isPermission(agt.status.id)){
                     console.warn("Permission")
-                }
-    
-                this.examDb.deleteAll()
-
-                if(this.isPermission(agt.status.id)){
-                    getAllService(global.token,'exams').then((res) => {
-                        //this.setState({data:res})
-                        if(res[0].id)
-                            this.examDb.insertAll(res)
-            
-                        this.loadData()
-                    });
-                }else{
                     this.loadData()
-
+                }else{
+                    this.emptyData()
                 }
            });
         })
@@ -198,6 +212,10 @@ export default class SchedulePickerList extends Component{
                     extraData={this.state}
                     ItemSeparatorComponent={this.SchedulePicker_renderSeparator}
                     style={styles.flatlist}
+                    onRefresh={()=>this.refreshList()}
+                    refreshing={this.state.isFetching}
+                    onEndReached={()=>this.lazyLoadList()}
+                    onEndReachedThreshold={0.7}
                 />
 
                 {

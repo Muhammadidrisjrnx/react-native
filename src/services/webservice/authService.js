@@ -15,22 +15,14 @@ export const authToken = (username,password) => {
     }).then((res) => res.json());
 }
 
-export const agentLogin = () => {
-    const URL = 'https://dev-gsmile.generali.co.id/mdw/api/auth/agent/login'
-    data = {
-        "username": "68000033",
-        "password": "19820830"
-    }
+export const getDetailUser = (tkn,code) =>{
+    const URL = BASE_URL+'rest/agents/structure?login='+code
+    
     return fetch(URL,{
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body:JSON.stringify(data)
-    }).then((res) => res.json());
+        method: 'GET',
+        headers:HEADER(tkn),
+    }).then((res)=>res.json())
 }
-
 
 export const postBranches = (tkn,data) => {
     const URL = BASE_URL+'branches'
@@ -40,7 +32,6 @@ export const postBranches = (tkn,data) => {
         body: JSON.stringify(data)
     }).then((res) => res.json());
 }
-
 
 export const deleteBranches = (tkn,id) =>{
     const URL = BASE_URL+'branches/'+id

@@ -49,7 +49,7 @@ export default class LeadList extends Component{
         }else{
 
             getAgents(global.token).then((res) => {
-                this.data = filterGetAgentByCode(res,global.user.agentCode)        
+                this.data = filterGetAgentByCode(res,global.user.usrAgentCode)        
 
                 this.setState({
                 data:this.data

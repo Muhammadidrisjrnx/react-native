@@ -30,7 +30,6 @@ export default class ScheduleRegistration extends Component{
         console.warn('sche reg secreen : '+JSON.stringify(this.agent))
 
         return(
-            //<SchedulePicker data={{agentId:this.agent}}/>)
 
         <View style={styles.detail_mainContainer}>
                 <TouchableOpacity style={styles.detail_headerBackButton} onPress={this._onPress}>

@@ -1,5 +1,6 @@
 import {BASE_URL, HEADER} from '../../class/global.js'
 import deepDiffer from 'react-native/lib/deepDiffer'
+import moment from 'moment'
 
 export const postExam = (tkn,data) => {
     const URL = BASE_URL+'agent-detail-exams'
@@ -19,6 +20,24 @@ export const postExam = (tkn,data) => {
 
 export const getExam = (tkn,id) => {
     const URL = BASE_URL+'exams/'+id
+    return fetch(URL,{
+        method: 'GET',
+        headers: HEADER(tkn),
+    }).then((res) => res.json())
+    .catch((error) => {
+        console.warn('error : ' + JSON.stringify(error))
+    });
+}
+
+export const getExams = (tkn,page) =>{
+    //var date7 = new Date();
+    //date7.setDate(date7.getDate() + 7);
+    var date7 = moment().add(7,"days").format('YYYY-MM-DD')
+
+    const URL = BASE_URL+'exams?sort=exmDate&page='+page+'&exmDate.greaterOrEqualThan='+date7
+
+    console.warn('get exams date : '+URL)
+
     return fetch(URL,{
         method: 'GET',
         headers: HEADER(tkn),
