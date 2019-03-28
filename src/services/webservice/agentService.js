@@ -337,7 +337,7 @@ export const getAgentSelection = (tkn,id) => {
         headers: HEADER(tkn),
     }).then((res) => res.json())
     .catch((error) => {
-        console.warn('erorr : ' + JSON.stringify(error))
+        console.warn('erorr get agent selection : ' + JSON.stringify(error))
     });
 }
 
@@ -353,6 +353,6 @@ export const createAgentSelection = (tkn,data) => {
     }).then((res) => res.json()
     )
     .catch((error) => {
-        console.warn('erorr : ' + JSON.stringify(error))
+        console.warn('erorr crreate agent seleection : ' + JSON.stringify(error))
     })
 }

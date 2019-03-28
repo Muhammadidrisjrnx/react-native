@@ -369,7 +369,7 @@ export default class LeadDetail extends Component{
             popUpError("Error","KTP sudah terdaftar")
           }else{
             this.showLoadingDialog(false)
-            popUpError("Error",res.json().detail)
+            popUpError("Error","Terjadi Kesalahan Pada Server")
           }
         })//*/
       }
@@ -401,7 +401,7 @@ export default class LeadDetail extends Component{
         }
       }).catch((error)=>{
         this.showLoadingDialog(false)
-        popUpError("Error",JSON.stringify(error))
+        popUpError("Error","Terjadi Kesalahan saat upload dokumen")
       });
     }
 
@@ -426,7 +426,7 @@ export default class LeadDetail extends Component{
         }) //*/
       }).catch((error)=>{
         this.showLoadingDialog(false)
-        popUpError("Error",JSON.stringify(error))
+        popUpError("Error","Terjadi kesalahan saat ")
       })
     }
 

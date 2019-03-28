@@ -1,27 +1,76 @@
 import {ScaledSheet} from 'react-native-size-matters';
 
 import {colors, screenWidth} from '../../helper/style/defaultStyle.js';
-import { relativeTimeRounding } from 'moment';
 
 export const defaultColor = colors;
-
 export default ScaledSheet.create(
 {
-    mainContainer:{
-        padding:20
+    TabContainer:{
+        
     },
-    card:{
-        marginBottom:20,
-        borderRadius:'5@s',
-        backgroundColor: colors.White
+    buttonIcon:{
+        color:colors.Red,
+        fontSize:'20@vs'
     },
-    chartContainer:{
-        display:'flex',
-        justifyContent:'center',
-        flexDirection:'row'
+    lead_headerContainer:{
+        borderWidth:1,
     },
+    attend_bos_Container:{
+        padding:'20@s',
+        borderWidth:1,
+    },
+    submitted_Container:{
+        padding:'20@s',
+        borderWidth:1,
+    },          
+    MainContainer1:{
+        backgroundColor:'#fff',
+        marginLeft:10,
+        marginRight:10,
+        marginTop:20,
+       },
+    MainContainer2:{
+        backgroundColor:'#fff',
+        flex:1,
+        marginTop:20,
+        // marginLeft:10,
+        // marginRight:10,
+        marginBottom:20
+    },
+    lead_headerCaption:{
+        fontSize:'15@s'
+    },
+    home_titleText:{
+        fontSize:'16@s',
+        fontWeight:'bold',
+        color:colors.White,
+        marginTop:10
+    },
+    home_descText:{
+        fontSize:'14@s',
+        color:colors.White,
+        marginTop:5,
+        marginBottom:15
+    },
+
+    home_titleContainer:{
+        height:'50@vs',
+        paddingLeft:'15@s',
+        justifyContent:'center'        
+    },
+    texton_container2:{
+        fontSize:20,
+        color:colors.Red
+    },
+    texton_container1:{
+        fontSize:20,
+        color:colors.Black,
+        fontWeight:'bold'
+    },    
     pieChartContainer:{
-        left:'-20%'
+        left:'10%',
+        alignSelf:'center',
+        flexDirection: 'column',
     },
     pieChart:{
         height:200,
@@ -34,66 +83,27 @@ export default ScaledSheet.create(
         zIndex:5
     },
     icon:{
-        color:colors.Red,
-        fontWeight: '800',
+        color:colors.Red
     },
-    chartInfo:{
-        display:'flex',
-        flexDirection:'column',
+    buttonOpac:{
+        flex:1,
+        flexDirection:'row',
+        alignItems:'center',
         justifyContent:'center',
-        position:'absolute',
-        left:'60%',
-        top:'35%'
+        borderWidth:'2@s',
+        borderRadius:'10@s',
+        borderColor:colors.Red,
+        marginHorizontal:'5@s',
+        backgroundColor:colors.White
     },
-    textBold:{
-        color:colors.Black,
-        fontWeight:'600',
-        fontSize:24
-    },
-    text:{
-        fontSize:16
-    },
-    listInfoItem:{
-        flexDirection:'row',
-        padding:20,
-        borderTopWidth:1,
-        borderTopColor:colors.Grey
-    },
-    listInfoItemContent:{
-        flexDirection:'column',
-        marginLeft:20
-    },
-    infoItem:{
-        flex:1,
-        alignSelf:'stretch'
-    },
-    infoHorizontalTop:{
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'space-evenly',
-        margin:20
-    },
-    infoHorizontalBottom:{
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'space-evenly',
-        marginBottom:20,
-        marginLeft:20,
-        marginRight:20,
-    },
-    infoText:{
-        fontSize:14,
-        textAlign:'center'
-    },
-    infoTextBold:{
+    buttonText:{
         color:colors.Red,
-        fontWeight:'600',
-        fontSize:20,
-        textAlign:'center'
+        fontSize:'15@vs',
+        marginRight:'5@s',
     },
-    verticalDivider:{
-        alignSelf:'stretch',
-        borderRightWidth:1,
-        borderRightColor:colors.Red
-    }
-})
+    buttonContainer:{
+        marginVertical:'10@vs',
+        flexDirection:'row',
+        height:'60@vs'
+    },
+})    

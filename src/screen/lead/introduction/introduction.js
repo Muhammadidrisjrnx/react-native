@@ -497,8 +497,7 @@ export default class introduce_page extends Component {
       </TouchableOpacity>
 
       <ScrollView style={{top:10}}>
-      <Text style={{marginTop:10,flexDirection:'row',alignSelf:'center'}}>Apa 3 mimpi utama untuk Anda dan orang orang yang</Text>
-      <Text style={{marginTop:10,flexDirection:'row',alignSelf:'center'}}>Anda cintai?</Text>
+      <Text style={{marginTop:10,flexDirection:'row',alignSelf:'center'}}>Apa 3 mimpi utama untuk Anda dan orang orang yang Anda cintai?</Text>
       <Text style={{marginTop:10,marginBottom:15,color:'#d3d3d3',flexDirection:'row',alignSelf:'center'}}>Pilih maksimal 3 mimpi</Text>
       <View style={{flexDirection:'column',alignSelf:'center'}}>
       <TouchableOpacity

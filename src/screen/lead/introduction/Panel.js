@@ -70,9 +70,10 @@ class Panel extends Component{
             onPress={this.state.onPress_delete}>
                 <Image
                 style={{        
-                    width:30,
-                    height:30,
-                    resizeMode:'contain'
+                    width:20,
+                    height:20,
+                    resizeMode:'contain',
+                    marginTop: 5
                 }}
                 source={this.state.source}></Image>
             </TouchableHighlight>
