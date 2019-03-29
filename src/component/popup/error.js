@@ -1,7 +1,7 @@
 import {Alert} from 'react-native';
 
 
-export const popUpError = (title,content) =>{
+export const popUp = (title,content) =>{
     Alert.alert(
         title,
         content,
@@ -11,3 +11,5 @@ export const popUpError = (title,content) =>{
         {cancelable: false},
       );
 }
+
+export const popUpError = popUp;

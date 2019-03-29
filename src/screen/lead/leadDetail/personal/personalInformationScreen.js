@@ -126,7 +126,12 @@ export default class PersonalInformationScreen extends Component {
 
       if(!this.state.agtSex) this.state.agtSex = ''
       if(!this.state.agtMaritalStatus) this.state.agtMaritalStatus = ''
-      if(!this.state.agtDependentTotal) this.state.agtDependentTotal = ''
+      console.warn('depednent : '+this.state.agtDependentTotal)
+      if(!this.state.agtDependentTotal && this.state.agtDependentTotal!==0) {
+        this.state.agtDependentTotal = ''
+      }
+      console.warn('after depednent : '+this.state.agtDependentTotal)
+
 
       levels = levelDb.getAll()
 

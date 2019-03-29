@@ -23,10 +23,11 @@ import newInformationScreen from './new/newInformationScreen.js';
 import { newValidator, detailValidator, informationValidator, bankingValidator, documentValidator, experienceBankingValidator } from '../../../helper/validator.js';
 import { statusApproval, statusSubmitted, SUBMITTABLESTATUS, PENDINGSTATUS } from '../../../helper/status.js';
 import { LoadingDialog } from '../../../component/popup/loading.js';
-import { popUpError } from '../../../component/popup/error.js';
+import { popUpError, popUp } from '../../../component/popup/error.js';
 import { agentDb } from '../../../model/realm/agentDb.js';
 import { branchDb } from '../../../model/realm/branchDb.js';
 import {getAgentSelection, createAgentSelection} from '../../../services/webservice/agentService';
+import {checkApproval, numberToString, capitalize } from '../../../helper/leadHelper.js';
 
 export default class LeadDetail extends Component{
 
@@ -35,7 +36,6 @@ export default class LeadDetail extends Component{
         
         this.data = this.props.navigation.getParam('data',[])
         this.type = this.props.navigation.getParam('type','new')
-        
         
         this.files = {}
 
@@ -52,15 +52,6 @@ export default class LeadDetail extends Component{
           id:this.data.id,
           tabNav: {},
           isLoading: false,
-
-          /*
-            "agtExInsuranceCompany": null,
-            "agtExInsuranceResignDate": null,
-            "agtExAajiExpired": null,
-            "agtAajiNo": null,
-            "agtBankAccountNo": null,
-            "agtBankAccountName": null,
-            "agtTaxId": null */
 
           experience:{
             occupation:this.data.occupation,
@@ -90,7 +81,7 @@ export default class LeadDetail extends Component{
             agtAddr3: this.data.agtAddr3,
             agtDistrict: this.data.agtDistrict,
             city: this.data.city,
-            agtIdCardNo: this.convertNumberToString(this.data.agtIdCardNo),
+            agtIdCardNo: numberToString(this.data.agtIdCardNo),
             agtSex:this.data.agtSex,
             education:this.data.education,
             religion:this.data.religion,
@@ -98,8 +89,8 @@ export default class LeadDetail extends Component{
             agtJoinDate:this.data.agtJoinDate,
 
             agtMaritalStatus: this.data.agtMaritalStatus,
-            agtDependentTotal:this.convertNumberToString(this.data.agtDependentTotal),
-            agtMobileNumber:this.convertNumberToString(this.data.agtMobileNumber),
+            agtDependentTotal:this.data.agtDependentTotal,
+            agtMobileNumber:numberToString(this.data.agtMobileNumber),
             agtEmail:this.data.agtEmail
           },
 
@@ -144,8 +135,6 @@ export default class LeadDetail extends Component{
         }
     }
 
-    
-
     componentDidMount() {
       NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
     }
@@ -179,7 +168,8 @@ export default class LeadDetail extends Component{
       });
     }
 
-    saveSelectionData = (data) =>{
+    saveSelectionData = () =>{
+      let data = this.state.newAgent
       let selection = this.state.selection;
       let finalData = [];
 
@@ -203,33 +193,25 @@ export default class LeadDetail extends Component{
       createAgentSelection(global.token, finalData).then((res)=>{
         console.warn('result : '+JSON.stringify(res));
         if(res[0].id){
-          this.delete()
+          this.showLoadingDialog(false)
+          this.onPressCancel()
           //this.showLoadingDialog(false)
-          //console.warn("SELECTION SUCCESS : "+JSON.stringify(res))
+          console.warn("SELECTION SUCCESS : "+JSON.stringify(res))
         }else{
           this.showLoadingDialog(false);
-          popUpError("Error","Terjadi Kesalahan")
+          console.warn("SELECTION ERORR : "+JSON.stringify(res))
+          popUpError("Selection Error","Terjadi Kesalahan")
         }
+      }).catch((error)=>{
+        this.showLoadingDialog(false)
+        popUpError("Selection Error","Terjadi Kesalahan")
+        console.warn("ERROR create agent selection: "+error)
       });
-      console.warn(JSON.stringify(finalData));
 
     } 
 
-    convertNumberToString (num){
-      result = ""
-      if(num) result=result+num
-      return result
-    }
-
-    onPressApprove () {
-      console.warn("Approved")
-    }
-
-    onPressReject (){
-      console.warn("Rejected")
-    }
-
-    dataPacker(isSubmitted){
+    
+    dataPacker = (isSubmitted)=>{
       let data = {
         id: this.data.id,
         agtVersion: this.data.agtVersion,
@@ -240,7 +222,7 @@ export default class LeadDetail extends Component{
         ...this.state.experience,
         ...this.state.recruit
       }
-
+  
       //personal
       delete data.isBirthDatePickerVisible
       delete data.isJoinDatePickerVisible
@@ -249,16 +231,25 @@ export default class LeadDetail extends Component{
       delete data.drop_education
       delete data.drop_city
       delete data.drop_branch
-
+  
       //experience
       delete data.isResignDatePickerVisible
       delete data.isExpiredDatePickerVisible
       delete data.drop_bank
       delete data.drop_leader
       delete data.drop_occupation
-
-      return this.capitalize(data)
+  
+      return capitalize(data)
     }
+
+    onPressApprove () {
+      console.warn("Approved")
+    }
+
+    onPressReject (){
+      console.warn("Rejected")
+    }
+
 
     onPressSave (){
       this.saveDetail(this.dataPacker(false))
@@ -273,9 +264,9 @@ export default class LeadDetail extends Component{
       }else if(this.type==='detail'){
         if(!this.isSubmittable() && !this.isPending()) return        
 
-/*/ BYPASS VALIDASI /
+//*/ BYPASS VALIDASI /
       this.submitDetail(data) //*/
-  //*/ JALUR YANG BENAR  /
+  /*/ JALUR YANG BENAR  /
         if(informationValidator(data)){
           console.warn('INFORMATION : CORRECT')
           if(experienceBankingValidator(data)){
@@ -351,20 +342,21 @@ export default class LeadDetail extends Component{
       //this.saveSelectionData(data)  //*/
 
       //*ALUR YG BENAR
-      data = this.checkApproval(data)
       data = this.dataPacker(true)
+      data = checkApproval(global.user,data)
 
-
-      console.warn('aprv : '+data.agtApproval1+'\nleadertype:'+data.agtLeaderType);
+      console.warn('aprv : '+data.agtApproval1+' level : '+data.level.lvlName+'\ntype:'+data.agtLeaderType+' code:'+data.agtLeaderId);
+      
+     // this.showLoadingDialog(false); return;
 
       if(this.isPending()){
         //harus update
         this.updateFile(data)
       }else{
-        /*/BYPASS CHECK KTP
+        //*/BYPASS CHECK KTP
         this.uploadFile(data) //*/
 
-        //*/ CHECK KTP DULU
+        /*/ CHECK KTP DULU
         checkKtp(global.token,data.agtIdCardNo,data.agtDob).then((res)=>{
           console.warn("CEK KTP : "+JSON.stringify(res))
           if(res==="false"){ //MASHOOK
@@ -390,11 +382,8 @@ export default class LeadDetail extends Component{
       db = agentDb
 
       updateAgent(global.token, data).then((res) => {
-        console.warn("trying to delete : "+data.id)
-        console.warn("length : "+db.getAll().length)
-
         this.showLoadingDialog(false)
-        this.onPressCancel()
+        popUp("Sukses","Berhasil Disimpan")
       })
     }
 
@@ -403,7 +392,9 @@ export default class LeadDetail extends Component{
         console.warn('result files: '+JSON.stringify(res))
         console.warn(res.id)
         if(res.id){ //MASHOOK
-          this.saveSelectionData(res)          
+          this.setState({newAgent:res},()=>{
+            this.delete()
+          })      
         }else{
           this.showLoadingDialog(false)
           popUpError("Error Submit Data","Terjadi kesalahan")
@@ -445,73 +436,11 @@ export default class LeadDetail extends Component{
       console.warn('mendelete '+this.state.id);
       deleteAgent(global.token,this.state.id).then((res)=>{ //MASHOOK
         console.warn('del : '+JSON.stringify(res))
-        this.showLoadingDialog(false)
-        this.onPressCancel()
+        this.saveSelectionData()
       })
     }
 
-    checkApproval(data){
-      level = this.state.personal.level.lvlName
-      user = global.user
-      data.agtApproval1 = true
-      data.status = statusSubmitted
-      if(user.level=='FC'){
-        data.agtApproval1 = false
-        data.status = statusApproval
-        switch(level){
-          case 'FC': //BM
-            data.agtLeaderType=user.leader.level
-            data.agtLeaderId=user.leader.agentCode
-          break;
-          default: //BD
-            data.agtLeaderType=user.leader.leader.level
-            data.agtLeaderId=user.leader.leader.agentCode
-          break;
-        }
-      }else if(user.level==='BM'){
-        data.agtApproval1 = false
-        data.status = statusApproval
-        switch(level){
-          case 'FC': //APPROVED
-            data.agtApproval1 = true
-            data.status = statusSubmitted
-            data.agtLeaderType=user.level
-            data.agtLeaderId=user.agentCode
-          break;
-          default: //BD
-            data.agtLeaderType=user.leader.level
-            data.agtLeaderId=user.leader.agentCode
-          break;
-        }
-      }else if(user.level==='ABD'){
-
-      }else if(user.level==='BD'){
-        data.agtApproval1 = true
-        data.status = statusSubmitted
-      }
-      return data
-    }
-
-    capitalize(data){
-      //personal
-      data.agtName = data.agtName ? data.agtName.toUpperCase() : ''
-      data.agtPob = data.agtPob? data.agtPob.toUpperCase() : ''
-      data.agtAddr1 = data.agtAddr1? data.agtAddr1.toUpperCase() : ''
-      data.agtAddr2 = data.agtAddr2? data.agtAddr2.toUpperCase() : ''
-      data.agtDistrict = data.agtDistrict? data.agtDistrict.toUpperCase() : ''
-      data.agtIdCardNo = data.agtIdCardNo? data.agtIdCardNo.toUpperCase() : ''
-      data.agtEmail = data.agtEmail? data.agtEmail.toUpperCase(): ''
-
-      //experience&banking
-      data.agtExInsuranceCompany = data.agtExInsuranceCompany? data.agtExInsuranceCompany.toUpperCase():''
-      data.agtAajiNo = data.agtAajiNo? data.agtAajiNo.toUpperCase():''
-      data.agtBankAccountName = data.agtBankAccountName? data.agtBankAccountName.toUpperCase():''
-
-      //recruit
-      data.agtRecruitRelation = data.agtRecruitRelation? data.agtRecruitRelation.toUpperCase():''
-
-      return data
-    }
+   
 
     onPressCancel (){
       this.props.navigation.dispatch(NavigationActions.back())

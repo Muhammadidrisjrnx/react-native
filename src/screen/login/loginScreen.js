@@ -135,6 +135,7 @@ export default class LoginScreen extends Component{
             console.warn('success')
             this.showLoadingDialog(false)
             this.navigateToMainApp()
+            console.warn()
         }
     }
 
