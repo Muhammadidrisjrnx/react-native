@@ -9,10 +9,10 @@ export const defaultColor = colors;
         backgroundColor:'transparent'
     },
      selection_accordionHeader:{
-        height:'180@vs',
+        height:'60@vs',
         padding:'10@s',
         backgroundColor:colors.White,
-        borderBottomWidth:'3@s',
+        borderBottomWidth:'1@s',
         borderBottomColor:colors.Red_Alt1
      },
      selection_accordionHeaderTitleContainer:{
@@ -24,7 +24,7 @@ export const defaultColor = colors;
          color:colors.Red
      },
      selection_accordionContentContainer:{
-        borderBottomWidth:'3@s',
+        borderBottomWidth:'1@s',
         borderBottomColor:colors.Red_Alt2,
         backgroundColor:colors.White,
      },

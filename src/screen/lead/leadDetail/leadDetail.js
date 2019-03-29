@@ -196,20 +196,23 @@ export default class LeadDetail extends Component{
           'agtSelScore':selection[i].value,
           'agtSelRemark':'',
           'agent':data,
-          'selection':sel
+          'selection':sel[0]
         })
       }
 
       createAgentSelection(global.token, finalData).then((res)=>{
         console.warn('result : '+JSON.stringify(res));
-        if(res.id){
+        if(res[0].id){
           this.delete()
+          //this.showLoadingDialog(false)
+          //console.warn("SELECTION SUCCESS : "+JSON.stringify(res))
         }else{
           this.showLoadingDialog(false);
           popUpError("Error","Terjadi Kesalahan")
         }
       });
       console.warn(JSON.stringify(finalData));
+
     } 
 
     convertNumberToString (num){
@@ -226,13 +229,13 @@ export default class LeadDetail extends Component{
       console.warn("Rejected")
     }
 
-    dataPacker(){
+    dataPacker(isSubmitted){
       let data = {
         id: this.data.id,
         agtVersion: this.data.agtVersion,
         agtCreatedDate:this.data.agtCreatedDate,
         agtCreateBy:this.data.agtCreateBy,
-        agtSubmitted: true,
+        agtSubmitted: isSubmitted,
         ...this.state.personal,
         ...this.state.experience,
         ...this.state.recruit
@@ -254,11 +257,11 @@ export default class LeadDetail extends Component{
       delete data.drop_leader
       delete data.drop_occupation
 
-      return data
+      return this.capitalize(data)
     }
 
     onPressSave (){
-      this.saveDetail(this.dataPacker())
+      this.saveDetail(this.dataPacker(false))
     }
 
     onPressSubmit() {
@@ -268,14 +271,11 @@ export default class LeadDetail extends Component{
           this.submitNew(data)
         }
       }else if(this.type==='detail'){
-        if(!this.isSubmittable() && !this.isPending()) return
-
-       data = this.dataPacker()
-        
+        if(!this.isSubmittable() && !this.isPending()) return        
 
 /*/ BYPASS VALIDASI /
       this.submitDetail(data) //*/
-  //* JALUR YANG BENAR  /
+  //*/ JALUR YANG BENAR  /
         if(informationValidator(data)){
           console.warn('INFORMATION : CORRECT')
           if(experienceBankingValidator(data)){
@@ -295,7 +295,8 @@ export default class LeadDetail extends Component{
           console.warn('Information NOT VALID')
           console.warn(data)
           this.state.tabNav.navigate('Personal')
-        }                                                     //*/
+        }
+        //*/
       }else{
         console.warn("NOT NEW AND DETAIL")
       }
@@ -346,8 +347,13 @@ export default class LeadDetail extends Component{
     submitDetail(data){
       this.showLoadingDialog(true)
       
+      //SELECTION ONLY
+      //this.saveSelectionData(data)  //*/
+
+      //*ALUR YG BENAR
       data = this.checkApproval(data)
-      data = this.capitalize(data)
+      data = this.dataPacker(true)
+
 
       console.warn('aprv : '+data.agtApproval1+'\nleadertype:'+data.agtLeaderType);
 
@@ -355,7 +361,7 @@ export default class LeadDetail extends Component{
         //harus update
         this.updateFile(data)
       }else{
-        /*/NO CHECK KTP
+        /*/BYPASS CHECK KTP
         this.uploadFile(data) //*/
 
         //*/ CHECK KTP DULU
@@ -369,24 +375,24 @@ export default class LeadDetail extends Component{
             popUpError("Error","KTP sudah terdaftar")
           }else{
             this.showLoadingDialog(false)
-            popUpError("Error","Terjadi Kesalahan Pada Server")
+            popUpError("Error Check KTP","Terjadi Kesalahan Pada Server")
           }
         })//*/
-      }
+      }///
     }
 
     saveDetail(data){
       this.showLoadingDialog(true)
 
-      data = this.capitalize(data)
+      data = this.dataPacker(true)
 
       console.warn(data)
-
       db = agentDb
 
       updateAgent(global.token, data).then((res) => {
         console.warn("trying to delete : "+data.id)
         console.warn("length : "+db.getAll().length)
+
         this.showLoadingDialog(false)
         this.onPressCancel()
       })
@@ -398,10 +404,13 @@ export default class LeadDetail extends Component{
         console.warn(res.id)
         if(res.id){ //MASHOOK
           this.saveSelectionData(res)          
+        }else{
+          this.showLoadingDialog(false)
+          popUpError("Error Submit Data","Terjadi kesalahan")
         }
       }).catch((error)=>{
         this.showLoadingDialog(false)
-        popUpError("Error","Terjadi Kesalahan saat upload dokumen")
+        popUpError("Error","Terjadi Kesalahan saat submit data")
       });
     }
 
@@ -421,12 +430,12 @@ export default class LeadDetail extends Component{
           if(res.id){
             this.onPressCancel()
           }else{
-            popUpError("Error",JSON.stringify(res))
+            popUpError("Error","Terjadi kesalahan saat update dokumen")
           }
         }) //*/
       }).catch((error)=>{
         this.showLoadingDialog(false)
-        popUpError("Error","Terjadi kesalahan saat ")
+        popUpError("Error","Terjadi kesalahan saat update dokumen ")
       })
     }
 

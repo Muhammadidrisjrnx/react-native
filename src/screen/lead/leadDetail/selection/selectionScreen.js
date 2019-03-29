@@ -30,13 +30,22 @@ export default class SelectionScreen extends Component {
         this.props.screenProps.setTabNav({nav:this.props.navigation})
 
         this._renderListItem = this._renderListItem.bind(this);
+        this.updateProfile = this.updateProfile.bind(this);
+        this.updateSectionScore = this.updateSectionScore.bind(this);
+        this.updateTotalScore = this.updateTotalScore.bind(this);
 
         this.state = {
             selection:this.screenState.selection,
             totalScore:0,
+            profile:'',
         };
 
+        //this.updateTotalScore();
         //this.setSection();
+    }
+
+    componentDidMount(){
+        this.updateTotalScore();
     }
 
     // setSection = () => {
@@ -72,12 +81,31 @@ export default class SelectionScreen extends Component {
     updateTotalScore = () => {
         let score = this.state.selection.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0);
 
+        this.updateProfile(score);
+
         this.setState({
             totalScore:score
         });
 
         console.warn(String(this.state.totalScore) + JSON.stringify(this.state.selection));
     };
+
+    updateProfile = (score) => {
+        var finalProfile = 'PENGEMBANGAN';
+
+        if(score<40){
+            finalProfile = 'TIDAK SESUAI';
+        }
+        else if(score>60)
+        {
+            finalProfile = 'SESUAI';
+        }
+
+        //ToastAndroid.show(finalProfile,ToastAndroid.SHORT);
+        this.setState({
+            profile:finalProfile
+        });
+    }
 
     updateSectionScore = (id, score) => {
         this.state.selection.some((section) =>{
@@ -110,14 +138,20 @@ export default class SelectionScreen extends Component {
    _renderListItem = ({item}) =>{
         return(
             <View key={item.id}  style={styles.selection_accordionHeader}>
-                <Text style={styles.selection_accordionHeaderTitle}>{item.title}</Text>
+            <View style={styles.selection_accordionHeaderTitleContainer}>
+                <View style={{flex:1}}>
+                    <Text style={styles.selection_accordionHeaderTitle}>{item.title}</Text>
+                </View>
+                <View style={{width:scale(110)}}>
                     <Rating
-                    type="star"
-                    ratingCount={5}
-                    startingValue={item.value}
-                    imageSize={scale(30)}
-                    style={{ paddingVertical: scale(10) , alignSelf:'center'}} 
-                    onFinishRating={(rating)=>{this.updateSectionScore(item.id, rating)}} />    
+                        type="star"
+                        ratingCount={5}
+                        startingValue={item.value}
+                        imageSize={scale(20)}
+                        style={{ paddingHorizontal: scale(10) }} 
+                        onFinishRating={(rating)=>{this.updateSectionScore(item.id, rating)}} />    
+                        </View>
+                </View>
             </View>
         )
     }
@@ -129,16 +163,22 @@ export default class SelectionScreen extends Component {
 
     render(){
         return(
-            <View>
-                <FlatList  
-                    data={this.state.selection}
-                    renderItem={this._renderListItem}
-                    contentContainerStyle={styles.flatlist}
-                    //keyExtractor={this._keyExtractor}
-                    showsVerticalScrollIndicator={false}/>
-                <View >
-                    <Text>Profil</Text>
-                    <Icon name="thumbs-up" type="font-awesome"/>
+            <View style={{flex:1}}>
+                <View style={{height:scale(50),width:'100%'}}>
+                    <Text style={{fontSize:scale(12)}}>Profil :</Text>
+                    <Text style={{fontSize:scale(17)}}>
+                        {this.state.profile}
+                    </Text>
+
+                    {/* <Icon name="thumbs-up" type="font-awesome" style={{color:'red'}}/> */}
+                </View>
+                <View style={{flex:1}}>
+                    <FlatList  
+                        data={this.state.selection}
+                        renderItem={this._renderListItem}
+                        contentContainerStyle={styles.flatlist}
+                        //keyExtractor={this._keyExtractor}
+                        showsVerticalScrollIndicator={false}/>
                 </View>
             </View>
         )
