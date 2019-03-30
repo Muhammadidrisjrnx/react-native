@@ -15,7 +15,7 @@ export default class DashboardScreen extends Component {
       data_attend_bos:[],
       data_submitted_application:[],
       data_on_process:[],
-      data_aaji_pending:[],
+      // data_aaji_pending:[],
       data_code_active:[],
       data_closing_case:[],
       data_non_productive:[],
@@ -33,9 +33,9 @@ export default class DashboardScreen extends Component {
       getdata_on_process(){
         return this.data_on_process.filter(all_data_on_process=>all_data_on_process.id)
       },
-      getdata_aaji_pending(){
-        return this.data_aaji_pending.filter(all_data_aaji_pending=>all_data_aaji_pending.id)
-      },
+      // getdata_aaji_pending(){
+      //   return this.data_aaji_pending.filter(all_data_aaji_pending=>all_data_aaji_pending.id)
+      // },
       getdata_code_active(){
         return this.data_code_active.filter(all_data_code_active=>all_data_code_active.id)
       },
@@ -51,15 +51,15 @@ export default class DashboardScreen extends Component {
     };
       var token = global.token;
       var agentCode = global.user.usrAgentCode;
-      var url_total_lead = "agents?agtCreatedDate.greaterOrEqualThan=2019-02-28T17:00:00.000Z&agtCreatedDate.lessOrEqualThan=2019-03-30T17:00:00.000Z&agtRecruitId.equals="+agentCode;
-      var url_attend_bos = "agents?agtCreatedDate.greaterOrEqualThan=2019-02-28T17:00:00.000Z&agtCreatedDate.lessOrEqualThan=2019-03-30T17:00:00.000Z&agtRecruitId.equals="+agentCode+"&statusId.equals=2355";
-      var url_submitted_application = "agents?agtCreatedDate.greaterOrEqualThan=2019-02-28T17:00:00.000Z&agtCreatedDate.lessOrEqualThan=2019-03-30T17:00:00.000Z&agtRecruitId.equals="+agentCode+"&statusId.equals=2357";
-      var url_on_process = "agents?agtCreatedDate.greaterOrEqualThan=2019-02-28T17:00:00.000Z&agtCreatedDate.lessOrEqualThan=2019-03-30T17:00:00.000Z&agtRecruitId.equals="+agentCode+"&statusId.equals=2365";
-      var url_aaji_pending = "agents?agtCreatedDate.greaterOrEqualThan=2019-02-28T17:00:00.000Z&agtCreatedDate.lessOrEqualThan=2019-03-30T17:00:00.000Z&agtRecruitId.equals="+agentCode+"&statusId.equals=2357";
-      var url_code_active = "agents?agtCreatedDate.greaterOrEqualThan=2019-02-28T17:00:00.000Z&agtCreatedDate.lessOrEqualThan=2019-03-30T17:00:00.000Z&agtRecruitId.equals="+agentCode+"&statusId.equals=2365";
-      var url_closing_case = "agents?agtCreatedDate.greaterOrEqualThan=2019-02-28T17:00:00.000Z&agtCreatedDate.lessOrEqualThan=2019-03-30T17:00:00.000Z&agtRecruitId.equals="+agentCode+"&statusId.equals=2365";
-      var url_non_productive = "agents?agtCreatedDate.greaterOrEqualThan=2019-02-28T17:00:00.000Z&agtCreatedDate.lessOrEqualThan=2019-03-30T17:00:00.000Z&agtRecruitId.equals="+agentCode+"&statusId.equals=2365";
-      var url_decline = "agents?agtCreatedDate.greaterOrEqualThan=2019-02-28T17:00:00.000Z&agtCreatedDate.lessOrEqualThan=2019-03-30T17:00:00.000Z&agtRecruitId.equals="+agentCode+"&statusId.equals=9751";
+      var url_total_lead = "agents?agtRecruitId.equals="+agentCode;
+      var url_attend_bos = "agents?agtRecruitId.equals="+agentCode+"&statusId.equals=2355";
+      var url_submitted_application = "agents?agtRecruitId.equals="+agentCode+"&statusId.equals=2357";
+      var url_on_process = "agents?agtRecruitId.equals="+agentCode+"&statusId.equals=2365";
+      var url_aaji_pending = "agents?agtRecruitId.equals="+agentCode+"&statusId.equals=2357";
+      var url_code_active = "agents?agtRecruitId.equals="+agentCode+"&statusId.equals=2365";
+      var url_closing_case = "agents?agtRecruitId.equals="+agentCode+"&statusId.equals=2365";
+      //var url_non_productive = "agents?agtRecruitId.equals="+agentCode+"&statusId.equals=2365";
+      var url_decline = "agents?agtRecruitId.equals="+agentCode+"&statusId.equals=9751";
     
       getAllService(token,url_total_lead).then((res)=>{
         this.setState({data_total_lead:res})
@@ -82,9 +82,9 @@ export default class DashboardScreen extends Component {
       getAllService(token,url_closing_case).then((res)=>{
         this.setState({data_closing_case:res})
       });
-      getAllService(token,url_non_productive).then((res)=>{
-        this.setState({data_non_productive:res})
-      });
+      // getAllService(token,url_non_productive).then((res)=>{
+      //   this.setState({data_non_productive:res})
+      // });
       getAllService(token,url_decline).then((res)=>{
         this.setState({data_decline:res})
       });
@@ -99,7 +99,7 @@ export default class DashboardScreen extends Component {
       const aaji_pending = this.state.getdata_aaji_pending();
       const code_active = this.state.getdata_code_active();
       const closing_case = this.state.getdata_closing_case();
-      const non_productive = this.state.getdata_non_productive();
+      // const non_productive = this.state.getdata_non_productive();
       const decline = this.state.getdata_decline();
       const data = [
         {
@@ -180,7 +180,7 @@ export default class DashboardScreen extends Component {
                     <View style={{marginLeft:5,marginRight:5,flex:1,justifyContent: 'center',alignItems: 'center',}}>
                       <Text>Non-</Text>
                       <Text>Productive</Text>
-                      <Text style={styles.texton_container2}>{aaji_pending.length} Leads</Text>
+                      <Text style={styles.texton_container2}>{code_active.length-closing_case.length} Leads</Text>
                     </View>
                   </View>
                   <View style={{flexDirection:'column',marginTop: 20,marginLeft: 10,flex:1,justifyContent: 'center',alignItems: 'center',}}>
