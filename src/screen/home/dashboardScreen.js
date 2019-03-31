@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { View, Text,Image,ScrollView } from 'react-native';
 import styles,{defaultColor} from './homeScreen.style.js';
@@ -15,10 +14,10 @@ export default class DashboardScreen extends Component {
       data_attend_bos:[],
       data_submitted_application:[],
       data_on_process:[],
-      // data_aaji_pending:[],
+      data_aaji_pending:[],
       data_code_active:[],
       data_closing_case:[],
-      data_non_productive:[],
+      // data_non_productive:[],
       data_decline:[],
   
       getdata_total_lead(){
@@ -33,18 +32,18 @@ export default class DashboardScreen extends Component {
       getdata_on_process(){
         return this.data_on_process.filter(all_data_on_process=>all_data_on_process.id)
       },
-      // getdata_aaji_pending(){
-      //   return this.data_aaji_pending.filter(all_data_aaji_pending=>all_data_aaji_pending.id)
-      // },
+      getdata_aaji_pending(){
+        return this.data_aaji_pending.filter(all_data_aaji_pending=>all_data_aaji_pending.id)
+      },
       getdata_code_active(){
         return this.data_code_active.filter(all_data_code_active=>all_data_code_active.id)
       },
       getdata_closing_case(){
         return this.data_closing_case.filter(all_data_closing_case=>all_data_closing_case.id)
       },
-      getdata_non_productive(){
-        return this.data_non_productive.filter(all_data_non_productive=>all_data_non_productive.id)
-      },
+      // getdata_non_productive(){
+      //   return this.data_non_productive.filter(all_data_non_productive=>all_data_non_productive.id)
+      // },
       getdata_decline(){
         return this.data_decline.filter(all_data_decline=>all_data_decline.id)
       },
