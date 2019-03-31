@@ -10,6 +10,7 @@ import styles, {defaultColor} from './incomeCalculatorScreen.style.js';
 
 import {createMaterialTopTabNavigator  } from 'react-navigation';
 import { IncomeCalculatorPerYearScreen } from './perYear/incomeCalculatorPerYearScreen.js';
+import NewsDetail from '../news/newsDetail/newsDetail.js';
 
 
 
@@ -19,7 +20,8 @@ export default class IncomeCalculatorScreen extends Component{
             const years = {};
             for (let i = 1; i <= 5; i++) {
                 years["Year" + i] = {
-                    screen: () => <IncomeCalculatorPerYearScreen year={i}/>,
+                    //screen: () => <IncomeCalculatorPerYearScreen year={i} navigation={this.props.navigation}/>,
+                    screen: props => <IncomeCalculatorPerYearScreen year={i} {...props}/>,
                     navigationOptions: ({
                         navigation
                     }) => ({

@@ -12,4 +12,15 @@ export const popUp = (title,content) =>{
       );
 }
 
+export const popUpConfirmation = (title,content,yesAction) =>{
+  Alert.alert(
+    title,
+    content,
+    [
+      {text:'Ya', onPress:yesAction},
+      {text:'Tidak',onPress:()=>console.log('No Pressed')}
+    ]
+  )
+}
+
 export const popUpError = popUp;

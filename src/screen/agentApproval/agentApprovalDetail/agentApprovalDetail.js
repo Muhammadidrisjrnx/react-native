@@ -4,6 +4,8 @@ import {createMaterialTopTabNavigator  } from 'react-navigation';
 import Moment from 'moment';
 import {Icon} from 'react-native-elements';
 import PropTypes from 'prop-types';
+import {NavigationActions} from 'react-navigation';
+
 
 import ThumbImage from '../../../component/thumbImage/thumbimage.js'
 
@@ -17,34 +19,55 @@ import DocumentInformationScreen from './recruitInformationScreen.js';
 import QualificationInformationScreen from './qualificationInformationScreen';
 import { statusDecline, statusSubmitted } from '../../../helper/status.js';
 import { updateAgent } from '../../../services/webservice/agentService.js';
+import { popUpConfirmation } from '../../../helper/popup/alert.js';
+import {LoadingDialog} from '../../../helper/popup/loading';
 
 export default class AgentApprovalDetail extends Component{
     constructor(props){
         super(props);
         this.data = this.props.navigation.getParam('data',[]);
+        this.state = {
+            isLoading:false
+        }
     }
 
-    onPressApprove () {
-        this.data.status = statusSubmitted
-        this.data.agtAproval1 = true
-        this.post()
+    onPressApprove () {        
+        popUpConfirmation('Terima','Apakah anda yakin?',()=>{
+            this.showLoadingDialog(true)
+            this.data.status = statusSubmitted
+            this.data.agtAproval1 = true
+            this.post()
+        })
     }
 
     onPressReject(){
-        this.data.status = statusDecline
-        this.data.agtAproval1 = false
-        this.post()
+        popUpConfirmation('Tolak','Apakah anda yakin?',()=>{
+            this.showLoadingDialog(true)
+            this.data.status = statusDecline
+            this.data.agtAproval1 = false
+            this.post()
+        })
     }
 
-    _onPressBack = () => {
+    onPressBack = () => {
         this.props.navigation.goBack();
     }
 
     post(){
+        console.warn('post agent approval')
         updateAgent(global.token, this.data).then((res) => {
             console.warn('result : '+JSON.stringify(res))
+            this.showLoadingDialog(false)
             this.onPressCancel()
         });
+    }
+
+    onPressCancel(){
+        this.props.navigation.dispatch(NavigationActions.back())
+    }
+
+    showLoadingDialog(show){
+        this.setState({isLoading:show})
     }
 
     render(){
@@ -73,6 +96,10 @@ export default class AgentApprovalDetail extends Component{
                         <Icon type={'font-awesome'} name={'angle-right'} iconStyle={styles.buttonIcon}/>
                     </TouchableOpacity>
                 </View>
+
+                { 
+                    (this.state.isLoading) && <LoadingDialog/>
+                }
             </View>
         )
     }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {FlatList,View, Text, Image,TouchableOpacity,AsyncStorage,ToastAndroid} from 'react-native';
 import PropTypes from 'prop-types';
-import tes from '../../../class/global';
+import tes, { AUTH_ONLY_HEADER, BASE_URL } from '../../../class/global';
 
 import styles from './newsList.style.js';
 import {ds_News,ds_Lead} from '../../../helper/data.js';
@@ -36,7 +36,11 @@ export default class NewsList extends Component{
     NewsList_renderListItem = ({item}) =>{
         return(
             <View key={item.id} style={styles.listItem_mainContainer}>
-                <Image source={require('../../../../resource/image/news.jpg')} style={styles.listItem_Image}/>
+            
+                <Image 
+                //source={{uri: 'https://facebook.github.io/react/logo-og.png'}}
+                source={{ uri: BASE_URL+'/rest/contents/download/'+item.id, headers: AUTH_ONLY_HEADER(global.token) }}
+                 style={styles.listItem_Image}/>
                 <View style={styles.listItem_footer}>
                     <Text style={styles.listItem_title}>{item.conTitle}</Text>
                     <TouchableOpacity style={styles.listItem_button} onPress={()=>this.props.navigation.navigate('Detail',{selectedId:item.id,data:item})}>

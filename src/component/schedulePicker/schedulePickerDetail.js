@@ -10,8 +10,8 @@ import { getAgent, updateAgent } from '../../services/webservice/agentService.js
 import { postExam, getExam } from '../../services/webservice/examService.js';
 import { StatusDb } from '../../model/realm/statusDb.js';
 import { getStatus } from '../../services/webservice/statusService.js';
-import { LoadingDialog } from '../../component/popup/loading.js';
-import { popUpError } from '../../component/popup/error.js';
+import { LoadingDialog } from '../../helper/popup/loading.js';
+import { popUpError } from '../../helper/popup/alert.js';
 
 
 export default class SchedulePickerDetail extends Component{

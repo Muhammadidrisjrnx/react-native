@@ -61,7 +61,6 @@ export default class PersonalInformationScreen extends Component {
                     <Text style={styles.itemDetail}>Jenis Kelamin</Text>
                     <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtSex=='F'?'Perempuan':'Pria'}</Text>
                 </View>
-                <View style={styles.tabContainer}>
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Status Perkawinan</Text>
                     <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtMaritalStatus}</Text>
@@ -81,7 +80,6 @@ export default class PersonalInformationScreen extends Component {
                 <View style={styles.itemContainer}>
                     <Text style={styles.itemDetail}>Email</Text>
                     <Text style={[styles.itemDetail,{textAlign:'right'}]}>{data.agtEmail}</Text>
-                </View>
                 </View>
             </View>
         </ScrollView>
