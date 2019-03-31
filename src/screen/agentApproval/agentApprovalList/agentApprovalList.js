@@ -7,11 +7,13 @@ import ThumbImage from '../../../component/thumbImage/thumbimage.js'
 
 import styles from './agentApprovalList.style.js';
 import { getApprovalAgents } from '../../../services/webservice/agentService.js';
+import { renderNoData } from '../../../helper/renderer.js';
 
 export default class AgentApprovalList extends Component{
     state={
         data:[],
-        offset:10
+        offset:10,
+        refreshing:false
     }
 
     constructor(props){
@@ -20,13 +22,39 @@ export default class AgentApprovalList extends Component{
         this.AgentApprovalList_RenderListItem = this.AgentApprovalList_RenderListItem.bind(this);
         this.AgentApprovalList_RenderSeparator = this.AgentApprovalList_RenderSeparator.bind(this);
         this._keyExtractor = this._keyExtractor.bind(this);
+    }
 
-        getApprovalAgents(global.token).then((res) => {
+    componentDidMount(){
+        this._onRefresh()
+    }
+
+    componentWillMount(){
+        this._subscribe = this.props.navigation.addListener('didFocus', () => {
+         this._onRefresh();
+        });}
+
+    componentWillUnmount(){
+        this.props.navigation.removeEventListener('didFocus',()=>{})
+    }
+
+    _onRefresh = () => {
+        this.setState({refreshing: true});
+        
+        return new Promise((resolve,reject)=>{
+            this.loadData();
+            resolve(true)
+            
+        }).then(()=>{
+            this.setState({refreshing:false})
+        })
+    }
+
+    loadData = () => {
+        getApprovalAgents(global.token,global.user.usrAgentCode).then((res) => {
             this.setState({
                data:res
             })
-        }); 
-
+        })
     }
 
     AgentApprovalList_RenderListItem = ({item}) =>{
@@ -63,12 +91,19 @@ export default class AgentApprovalList extends Component{
 
     render(){
         return(
-            <FlatList
-            data={this.state.data}
-            renderItem={this.AgentApprovalList_RenderListItem}
-            ItemSeparatorComponent={this.AgentApprovalList_RenderSeparator}
-            keyExtractor={this._keyExtractor}
-            />
+            <View>
+                <FlatList
+                data={this.state.data}
+                renderItem={this.AgentApprovalList_RenderListItem}
+                ItemSeparatorComponent={this.AgentApprovalList_RenderSeparator}
+                keyExtractor={this._keyExtractor}
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+                />
+                {
+                    ((!this.state.data) || (this.state.data.length<=0)) && renderNoData()
+                }
+            </View>
         )
     }
 }

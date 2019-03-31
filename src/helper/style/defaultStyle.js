@@ -1,4 +1,5 @@
 import { StyleSheet,Dimensions } from 'react-native';
+import { ScaledSheet } from 'react-native-size-matters';
 
 export const colors = {
     White: '#FFFFFF',
@@ -25,4 +26,16 @@ export function wp (percentage, currentSize) {
 export const screenWidth = _screenWidth;
 export const screenHeight = _screenHeight;
 
-export default StyleSheet.create({})
+export default ScaledSheet.create({
+    noDataContainer:{
+        width:'100%',
+        height:'100%',
+        justifyContent:'center',
+        alignContent:'center'
+    },
+    noDataText:{
+        fontSize:20,
+        textAlign:'center',
+        color:colors.Grey
+    }
+})

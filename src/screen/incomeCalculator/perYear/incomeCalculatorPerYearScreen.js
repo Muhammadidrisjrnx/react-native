@@ -16,8 +16,11 @@ export class IncomeCalculatorPerYearScreen extends Component {
     constructor(props) {
         super(props);
 
+        tot = this.props.navigation.getParam('total',0)
+        console.warn("TOT  L " + tot)
+
         this.state = {
-            lastYearPersonalProduction: '',
+            lastYearPersonalProduction: ' '+tot,
             personalProduction: '',
             directAgen: '',
             directAgenProduction: '',
@@ -40,6 +43,7 @@ export class IncomeCalculatorPerYearScreen extends Component {
             bdGeneration: ''
         }
     }
+    
 
     onChangeText(value) {
 
@@ -125,7 +129,19 @@ export class IncomeCalculatorPerYearScreen extends Component {
             orGroupTeamBm: "Rp. " + this.onChangeText(orGroupBmTeamResult + ""),
             orGroupTeamAbd: "Rp. " + this.onChangeText(orGroupAbdTeamResult + ""),
             bdGeneration: "Rp. " + this.onChangeText(bdGenerationResult + ""),
+        },()=>{
+            this.moveToNextPage()
         })
+    }
+
+    
+
+    moveToNextPage(){
+        tot = this.getNumberValue(this.state.totalProduction)
+        console.warn('total : '+this.state.totalProduction+' - '+tot)
+        if(this.props.year<5){
+            this.props.navigation.navigate('Year'+(this.props.year+1),{total:tot})
+        }
     }
 
     getNumberValue(str) {
@@ -146,7 +162,7 @@ export class IncomeCalculatorPerYearScreen extends Component {
                     fieldsConfig["year" + this.props.year].includes(fields.lastYearPersonalProduction) &&
                     <View>
                     <FormLabel>{fields.lastYearPersonalProduction}</FormLabel>
-                    <FormInput onChangeText={(value) => { this.setState({ lastYearPersonalProduction: this.onChangeText(value) }); }} keyboardType="numeric" value={this.state.lastYearPersonalProduction}/>
+                    <FormInput value={this.onChangeText(this.state.lastYearPersonalProduction)} editable={false} selectTextOnFocus={false}/> 
                     </View>
                 }
                 {

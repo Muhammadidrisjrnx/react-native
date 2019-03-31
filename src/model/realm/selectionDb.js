@@ -5,3 +5,5 @@ export class SelectionDb extends DbService{
         super("selection")
     }
 }
+
+export const selectionDb = new SelectionDb()

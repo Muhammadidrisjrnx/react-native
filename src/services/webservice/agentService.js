@@ -24,8 +24,14 @@ export const getAgent = (tkn,id) => {
     });
 }
 
-export const getApprovalAgents = (tkn) => {
-    const URL = BASE_URL+'rest/agents/approval-list'
+export const getApprovalAgents = (tkn,agentId) => {
+    //const URL = BASE_URL+'rest/agents/approval-list'
+    //waiting for approval request
+    statusId = 2356
+
+    const URL = BASE_URL+'rest/agents?agtLeaderId.equals='+agentId+'&statusId.equals='+statusId
+
+    console.warn("service get approval agent : status : "+statusId+" agtLeader "+agentId)
     return fetch(URL,{
         method: 'GET',
         headers: HEADER(tkn),

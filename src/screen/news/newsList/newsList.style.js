@@ -14,6 +14,8 @@ export default ScaledSheet.create({
     listItem_Image:{
         flex:2,
         resizeMode:'cover',
+        width:400,
+        height:300
     },
     listItem_footer:{
         flex:1,

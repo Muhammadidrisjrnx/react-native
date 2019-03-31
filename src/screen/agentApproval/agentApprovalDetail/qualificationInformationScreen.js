@@ -18,6 +18,8 @@ export default class QualificationInformationScreen extends Component {
     }
 
     checkAge(){
+        if(!this.data.agtDob) return false
+
         lvl = this.data.level.lvlName
         age = moment().diff(this.data.agtDob, 'years',false)
         qualified = true
@@ -41,6 +43,8 @@ export default class QualificationInformationScreen extends Component {
     }
 
     checkEducation(){
+        if(!this.data.education) return false
+
         edu = this.data.education.eduName
         lvl = this.data.level.lvlName
         if(edu==="SD" || edu==="SMP") return false
@@ -56,6 +60,8 @@ export default class QualificationInformationScreen extends Component {
     }
 
     checkOccupation(){
+        if(!this.data.occupation) return false
+
         ocu = this.data.occupation.ocuId
         lvl = this.data.level.lvlName
         if(ocu == 2151 || ocu == 2152){ //INSURANCE OR NON INSURANCE
@@ -70,6 +76,8 @@ export default class QualificationInformationScreen extends Component {
     }
 
     checkExInsurance(){
+        if(!this.data.occupation) return false
+
         ocu = this.data.occupation.ocuId
         lvl = this.data.level.lvlName
         if(ocu == 2151){ //INSURANCE 
@@ -86,6 +94,8 @@ export default class QualificationInformationScreen extends Component {
     }
 
     checkLeaderExperience(){
+        if(!this.data.agtLeaderExp) return false
+
         leaderExp = this.data.agtLeaderExp
         lvl = this.data.level.lvlName
 
@@ -113,6 +123,8 @@ export default class QualificationInformationScreen extends Component {
     }
 
     checkIncome(){
+        if(!this.data.agtORIncome) return false
+
         lvl = this.data.level.lvlName
         income = this.data.agtORIncome
 

@@ -22,8 +22,8 @@ import { postAgent, newAgent, updateAgent, updateAgentFiles, deleteAgent, checkK
 import newInformationScreen from './new/newInformationScreen.js';
 import { newValidator, detailValidator, informationValidator, bankingValidator, documentValidator, experienceBankingValidator } from '../../../helper/validator.js';
 import { statusApproval, statusSubmitted, SUBMITTABLESTATUS, PENDINGSTATUS } from '../../../helper/status.js';
-import { LoadingDialog } from '../../../component/popup/loading.js';
-import { popUpError, popUp } from '../../../component/popup/error.js';
+import { LoadingDialog } from '../../../helper/popup/loading.js';
+import { popUpError, popUp } from '../../../helper/popup/alert.js';
 import { agentDb } from '../../../model/realm/agentDb.js';
 import { branchDb } from '../../../model/realm/branchDb.js';
 import {getAgentSelection, createAgentSelection} from '../../../services/webservice/agentService';
@@ -114,8 +114,6 @@ export default class LeadDetail extends Component{
       this._setState = (name,value) =>{
         this.setState({[name]:value})
       }
-
-        
 
         this._handleTextInputChange = (name,value) =>{
           if(name==="document"){
@@ -264,9 +262,10 @@ export default class LeadDetail extends Component{
       }else if(this.type==='detail'){
         if(!this.isSubmittable() && !this.isPending()) return        
 
-//*/ BYPASS VALIDASI /
+        data = this.data
+/*/ BYPASS VALIDASI /
       this.submitDetail(data) //*/
-  /*/ JALUR YANG BENAR  /
+  //*/ JALUR YANG BENAR  /
         if(informationValidator(data)){
           console.warn('INFORMATION : CORRECT')
           if(experienceBankingValidator(data)){
@@ -338,8 +337,10 @@ export default class LeadDetail extends Component{
     submitDetail(data){
       this.showLoadingDialog(true)
       
-      //SELECTION ONLY
-      //this.saveSelectionData(data)  //*/
+      /*/SELECTION ONLY
+      this.setState({newAgent:data},()=>{
+        this.saveSelectionData()  
+      })//*/
 
       //*ALUR YG BENAR
       data = this.dataPacker(true)
@@ -353,7 +354,7 @@ export default class LeadDetail extends Component{
         //harus update
         this.updateFile(data)
       }else{
-        //*/BYPASS CHECK KTP
+        //*BYPASS CHECK KTP
         this.uploadFile(data) //*/
 
         /*/ CHECK KTP DULU
@@ -370,7 +371,7 @@ export default class LeadDetail extends Component{
             popUpError("Error Check KTP","Terjadi Kesalahan Pada Server")
           }
         })//*/
-      }///
+      }//*/
     }
 
     saveDetail(data){
@@ -436,7 +437,7 @@ export default class LeadDetail extends Component{
       console.warn('mendelete '+this.state.id);
       deleteAgent(global.token,this.state.id).then((res)=>{ //MASHOOK
         console.warn('del : '+JSON.stringify(res))
-        this.saveSelectionData()
+        //this.saveSelectionData()
       })
     }
 

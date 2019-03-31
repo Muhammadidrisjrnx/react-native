@@ -15,3 +15,9 @@ export const MULTIPART_HEADER = (tkn) => {
         'Content-Type': 'multipart/form-data',
     }
 }
+
+export const AUTH_ONLY_HEADER = (tkn) =>{
+    return{
+        'Authorization':'Bearer '+ tkn
+    }
+}
